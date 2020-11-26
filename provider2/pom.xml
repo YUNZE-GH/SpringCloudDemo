@@ -11,7 +11,7 @@
     <groupId>com.gh</groupId>
     <artifactId>provider2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>provider</name>
+    <name>provider2</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
