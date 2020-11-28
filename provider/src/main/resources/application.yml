@@ -4,36 +4,14 @@ spring:
   application:
     name: provider
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    druid:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
-      username: root
-      password: root
-      filters: stat,wall,log4j,config
-      max-active: 100
-      initial-size: 1
-      max-wait: 60000
-      min-idle: 1
-      time-between-eviction-runs-millis: 60000
-      min-evictable-idle-time-millis: 300000
-      test-on-borrow: false
-      test-while-idle: true
-      pool-prepared-statements: true
-      max-open-prepared-statements: 50
-      max-pool-prepared-statement-per-connection-size: 20
+    url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
 mybatis-plus:
-  mapper-locations: classpath:mapper/*
-  configuration:
-    map-underscore-to-camel-case: true
-    cache-enabled: true
-  global-config:
-    db-config:
-      id-type: input
-      field-strategy: not_null
-      table-underline: true
-      capital-mode: true
-    refresh: true
+  mapper-locations: classpath:mapper/*/*Mapper.xml
+
 #配置eureka信息
 eureka:
   instance:
