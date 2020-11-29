@@ -1,6 +1,7 @@
 package com.gh.common;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @author gaohan
@@ -12,11 +13,13 @@ public class ResultData implements Serializable {
     private static final long serialVersionUID=1L;
 
     private int code;
+    private String datetime;
     private String message;
     private Object data;
 
-    public ResultData() {
 
+    public ResultData() {
+        this.datetime = LocalDateTime.now().toString();
     }
 
     public ResultData(int code, Object data, String message) {
@@ -52,5 +55,13 @@ public class ResultData implements Serializable {
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
     }
 }
