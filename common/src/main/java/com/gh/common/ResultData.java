@@ -1,22 +1,31 @@
 package com.gh.common;
 
+import java.io.Serializable;
+
 /**
  * @author gaohan
  * @version 1.0
  * @date 2020/11/5 23:42
  */
-public class Result {
+public class ResultData implements Serializable {
+
+    private static final long serialVersionUID=1L;
+
     private int code;
     private String message;
     private Object data;
 
-    public Result(int code, Object data,  String message) {
+    public ResultData() {
+
+    }
+
+    public ResultData(int code, Object data, String message) {
         this.code = code;
         this.data = data;
         this.message = message;
     }
 
-    public Result(int code, Object data) {
+    public ResultData(int code, Object data) {
         this.code = code;
         this.data = data;
     }
