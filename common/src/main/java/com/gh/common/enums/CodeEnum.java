@@ -1,4 +1,4 @@
-package com.gh.provider.utils;
+package com.gh.common.enums;
 
 /**
  * @author gaohan
