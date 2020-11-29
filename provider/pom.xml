@@ -30,12 +30,6 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
         <!-- eureka [end]  -->
-        <!-- feign [start]  -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-        <!-- feign [end]  -->
         <!-- mybatis-plus [start]  -->
         <dependency>
             <groupId>mysql</groupId>
@@ -70,6 +64,11 @@
             <version>2.9.2</version>
         </dependency>
         <!-- swagger [end]  -->
+        <dependency>
+            <groupId>com.gh</groupId>
+            <artifactId>common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
