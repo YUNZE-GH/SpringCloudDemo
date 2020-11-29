@@ -12,7 +12,7 @@
     <artifactId>consumer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>consumer</name>
-    <description>Demo project for Spring Boot</description>
+    <description>消费者服务模块</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -24,13 +24,29 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!-- eureka [start]  -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
+        <!-- eureka [end]  -->
+        <!-- feign [start]  -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!-- feign [end]  -->
+        <!-- fastjson [start]  -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.66</version>
+        </dependency>
+        <!-- fastjson [end]  -->
+        <dependency>
+            <groupId>com.gh</groupId>
+            <artifactId>common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
