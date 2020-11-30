@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.gh.framwork</groupId>
-    <artifactId>cloud</artifactId>
+    <artifactId>blog-cloud</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
@@ -13,8 +13,5 @@
         <module>consumer</module>
         <module>provider</module>
         <module>provider2</module>
-        <module>common</module>
     </modules>
-
-
 </project>
