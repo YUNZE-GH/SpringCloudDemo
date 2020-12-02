@@ -64,6 +64,14 @@
             <version>2.9.2</version>
         </dependency>
         <!-- swagger [end]  -->
+        <!-- Druid [start]  -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.1.21</version>
+        </dependency>
+        <!-- Druid [end]  -->
+
         <dependency>
             <groupId>com.gh</groupId>
             <artifactId>common</artifactId>
