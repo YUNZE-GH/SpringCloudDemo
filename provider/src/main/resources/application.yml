@@ -27,8 +27,8 @@ spring:
       useGlobalDataSourceStat: true
 mybatis-plus:
   mapper-locations: classpath:mapper/*/*Mapper.xml
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 #配置eureka信息
 eureka:
