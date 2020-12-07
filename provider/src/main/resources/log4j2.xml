@@ -113,6 +113,10 @@
             <AppenderRef ref="Console"/>
         </logger>
 
+        <!--<logger name="com.gh.provider.demo.mapper.DemoMapper" level="debug" additivity="true">
+            <AppenderRef ref="Console"/>
+        </logger>-->
+
         <logger name="codex.terry.filter" level="debug" additivity="true">
             <AppenderRef ref="infoLog"/>
             <AppenderRef ref="warnLog"/>
