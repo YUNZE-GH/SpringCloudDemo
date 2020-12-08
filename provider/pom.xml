@@ -21,27 +21,9 @@
 
     <dependencies>
         <!-- 基础依赖 -->
-        <!-- SpringBoot基础依赖 -->
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <exclusions>&lt;!&ndash; 去掉springboot默认配置 &ndash;&gt;
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
-        <!--  添加web依赖，这样项目就可以一直启动      -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <!--<exclusions>&lt;!&ndash; 去掉springboot默认配置 &ndash;&gt;
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>-->
         </dependency>
         <!-- eureka [start]  -->
         <dependency>
@@ -85,16 +67,6 @@
             <version>1.1.21</version>
         </dependency>
         <!-- Druid [end]  -->
-        <!-- lof4j2日志框架 [start]  -->
-        <!--<dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-        </dependency>-->
-        <!-- lof4j2日志框架 [end]  -->
 
         <dependency>
             <groupId>com.gh</groupId>
