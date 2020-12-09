@@ -125,7 +125,7 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${log.path}/web-error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>100MB</maxFileSize>
+                <maxFileSize>1MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
             <!--日志文档保留天数-->
             <maxHistory>15</maxHistory>
@@ -157,7 +157,7 @@
         第二种就是单独给dao下目录配置debug模式，代码如下，这样配置sql语句会打印，其他还是正常info级别：
         【logging.level.org.mybatis=debug logging.level.dao=debug】
      -->
-    <logger name="com.gh.provider.demo.mapper" level="DEBUG"/>
+    <logger name="com.gh.provider.mapper" level="DEBUG"/>
 
     <!--
         root节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性

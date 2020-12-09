@@ -1,6 +1,6 @@
-package com.gh.provider.demo.service;
+package com.gh.provider.service.demo;
 
-import com.gh.provider.demo.entity.Demo;
+import com.gh.provider.entity.demo.Demo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

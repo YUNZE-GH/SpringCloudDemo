@@ -1,4 +1,4 @@
-package com.gh.provider.demo.entity;
+package com.gh.provider.entity.demo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

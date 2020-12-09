@@ -1,10 +1,10 @@
-package com.gh.provider.demo.controller;
+package com.gh.provider.controller.demo;
 
 
 import com.gh.common.ResultData;
 import com.gh.common.enums.CodeEnum;
-import com.gh.provider.demo.entity.Demo;
-import com.gh.provider.demo.service.DemoService;
+import com.gh.provider.entity.demo.Demo;
+import com.gh.provider.service.demo.DemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
