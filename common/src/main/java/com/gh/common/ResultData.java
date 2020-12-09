@@ -13,14 +13,10 @@ public class ResultData implements Serializable {
     private static final long serialVersionUID=1L;
 
     private int code;
-    private String datetime;
+    private String datetime = LocalDateTime.now().toString();
     private String message;
     private Object data;
 
-
-    public ResultData() {
-        this.datetime = LocalDateTime.now().toString();
-    }
 
     public ResultData(int code, Object data, String message) {
         this.code = code;
