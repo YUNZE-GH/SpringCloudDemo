@@ -1,6 +1,6 @@
-package com.gh.provider.mapper.demo;
+package com.gh.provider.modular.demo.mapper;
 
-import com.gh.provider.entity.demo.Demo;
+import com.gh.provider.modular.demo.entity.Demo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 

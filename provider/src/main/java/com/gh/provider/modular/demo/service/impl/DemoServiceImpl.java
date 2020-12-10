@@ -1,8 +1,8 @@
-package com.gh.provider.service.demo.impl;
+package com.gh.provider.modular.demo.service.impl;
 
-import com.gh.provider.entity.demo.Demo;
-import com.gh.provider.mapper.demo.DemoMapper;
-import com.gh.provider.service.demo.DemoService;
+import com.gh.provider.modular.demo.entity.Demo;
+import com.gh.provider.modular.demo.mapper.DemoMapper;
+import com.gh.provider.modular.demo.service.DemoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
