@@ -32,7 +32,7 @@ public class DemoController {
     @RequestMapping(value = "/one")
     public ResultData one() {
         Demo byId = service.getById("1");
-        return new ResultData(CodeEnum.SUCCESS.get(), byId, LocalDateTime.now().toString());
+        return new ResultData(CodeEnum.SUCCESS.get(), byId, LocalDateTime.now().toString(), LocalDateTime.now().toString());
     }
 }
 
