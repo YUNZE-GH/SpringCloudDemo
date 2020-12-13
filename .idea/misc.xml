@@ -10,6 +10,7 @@
         <option value="$PROJECT_DIR$/provider/pom.xml" />
         <option value="$PROJECT_DIR$/provider2/pom.xml" />
         <option value="$PROJECT_DIR$/../generator/pom.xml" />
+        <option value="$PROJECT_DIR$/common/pom.xml" />
       </list>
     </option>
   </component>

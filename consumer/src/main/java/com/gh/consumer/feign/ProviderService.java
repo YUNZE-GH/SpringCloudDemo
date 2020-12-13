@@ -2,6 +2,7 @@ package com.gh.consumer.feign;
 
 import com.gh.common.ResultData;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -11,6 +12,6 @@ public interface ProviderService {
     @RequestMapping(value = "/providerAPI")
     String getEmpInfo();
 
-    @RequestMapping(value = "/one")
+    @PostMapping(value = "/one")
     ResultData one();
 }
