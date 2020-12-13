@@ -1,27 +1,26 @@
 package com.gh.common;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 /**
  * @author gaohan
  * @version 1.0
  * @date 2020/11/5 23:42
  */
-public class ResultData implements Serializable {
-
-    private static final long serialVersionUID=1L;
+public class ResultData {
 
     private int code;
-    private String datetime = LocalDateTime.now().toString();
+    private String datetime;
     private String message;
     private Object data;
 
+    public ResultData() {
 
-    public ResultData(int code, Object data, String message) {
+    }
+
+    public ResultData(int code, Object data, String message, String datetime) {
         this.code = code;
         this.data = data;
         this.message = message;
+        this.datetime = datetime;
     }
 
     public ResultData(int code, Object data) {
