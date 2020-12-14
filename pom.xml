@@ -13,5 +13,6 @@
         <module>consumer</module>
         <module>provider</module>
         <module>provider2</module>
+        <module>config</module>
     </modules>
 </project>
