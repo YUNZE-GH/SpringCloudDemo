@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="generator" />
         <module name="common" />
         <module name="provider" />
-        <module name="provider2" />
         <module name="eureka" />
+        <module name="config-client" />
+        <module name="generator" />
+        <module name="provider2" />
+        <module name="config" />
         <module name="consumer" />
       </profile>
     </annotationProcessing>
@@ -23,6 +25,8 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="blog-cloud" options="-parameters" />
       <module name="common" options="" />
+      <module name="config" options="-parameters" />
+      <module name="config-client" options="-parameters" />
       <module name="consumer" options="-parameters" />
       <module name="demo" options="-parameters" />
       <module name="eureka" options="-parameters" />

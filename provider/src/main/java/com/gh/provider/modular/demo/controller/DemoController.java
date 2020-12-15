@@ -5,11 +5,11 @@ import com.gh.common.ResultData;
 import com.gh.common.enums.CodeEnum;
 import com.gh.provider.modular.demo.entity.Demo;
 import com.gh.provider.modular.demo.service.DemoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -25,6 +25,8 @@ import java.time.LocalDateTime;
 @RestController
 public class DemoController {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Value("${server.port}")
     private String serverPort;
 
@@ -37,6 +39,7 @@ public class DemoController {
 
     @PostMapping(value = "/one")
     public ResultData one() {
+        logger.info("=====> /one");
         Demo byId = service.getById("1");
         return new ResultData(CodeEnum.SUCCESS.get(), byId, serverPort, LocalDateTime.now().toString());
     }

@@ -3,13 +3,14 @@ package com.gh.config;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.config.server.EnableConfigServer;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
-//@EnableDiscoveryClient //开启发现服务功能
+@EnableEurekaClient
 @EnableConfigServer
-public class ConfigApplication {
+public class ConfigCenterApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ConfigApplication.class, args);
+		SpringApplication.run(ConfigCenterApplication.class, args);
 	}
 }
