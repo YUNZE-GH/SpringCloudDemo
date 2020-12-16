@@ -1,20 +1,12 @@
-server:
-  port: 9002
+
 spring:
   application:
     name: config-client
-  cloud:
-    config:
-      uri: http://localhost:9001
-      name: config-client
-      profile: dev
-      username: admin
-      password: 123
 
-#配置eureka信息
+server:
+  port: 9002
+
 eureka:
-  instance:
-    prefer-ip-address: true  # 注册服务的时候使用服务的ip地址
   client:
     service-url:
       defaultZone: http://localhost:9000/eureka/

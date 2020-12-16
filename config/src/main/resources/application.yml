@@ -1,7 +1,6 @@
 eureka:
   client:
     serviceUrl:
-      #总服务的 地址
       defaultZone: http://localhost:9000/eureka/
 server:
   port: 9001
@@ -13,18 +12,10 @@ spring:
     config:
       server:
         git:
-          #存放配置文件的git 仓库地址 SpringCloudConfig是仓库名
           uri: https://github.com/YUNZE-GH/configuration.git
-#          searchPaths: /
+          searchPaths: /
           force-pull: true
-          username: gaohan97@foxmail.com
-          password: k1q235pr!
           clone-on-start: true
         default-label: main
   profiles:
     active: dev
-
-logging:
-  level:
-    com.netflix.discovery: 'OFF'
-    org.springframework.cloud: 'DEBUG'
