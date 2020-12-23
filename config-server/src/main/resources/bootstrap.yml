@@ -1,0 +1,21 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9000/eureka/
+server:
+  port: 9001
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/YUNZE-GH/configuration.git
+          searchPaths: /
+          force-pull: true
+          clone-on-start: true
+        default-label: main
+  profiles:
+    active: dev

@@ -1,4 +1,4 @@
-package com.gh.common;
+package com.gh.common.toolsclass;
 
 /**
  * @author gaohan

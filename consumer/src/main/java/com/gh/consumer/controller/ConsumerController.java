@@ -1,7 +1,7 @@
 package com.gh.consumer.controller;
 
 
-import com.gh.common.ResultData;
+import com.gh.common.toolsclass.ResultData;
 import com.gh.consumer.feign.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

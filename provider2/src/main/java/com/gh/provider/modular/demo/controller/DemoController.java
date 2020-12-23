@@ -1,7 +1,7 @@
 package com.gh.provider.modular.demo.controller;
 
 
-import com.gh.common.ResultData;
+import com.gh.common.toolsclass.ResultData;
 import com.gh.common.enums.CodeEnum;
 import com.gh.provider.modular.demo.entity.Demo;
 import com.gh.provider.modular.demo.service.DemoService;
