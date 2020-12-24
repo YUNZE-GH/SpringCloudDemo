@@ -9,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -22,6 +24,7 @@ import java.time.LocalDateTime;
  * @author gaohan
  * @since 2020-11-26
  */
+@RefreshScope
 @RestController
 public class DemoController {
 
@@ -42,6 +45,14 @@ public class DemoController {
         logger.info("=====> /one");
         Demo byId = service.getById("1");
         return new ResultData(CodeEnum.SUCCESS.get(), byId, serverPort, LocalDateTime.now().toString());
+    }
+
+    @Value("${name}")
+    private String name;
+
+    @RequestMapping(value = "/test")
+    public String test(){
+        return name;
     }
 }
 
