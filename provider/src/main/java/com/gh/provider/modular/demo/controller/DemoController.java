@@ -10,11 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -40,11 +40,17 @@ public class DemoController {
         this.service = service;
     }
 
-    @PostMapping(value = "/one")
-    public ResultData one() {
+    @PostMapping(value = "/one/{id}")
+    public ResultData one(@PathVariable("id") String id) {
         logger.info("=====> /one");
-        Demo byId = service.getById("1");
+        Demo byId = service.getById(id);
         return new ResultData(CodeEnum.SUCCESS.get(), byId, serverPort, LocalDateTime.now().toString());
+    }
+
+    @PostMapping(value = "/all")
+    public ResultData all() {
+        List<Demo> list = service.list(null);
+        return new ResultData(CodeEnum.SUCCESS.get(), list, serverPort, LocalDateTime.now().toString());
     }
 
     @Value("${name}")
