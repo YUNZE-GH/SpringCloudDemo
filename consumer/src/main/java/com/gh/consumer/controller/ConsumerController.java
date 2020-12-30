@@ -4,6 +4,8 @@ package com.gh.consumer.controller;
 import com.gh.common.toolsclass.ResultData;
 import com.gh.consumer.feign.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +20,9 @@ public class ConsumerController {
     @Autowired
     ProviderService service;
 
+    @Value("${server.port}")
+    private String serverPort;
+
     @RequestMapping("/query")
     public String getEmpInfo(){
 //        String info = restTemplate.getForObject("http://provider/providerAPI", String.class);
@@ -25,8 +30,10 @@ public class ConsumerController {
         return "消费者服务获取 " + info;
     }
 
-    @PostMapping(value = "one")
-    public ResultData one() {
-        return service.one();
+    @PostMapping(value = "one/{id}")
+    public ResultData one(@PathVariable("id") String id) {
+        ResultData result = service.one(id);
+        result.setMessage(serverPort);
+        return result;
     }
 }
