@@ -32,8 +32,6 @@ public class ConsumerController {
 
     @PostMapping(value = "one/{id}")
     public ResultData one(@PathVariable("id") String id) {
-        ResultData result = service.one(id);
-        result.setMessage(serverPort);
-        return result;
+        return service.one(id);
     }
 }
