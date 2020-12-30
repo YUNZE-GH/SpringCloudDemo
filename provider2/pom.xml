@@ -28,10 +28,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!-- eureka [start]  -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- eureka [end]  -->
         <!-- mybatis-plus [start]  -->
         <dependency>
@@ -70,10 +70,10 @@
         </dependency>
         <!-- Druid [end]  -->
         <!-- nacos注册中心 [start] -->
-        <!--<dependency>
+        <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>-->
+        </dependency>
         <!-- nacos注册中心 [end] -->
         <!-- nacos配置中心 [start] -->
         <dependency>
