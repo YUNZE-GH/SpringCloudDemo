@@ -1,79 +1,120 @@
 package com.gh.common.api.service;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.Map;
 
 /**
  * 日期时间API
  */
-public interface DateAPI {
+public interface DateAPI<T> {
 
-    /*获取当前日期*/
+    /**
+     * 获取指定格式的当前日期时间
+     * @param format 格式，例：yyyy-MM-dd
+     * @return 2020-12-31
+     */
+    String getDateTime(String format);
+
+    /**
+     * 根据指定日期时间和指定格式获取日期时间
+     * @param datetime 指定日期时间，支持Date、String、Long类型
+     * @param format 日期格式 例：yyyy-MM-dd HH:mm:ss
+     * @return 2020-12-31 00:00:00
+     * @throws ParseException 日期格式转换异常
+     */
+    public String getFormattedDateTime(T datetime, String format) throws ParseException;
+
+    /**
+     * 获取当前日期
+     * @return 2020-12-31
+     */
     String getDate();
 
-    /*获取当前日期规定格式*/
-    String getDate(String str);
+    /**
+     * 获取当前时间
+     * @return 12:00:00
+     */
+    public String getTime();
 
-    /*获取当前时间*/
-    String getTime();
+    /**
+     * 获取当前日期时间
+     * @return 2020-12-31 00:00:00
+     */
+    public String getDatetime();
 
-    /*获取当前日期时间*/
-    String getDatetime();
+    /**
+     * 获取当前年份
+     * @return 2020
+     */
+    public String getYear();
 
-    /*获取当前年份*/
-    String getYear();
+    /**
+     * 获取指定日期所在的年份
+     * @param datetime 指定日期，支持Date、String、Long类型
+     * @return 2020
+     * @throws ParseException 日期格式转换异常
+     */
+    public String getYear(T datetime) throws ParseException;
 
-    /*获取当前月份*/
-    String getMonth();
+    /**
+     * 获取当前月份
+     * @return 12
+     */
+    public String getMonth();
 
-    /*获取当前日*/
-    String getDay();
+    /**
+     * 获取指定日期所在的月份
+     * @param datetime 指定日期，支持Date、String、Long类型
+     * @return 12
+     * @throws ParseException 日期格式转换异常
+     */
+    public String getMonth(T datetime) throws ParseException;
 
-    /*获取当前星期*/
-    String getWeekDay();
+    /**
+     * 获取当前日
+     * @return 31
+     */
+    public String getDay();
 
-    /*获取指定日期的星期*/
-    String getWeekDay(long timestamp);
+    /**
+     * 获取指定日期为多少号
+     * @param datetime 指定日期，支持Date、String、Long类型
+     * @return 31
+     * @throws ParseException 日期格式转换异常
+     */
+    public String getDay(T datetime) throws ParseException;
 
-    /*获取当前月第一天的日期*/
-    String getMonthBegin();
+    /**
+     * 获取当前日期为星期几
+     * @return 星期一
+     */
+    public String getWeek();
 
-    /*获取当前月第一天的日期*/
-    String getMonthBegin(int amount);
+    /**
+     * 获取指定日期为星期几
+     * @param datetime 指定日期，支持Date、String、Long类型
+     * @return
+     */
+    public String getWeek(T datetime) throws ParseException;
 
-    /*获取当月最后一天的日期*/
-    String getMonthEnd();
+    /**
+     * 获取当前月第一天的日期
+     * @return 2020-12-01
+     */
+    public String getMonthBegin();
 
-    /*获取当月最后一天的日期*/
-    String getMonthEnd(int amount);
+    /**
+     * 获取当月最后一天的日期
+     * @return 2020-12-31
+     */
+    public String getMonthEnd();
 
-    /*获取几几年的第几周的第一天日期和最后一天日期*/
-    Map<String,String> getWeekDaysByYearAndWeek(Integer year, Integer week);
-
-    /*获取某一日期是几几年的第几周,及本周第一天日期和最后一天日期*/
-    Map<String,Object> getNumberWeek(long timestamp);
-
-    /*将日期转为中文日期*/
-    String getDateChangeaChinese(String date);
-
-    /*计算两个日期时间之间相差的毫秒*/
-    long getDatetimeDiffMillisecond(long beginTime, long endTime);
-
-    /*计算两个日期时间之间相差的秒*/
-    long getDatetimeDiffSecond(long beginTime, long endTime);
-
-    /*计算两个日期时间之间相差的分钟*/
-    long getDatetimeDiffMinute(long beginTime, long endTime);
-
-    /*计算两个日期时间之间相差的小时*/
-    long getDatetimeDiffHour(long beginTime, long endTime);
-
-    /*计算两个日期时间之间相差的天数*/
-    long getDatetimeDiffDay(long beginTime, long endTime);
-
-    /*计算日期加减几天之后的日期*/
-    String getDatetimeAddOrMinus(long timestamp,int day);
-
-    /*将时间戳转为日期格式*/
-    String getTimeStampChangeDateTime(long timestamp);
+    /**
+     * 获取某月第一天的日期
+     * @param amount 当amount为0时，为本月，-1时为上月，1时为下月
+     * @return 例：2020-12-01
+     */
+    public String getMonthBegin(int amount) throws ParseException;
 
 }
