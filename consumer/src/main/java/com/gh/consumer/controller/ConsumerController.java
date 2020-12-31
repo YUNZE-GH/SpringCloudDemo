@@ -34,4 +34,9 @@ public class ConsumerController {
     public ResultData one(@PathVariable("id") String id) {
         return service.one(id);
     }
+
+    @PostMapping(value = "all")
+    public ResultData all() {
+        return service.all();
+    }
 }

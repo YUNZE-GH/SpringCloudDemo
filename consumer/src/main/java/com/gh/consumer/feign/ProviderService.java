@@ -14,4 +14,7 @@ public interface ProviderService {
 
     @PostMapping(value = "/one/{id}")
     ResultData one(@PathVariable("id") String id);
+
+    @PostMapping(value = "/all")
+    ResultData all();
 }

@@ -1,8 +1,8 @@
-server:
-  port: 9020
-spring:
-  application:
-    name: consumer
+#server:
+#  port: 9020
+#spring:
+#  application:
+#    name: consumer
 #配置eureka信息
 #eureka:
 #  instance:
