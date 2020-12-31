@@ -1,6 +1,7 @@
 package com.gh.provider.modular.demo.controller;
 
 
+import com.gh.common.SDK;
 import com.gh.common.toolsclass.ResultData;
 import com.gh.common.enums.CodeEnum;
 import com.gh.provider.modular.demo.entity.Demo;
@@ -44,7 +45,7 @@ public class DemoController {
     public ResultData one(@PathVariable("id") String id) {
         logger.info("=====> /one");
         Demo byId = service.getById(id);
-        return new ResultData(CodeEnum.SUCCESS.get(), byId, serverPort, LocalDateTime.now().toString());
+        return new ResultData(CodeEnum.SUCCESS.get(), byId, serverPort, SDK.getDateAPI().getDatetime());
     }
 
     @PostMapping(value = "/all")
