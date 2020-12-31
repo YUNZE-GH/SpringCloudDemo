@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 //@EnableEurekaClient
-@MapperScan("com.gh.provider.modular.*.mapper")
+@MapperScan({"com.gh.provider.modular.*.mapper", "com.gh.provider.*.mapper"})
 public class ProviderApplication {
 
 	public static void main(String[] args) {
