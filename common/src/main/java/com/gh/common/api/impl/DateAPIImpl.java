@@ -2,7 +2,6 @@ package com.gh.common.api.impl;
 
 import com.gh.common.SDK;
 import com.gh.common.api.service.DateAPI;
-import sun.rmi.runtime.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,6 +14,9 @@ import java.util.Map;
  * 日期时间
  */
 public class DateAPIImpl<T> implements DateAPI<T> {
+
+    private String FORMAT_DATE = "yyyy-MM-dd";
+    private String FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * 获取指定格式的当前日期时间
@@ -37,13 +39,18 @@ public class DateAPIImpl<T> implements DateAPI<T> {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         String result = "";
         if (datetime instanceof Date) {
-            result = sdf.format(datetime);
+            result = getFormattedDateTime((Date) datetime, format);
         } else if (datetime instanceof String) {
             result = sdf.format(sdf.parse(datetime.toString()));
         } else if (datetime instanceof Long) {
             result = sdf.format(new Date(Long.parseLong(datetime.toString())));
         }
         return result;
+    }
+
+    private String getFormattedDateTime(Date datetime, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(datetime);
     }
 
     /**
@@ -137,12 +144,12 @@ public class DateAPIImpl<T> implements DateAPI<T> {
     /**
      * 获取指定日期为星期几
      * @param datetime 指定日期，支持Date、String、Long类型
-     * @return
+     * @return 星期一
      */
     public String getWeek(T datetime) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE);
         Calendar c = Calendar.getInstance();
-        c.setTime(sdf.parse(getFormattedDateTime(datetime, "yyyy-MM-dd")));
+        c.setTime(sdf.parse(getFormattedDateTime(datetime, FORMAT_DATE)));
         return getWeek(c);
     }
 
@@ -185,12 +192,11 @@ public class DateAPIImpl<T> implements DateAPI<T> {
      * @return 2020-12-01
      */
     public String getMonthBegin() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, 0);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
-        String firstDate = sdf.format(calendar.getTime());
-        return firstDate;
+        Date date = calendar.getTime();
+        return getFormattedDateTime(date, FORMAT_DATE);
     }
 
     /**
@@ -198,11 +204,10 @@ public class DateAPIImpl<T> implements DateAPI<T> {
      * @return 2020-12-31
      */
     public String getMonthEnd() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-        String lastDate = sdf.format(calendar.getTime());
-        return lastDate;
+        Date date = calendar.getTime();
+        return getFormattedDateTime(date, FORMAT_DATE);
     }
 
     /**
@@ -210,11 +215,12 @@ public class DateAPIImpl<T> implements DateAPI<T> {
      * @param amount 当amount为0时，为本月，-1时为上月，1时为下月
      * @return 例：2020-12-01
      */
-    public String getMonthBegin(int amount) throws ParseException {
+    public String getMonthBegin(int amount) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, amount);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
-        return SDK.getDateAPI().getFormattedDateTime(calendar.getTime(), "yyyy-MM-dd");
+        Date date = calendar.getTime();
+        return getFormattedDateTime(date, FORMAT_DATE);
     }
 
     /**
@@ -223,12 +229,11 @@ public class DateAPIImpl<T> implements DateAPI<T> {
      * @return 例：2020-12-31
      */
     public String getMonthEnd(int amount) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, amount);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-        String lastDate = sdf.format(calendar.getTime());
-        return lastDate;
+        Date date = calendar.getTime();
+        return getFormattedDateTime(date, FORMAT_DATE);
     }
 
     /**
@@ -241,15 +246,14 @@ public class DateAPIImpl<T> implements DateAPI<T> {
      *             }
      */
     public Map<String, String> getWeekDatesByYearAndWeek(Integer year, Integer week) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         cal.setFirstDayOfWeek(Calendar.MONDAY);
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.WEEK_OF_YEAR, week);
         cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-        String beginDate = sdf.format(cal.getTime());
+        String beginDate = getFormattedDateTime(cal.getTime(), FORMAT_DATE);
         cal.add(Calendar.DAY_OF_WEEK, 6);
-        String endDate = sdf.format(cal.getTime());
+        String endDate = getFormattedDateTime(cal.getTime(), FORMAT_DATE);
         Map<String, String> map = new HashMap<>();
         map.put("beginDate", beginDate);
         map.put("endDate", endDate);
@@ -258,26 +262,32 @@ public class DateAPIImpl<T> implements DateAPI<T> {
 
     /**
      * 获取指定日期日期是几几年的第几周,及该周的第一天日期和最后一天日期
-     * @param date
-     * @return
+     * @param datetime 指定日期时间，支持Date、String、Long类型
+     * @return 例：{
+     *               "beginDate": "2020-12-28",
+     *               "week": 1,
+     *               "year": 2021,
+     *               "endDate": "2021-01-03"
+     *             }
      */
-    public static Map<String, Object> getWeekDatesByDatetime(Date date) {
+    public Map<String, Object> getWeekDatesByDatetime(T datetime) throws ParseException {
+        String formattedDateTime = getFormattedDateTime(datetime, FORMAT_DATE);
+        Date date = new SimpleDateFormat(FORMAT_DATE).parse(formattedDateTime);
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);    //设置周一为一周的第一天
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         calendar.setTime(date);
         Calendar cal = (Calendar) calendar.clone();
         cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        String beginDate = df.format(cal.getTime());
-        Integer week = calendar.get(Calendar.WEEK_OF_YEAR);
-        Integer year = calendar.get(Calendar.YEAR);
-        String str = df.format(date);
+        String beginDate = getFormattedDateTime(cal.getTime(), FORMAT_DATE);
+        int week = calendar.get(Calendar.WEEK_OF_YEAR);
+        int year = calendar.get(Calendar.YEAR);
+        String str = getFormattedDateTime(date, FORMAT_DATE);
         String[] arr = str.split("-");
         if (arr[1].equalsIgnoreCase("12") && week == 1) {
             year++;
         }
         cal.add(Calendar.DATE, 6);
-        String endDate = df.format(cal.getTime());
+        String endDate = getFormattedDateTime(cal.getTime(), FORMAT_DATE);
         Map<String, Object> map = new HashMap<>();
         map.put("year", year);
         map.put("week", week);
@@ -286,88 +296,73 @@ public class DateAPIImpl<T> implements DateAPI<T> {
         return map;
     }
 
-
-
     /**
-     * 获取某一日期所在年的周数
-     * @param date
-     * @return
+     * 获取指定日期处于所在年份的第几周
+     * @param datetime 指定日期时间，支持Date、String、Long类型
+     * @return 例：1
      */
-    public int getWeekNum(Date date) {
+    public int getWeekNumberByDatetime(T datetime) throws ParseException {
+        String formattedDateTime = getFormattedDateTime(datetime, FORMAT_DATE);
+        Date date = new SimpleDateFormat(FORMAT_DATE).parse(formattedDateTime);
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.setTime(date);
-        int count = calendar.get(Calendar.WEEK_OF_YEAR);
-        System.err.println(count);
-        return count;
+        return calendar.get(Calendar.WEEK_OF_YEAR);
     }
 
     /**
-     * 转中文日期
-     * @param date
+     * 数字日期转中文日期
+     * @param datetime datetime 指定日期时间，支持Date、String、Long类型
      * @return
+     * @throws ParseException
      */
-    public String getDateChangeaChinese(String date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            date = sdf.format(sdf.parse(date));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        String[] str = new String[3];
-        if (date.indexOf("-") != -1) {
-            str = date.split("-");
-        } else if (date.indexOf("/") != -1) {
-            str = date.split("/");
-        } else if (date.indexOf(".") != -1) {
-            str = date.split(".");
-        } else {
-            return "";
-        }
+    public String dateToCNDate(T datetime) throws ParseException {
+        String date = getFormattedDateTime(datetime, FORMAT_DATE);
+        String[] str = date.split("-");
         String[][] s = new String[3][4];
         String text = "";
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < str[i].length(); j++) {
                 s[i][j] = str[i].substring(j, j + 1);
                 if (i == 0) {
-                    text += numberChinese(s[i][j]);
+                    text += numberCN(s[i][j]);
                 }
             }
         }
         text += "年";
         if (Integer.parseInt(s[1][0]) == 0) {
-            text += numberChinese(s[1][1]);
+            text += numberCN(s[1][1]);
         } else {
             if (Integer.parseInt(s[1][0]) == 1) {
                 if (Integer.parseInt(s[1][1]) == 0) {
                     text += "十";
                 } else {
-                    text += "十" + numberChinese(s[1][1]);
+                    text += "十" + numberCN(s[1][1]);
                 }
             } else {
-                text += numberChinese(s[1][0]) + "十" + numberChinese(s[1][1]);
+                text += numberCN(s[1][0]) + "十" + numberCN(s[1][1]);
             }
         }
         text += "月";
 
         if (Integer.parseInt(s[2][0]) == 0) {
-            text += numberChinese(s[2][1]);
+            text += numberCN(s[2][1]);
         } else {
             if (Integer.parseInt(s[2][0]) == 1) {
                 if (Integer.parseInt(s[2][1]) == 0) {
                     text += "十";
                 } else {
-                    text += "十" + numberChinese(s[2][1]);
+                    text += "十" + numberCN(s[2][1]);
                 }
             } else {
-                text += numberChinese(s[2][0]) + "十" + numberChinese(s[2][1]);
+                text += numberCN(s[2][0]) + "十" + numberCN(s[2][1]);
             }
         }
         text += "日";
         return text;
     }
 
-    private String numberChinese(String str) {
+    private String numberCN(String str) {
         int num = Integer.parseInt(str);
         String s = "";
         switch (num) {
