@@ -1,7 +1,4 @@
-package com.gh.common.api.impl;
-
-import com.gh.common.SDK;
-import com.gh.common.api.service.DateAPI;
+package com.gh.common.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,7 +10,7 @@ import java.util.Map;
 /**
  * 日期时间
  */
-public class DateAPIImpl<T> implements DateAPI<T> {
+public class Datetime<T> implements DateUtils<T> {
 
     private String FORMAT_DATE = "yyyy-MM-dd";
     private String FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
@@ -398,6 +395,10 @@ public class DateAPIImpl<T> implements DateAPI<T> {
                 break;
         }
         return s;
+    }
+
+    public Object getDatetimeDiff(T beginDatetime, T endDatetime, String str) {
+        return "";
     }
 
     /**

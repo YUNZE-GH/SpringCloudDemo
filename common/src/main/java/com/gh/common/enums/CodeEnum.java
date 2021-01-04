@@ -17,7 +17,7 @@ public enum CodeEnum {
 
     private int value;
 
-    private CodeEnum(int value) {
+    CodeEnum(int value) {
         this.value = value;
     }
 

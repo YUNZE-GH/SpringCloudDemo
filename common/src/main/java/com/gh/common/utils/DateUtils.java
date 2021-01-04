@@ -1,4 +1,4 @@
-package com.gh.common.api.service;
+package com.gh.common.utils;
 
 import java.text.ParseException;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 日期时间API
  */
-public interface DateAPI<T> {
+public interface DateUtils<T> {
 
     /**
      * 获取指定格式的当前日期时间
