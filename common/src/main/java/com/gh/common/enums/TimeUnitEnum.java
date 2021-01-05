@@ -2,7 +2,12 @@ package com.gh.common.enums;
 
 public enum TimeUnitEnum {
     YEAR(0),
-    HOUR(1);
+    MONTH(1),
+    DAY(2),
+    HOUR(3),
+    MINUTE(4),
+    SECOND(5),
+    MILLISECOND(6);
 
     private int value;
 
@@ -10,7 +15,7 @@ public enum TimeUnitEnum {
         this.value = value;
     }
 
-    private int get(){
+    public int get(){
         return this.value;
     }
 }

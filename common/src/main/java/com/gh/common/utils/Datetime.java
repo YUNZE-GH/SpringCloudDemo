@@ -1,5 +1,6 @@
 package com.gh.common.utils;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,6 +18,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取指定格式的当前日期时间
+     *
      * @param format 格式，例：yyyy-MM-dd
      * @return 2020-12-31
      */
@@ -27,8 +29,9 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 根据指定日期时间和指定格式获取日期时间
+     *
      * @param datetime 指定日期时间，支持Date、String、Long类型
-     * @param format 日期格式 例：yyyy-MM-dd HH:mm:ss
+     * @param format   日期格式 例：yyyy-MM-dd HH:mm:ss
      * @return 2020-12-31 00:00:00
      * @throws ParseException 日期格式转换异常
      */
@@ -52,6 +55,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取当前日期
+     *
      * @return 2020-12-31
      */
     public String getDate() {
@@ -60,6 +64,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取当前时间
+     *
      * @return 12:00:00
      */
     public String getTime() {
@@ -68,6 +73,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取当前日期时间
+     *
      * @return 2020-12-31 00:00:00
      */
     public String getDatetime() {
@@ -76,6 +82,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取当前年份
+     *
      * @return 2020
      */
     public String getYear() {
@@ -84,6 +91,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取指定日期所在的年份
+     *
      * @param datetime 指定日期，支持Date、String、Long类型
      * @return 2020
      * @throws ParseException 日期格式转换异常
@@ -94,6 +102,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取当前月份
+     *
      * @return 12
      */
     public String getMonth() {
@@ -102,6 +111,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取指定日期所在的月份
+     *
      * @param datetime 指定日期，支持Date、String、Long类型
      * @return 12
      * @throws ParseException 日期格式转换异常
@@ -112,6 +122,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取当前日
+     *
      * @return 31
      */
     public String getDay() {
@@ -120,6 +131,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取指定日期为多少号
+     *
      * @param datetime 指定日期，支持Date、String、Long类型
      * @return 31
      * @throws ParseException 日期格式转换异常
@@ -130,6 +142,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取当前日期为星期几
+     *
      * @return 星期一
      */
     public String getWeek() {
@@ -140,6 +153,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取指定日期为星期几
+     *
      * @param datetime 指定日期，支持Date、String、Long类型
      * @return 星期一
      */
@@ -186,6 +200,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取当前月第一天的日期
+     *
      * @return 2020-12-01
      */
     public String getMonthBegin() {
@@ -198,6 +213,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取当月最后一天的日期
+     *
      * @return 2020-12-31
      */
     public String getMonthEnd() {
@@ -209,6 +225,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取某月第一天的日期
+     *
      * @param amount 当amount为0时，为本月，-1时为上月，1时为下月
      * @return 例：2020-12-01
      */
@@ -222,6 +239,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取某月最后一天的日期
+     *
      * @param amount 当amount为0时，为本月，-1时为上月，1时为下月
      * @return 例：2020-12-31
      */
@@ -235,12 +253,13 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取几几年的第几周的第一天日期和最后一天日期
+     *
      * @param year 几几年，例：2020
      * @param week 第几个星期，例：1
      * @return 例：{
-     *              "beginDate": "2019-12-30",
-     *              "endDate": "2020-01-05"
-     *             }
+     * "beginDate": "2019-12-30",
+     * "endDate": "2020-01-05"
+     * }
      */
     public Map<String, String> getWeekDatesByYearAndWeek(Integer year, Integer week) {
         Calendar cal = Calendar.getInstance();
@@ -259,13 +278,14 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取指定日期日期是几几年的第几周,及该周的第一天日期和最后一天日期
+     *
      * @param datetime 指定日期时间，支持Date、String、Long类型
      * @return 例：{
-     *               "beginDate": "2020-12-28",
-     *               "week": 1,
-     *               "year": 2021,
-     *               "endDate": "2021-01-03"
-     *             }
+     * "beginDate": "2020-12-28",
+     * "week": 1,
+     * "year": 2021,
+     * "endDate": "2021-01-03"
+     * }
      */
     public Map<String, Object> getWeekDatesByDatetime(T datetime) throws ParseException {
         String formattedDateTime = getFormattedDateTime(datetime, FORMAT_DATE);
@@ -295,6 +315,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 获取指定日期处于所在年份的第几周
+     *
      * @param datetime 指定日期时间，支持Date、String、Long类型
      * @return 例：1
      */
@@ -309,6 +330,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 数字日期转中文日期
+     *
      * @param datetime datetime 指定日期时间，支持Date、String、Long类型
      * @return
      * @throws ParseException
@@ -397,12 +419,52 @@ public class Datetime<T> implements DateUtils<T> {
         return s;
     }
 
-    public Object getDatetimeDiff(T beginDatetime, T endDatetime, String str) {
-        return "";
+    public Object datetimeDiff(T beginDatetime, T endDatetime, int unit) {
+        if (!beginDatetime.getClass().getName().equals(endDatetime.getClass().getName())) {
+            System.err.println("开始日期与结束日期数据类型需一致");
+            return null;
+        }
+        Object result = null;
+        if (beginDatetime instanceof Long) {
+            Long begin = (Long) beginDatetime;
+            Long end = (Long) endDatetime;
+            result = diff(end - begin, unit);
+            System.err.println(result);
+        }
+        return result;
+    }
+
+    private float diff(long time, int unit) {
+        float result = 0f;
+        switch (unit) {
+            case 0:
+                result = time / 1000f / 60 / 60 / 24 / 365;
+                break;
+            case 1:
+                result = time / 1000f / 60 / 60 / 24 / 30;
+                break;
+            case 2:
+                result = time / 1000f / 60 / 60 / 24;
+                break;
+            case 3:
+                result = time / 1000f / 60 / 60;
+                break;
+            case 4:
+                result = time / 1000f / 60;
+                break;
+            case 5:
+                result = time / 1000f;
+                break;
+            case 6:
+                result = time;
+                break;
+        }
+        return result;
     }
 
     /**
      * 计算两个日期时间之间相差的毫秒
+     *
      * @param beginTime
      * @param endTime
      * @return
@@ -414,6 +476,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 计算两个日期时间之间相差的秒
+     *
      * @param beginTime
      * @param endTime
      * @return
@@ -425,6 +488,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 计算两个日期时间之间相差的分钟
+     *
      * @param beginTime
      * @param endTime
      * @return
@@ -435,6 +499,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 计算两个日期时间之间相差的小时
+     *
      * @param beginTime
      * @param endTime
      * @return
@@ -445,6 +510,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 计算两个日期时间之间相差的天数
+     *
      * @param beginTime
      * @param endTime
      * @return
@@ -455,6 +521,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 计算日期加减几天之后的日期
+     *
      * @param timestamp
      * @param day
      * @return
@@ -476,6 +543,7 @@ public class Datetime<T> implements DateUtils<T> {
 
     /**
      * 将时间戳转为日期格式
+     *
      * @param timestamp
      * @return
      */

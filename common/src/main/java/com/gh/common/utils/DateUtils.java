@@ -181,4 +181,6 @@ public interface DateUtils<T> {
      * @throws ParseException
      */
     String dateToCNDate(T datetime) throws ParseException;
+
+    public Object datetimeDiff(T beginDatetime, T endDatetime, int unit);
 }

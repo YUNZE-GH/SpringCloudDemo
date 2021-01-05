@@ -1,8 +1,8 @@
 package com.gh.common;
 
-import com.gh.common.enums.CodeEnum;
-import com.gh.common.utils.Datetime;
+import com.gh.common.enums.TimeUnitEnum;
 import com.gh.common.utils.DateUtils;
+import com.gh.common.utils.Datetime;
 
 import java.util.Date;
 
@@ -13,7 +13,6 @@ public class SDK {
     }
 
     public static void main(String[] args) {
-        System.err.println(SDK.getDateUtils().getDatetime());
-        System.err.println(CodeEnum.SUCCESS.get());
+        SDK.getDateUtils().datetimeDiff(1609837425000l, 1609923825000l, TimeUnitEnum.DAY.get());
     }
 }
