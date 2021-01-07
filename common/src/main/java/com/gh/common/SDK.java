@@ -14,5 +14,8 @@ public class SDK {
 
     public static void main(String[] args) {
         SDK.getDateUtils().datetimeDiff(1609837425000l, 1609923825000l, TimeUnitEnum.DAY.get());
+        SDK.getDateUtils().datetimeDiff(1609837425000l, 1609923825000l, TimeUnitEnum.HOUR.get());
+        SDK.getDateUtils().datetimeDiff(1609837425000l, 1609923825000l, TimeUnitEnum.MINUTE.get());
+        SDK.getDateUtils().datetimeDiff(1609837425000l, 1609923825000l, TimeUnitEnum.SECOND.get());
     }
 }

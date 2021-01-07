@@ -1,5 +1,7 @@
 package com.gh.common.utils;
 
+import com.gh.common.toolsclass.FinalProperties;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,9 +14,6 @@ import java.util.Map;
  * 日期时间
  */
 public class Datetime<T> implements DateUtils<T> {
-
-    private String FORMAT_DATE = "yyyy-MM-dd";
-    private String FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * 获取指定格式的当前日期时间
@@ -158,9 +157,9 @@ public class Datetime<T> implements DateUtils<T> {
      * @return 星期一
      */
     public String getWeek(T datetime) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE);
+        SimpleDateFormat sdf = new SimpleDateFormat(FinalProperties.FORMAT_DATE);
         Calendar c = Calendar.getInstance();
-        c.setTime(sdf.parse(getFormattedDateTime(datetime, FORMAT_DATE)));
+        c.setTime(sdf.parse(getFormattedDateTime(datetime, FinalProperties.FORMAT_DATE)));
         return getWeek(c);
     }
 
@@ -208,7 +207,7 @@ public class Datetime<T> implements DateUtils<T> {
         calendar.add(Calendar.MONTH, 0);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         Date date = calendar.getTime();
-        return getFormattedDateTime(date, FORMAT_DATE);
+        return getFormattedDateTime(date, FinalProperties.FORMAT_DATE);
     }
 
     /**
@@ -220,7 +219,7 @@ public class Datetime<T> implements DateUtils<T> {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date date = calendar.getTime();
-        return getFormattedDateTime(date, FORMAT_DATE);
+        return getFormattedDateTime(date, FinalProperties.FORMAT_DATE);
     }
 
     /**
@@ -234,7 +233,7 @@ public class Datetime<T> implements DateUtils<T> {
         calendar.add(Calendar.MONTH, amount);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         Date date = calendar.getTime();
-        return getFormattedDateTime(date, FORMAT_DATE);
+        return getFormattedDateTime(date, FinalProperties.FORMAT_DATE);
     }
 
     /**
@@ -248,7 +247,7 @@ public class Datetime<T> implements DateUtils<T> {
         calendar.add(Calendar.MONTH, amount);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date date = calendar.getTime();
-        return getFormattedDateTime(date, FORMAT_DATE);
+        return getFormattedDateTime(date, FinalProperties.FORMAT_DATE);
     }
 
     /**
@@ -267,9 +266,9 @@ public class Datetime<T> implements DateUtils<T> {
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.WEEK_OF_YEAR, week);
         cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-        String beginDate = getFormattedDateTime(cal.getTime(), FORMAT_DATE);
+        String beginDate = getFormattedDateTime(cal.getTime(), FinalProperties.FORMAT_DATE);
         cal.add(Calendar.DAY_OF_WEEK, 6);
-        String endDate = getFormattedDateTime(cal.getTime(), FORMAT_DATE);
+        String endDate = getFormattedDateTime(cal.getTime(), FinalProperties.FORMAT_DATE);
         Map<String, String> map = new HashMap<>();
         map.put("beginDate", beginDate);
         map.put("endDate", endDate);
@@ -288,23 +287,23 @@ public class Datetime<T> implements DateUtils<T> {
      * }
      */
     public Map<String, Object> getWeekDatesByDatetime(T datetime) throws ParseException {
-        String formattedDateTime = getFormattedDateTime(datetime, FORMAT_DATE);
-        Date date = new SimpleDateFormat(FORMAT_DATE).parse(formattedDateTime);
+        String formattedDateTime = getFormattedDateTime(datetime, FinalProperties.FORMAT_DATE);
+        Date date = new SimpleDateFormat(FinalProperties.FORMAT_DATE).parse(formattedDateTime);
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);    //设置周一为一周的第一天
         calendar.setTime(date);
         Calendar cal = (Calendar) calendar.clone();
         cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        String beginDate = getFormattedDateTime(cal.getTime(), FORMAT_DATE);
+        String beginDate = getFormattedDateTime(cal.getTime(), FinalProperties.FORMAT_DATE);
         int week = calendar.get(Calendar.WEEK_OF_YEAR);
         int year = calendar.get(Calendar.YEAR);
-        String str = getFormattedDateTime(date, FORMAT_DATE);
+        String str = getFormattedDateTime(date, FinalProperties.FORMAT_DATE);
         String[] arr = str.split("-");
         if (arr[1].equalsIgnoreCase("12") && week == 1) {
             year++;
         }
         cal.add(Calendar.DATE, 6);
-        String endDate = getFormattedDateTime(cal.getTime(), FORMAT_DATE);
+        String endDate = getFormattedDateTime(cal.getTime(), FinalProperties.FORMAT_DATE);
         Map<String, Object> map = new HashMap<>();
         map.put("year", year);
         map.put("week", week);
@@ -320,8 +319,8 @@ public class Datetime<T> implements DateUtils<T> {
      * @return 例：1
      */
     public int getWeekNumberByDatetime(T datetime) throws ParseException {
-        String formattedDateTime = getFormattedDateTime(datetime, FORMAT_DATE);
-        Date date = new SimpleDateFormat(FORMAT_DATE).parse(formattedDateTime);
+        String formattedDateTime = getFormattedDateTime(datetime, FinalProperties.FORMAT_DATE);
+        Date date = new SimpleDateFormat(FinalProperties.FORMAT_DATE).parse(formattedDateTime);
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.setTime(date);
@@ -336,7 +335,7 @@ public class Datetime<T> implements DateUtils<T> {
      * @throws ParseException
      */
     public String dateToCNDate(T datetime) throws ParseException {
-        String date = getFormattedDateTime(datetime, FORMAT_DATE);
+        String date = getFormattedDateTime(datetime, FinalProperties.FORMAT_DATE);
         String[] str = date.split("-");
         String[][] s = new String[3][4];
         String text = "";
@@ -419,104 +418,50 @@ public class Datetime<T> implements DateUtils<T> {
         return s;
     }
 
-    public Object datetimeDiff(T beginDatetime, T endDatetime, int unit) {
-        if (!beginDatetime.getClass().getName().equals(endDatetime.getClass().getName())) {
-            System.err.println("开始日期与结束日期数据类型需一致");
-            return null;
-        }
-        Object result = null;
-        if (beginDatetime instanceof Long) {
-            Long begin = (Long) beginDatetime;
-            Long end = (Long) endDatetime;
-            result = diff(end - begin, unit);
-            System.err.println(result);
-        }
-        return result;
+    /**
+     * 计算两个日期之间的相差多长时间
+     * @param beginDatetime 开始时间 例：1609837425000l
+     * @param endDatetime 结束时间 例：1609923825000l
+     * @param unit 计算结果单位，0：年，1：月，2：天，3：小时，4：分钟，5：秒，6：毫秒
+     * @return 1.0（天）
+     */
+    public float datetimeDiff(long beginDatetime, long endDatetime, int unit) {
+        return diff(endDatetime - beginDatetime, unit);
     }
 
     private float diff(long time, int unit) {
         float result = 0f;
         switch (unit) {
             case 0:
+                // 年
                 result = time / 1000f / 60 / 60 / 24 / 365;
                 break;
             case 1:
+                // 月
                 result = time / 1000f / 60 / 60 / 24 / 30;
                 break;
             case 2:
+                // 天
                 result = time / 1000f / 60 / 60 / 24;
                 break;
             case 3:
+                // 小时
                 result = time / 1000f / 60 / 60;
                 break;
             case 4:
+                // 分钟
                 result = time / 1000f / 60;
                 break;
             case 5:
+                // 秒
                 result = time / 1000f;
                 break;
             case 6:
+                // 毫秒
                 result = time;
                 break;
         }
         return result;
-    }
-
-    /**
-     * 计算两个日期时间之间相差的毫秒
-     *
-     * @param beginTime
-     * @param endTime
-     * @return
-     */
-    public long getDatetimeDiffMillisecond(long beginTime, long endTime) {
-        long result = endTime - beginTime;
-        return result;
-    }
-
-    /**
-     * 计算两个日期时间之间相差的秒
-     *
-     * @param beginTime
-     * @param endTime
-     * @return
-     */
-    public long getDatetimeDiffSecond(long beginTime, long endTime) {
-        long result = (endTime - beginTime) / 1000;
-        return result;
-    }
-
-    /**
-     * 计算两个日期时间之间相差的分钟
-     *
-     * @param beginTime
-     * @param endTime
-     * @return
-     */
-    public long getDatetimeDiffMinute(long beginTime, long endTime) {
-        return (endTime - beginTime) / 1000 / 60;
-    }
-
-    /**
-     * 计算两个日期时间之间相差的小时
-     *
-     * @param beginTime
-     * @param endTime
-     * @return
-     */
-    public long getDatetimeDiffHour(long beginTime, long endTime) {
-        return (endTime - beginTime) / 1000 / 60 / 60;
-    }
-
-    /**
-     * 计算两个日期时间之间相差的天数
-     *
-     * @param beginTime
-     * @param endTime
-     * @return
-     */
-    public long getDatetimeDiffDay(long beginTime, long endTime) {
-        return (endTime - beginTime) / 1000 / 60 / 60 / 24;
     }
 
     /**
@@ -527,18 +472,11 @@ public class Datetime<T> implements DateUtils<T> {
      * @return
      */
     public String getDatetimeAddOrMinus(long timestamp, int day) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        //取今天日期,如果日期类型为String类型,可以使用df.parse()方法,转换为Date类型
-        Date date = new Date();
-        try {
-            date = df.parse(df.format(new Date(timestamp)));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Calendar calendar = Calendar.getInstance();//new一个Calendar类,把Date放进去
+        Date date = new Date(timestamp);
+        Calendar calendar = Calendar.getInstance(); // new一个Calendar类,把Date放进去
         calendar.setTime(date);
         calendar.add(Calendar.DATE, day);
-        return df.format(calendar.getTime());
+        return getFormattedDateTime(calendar.getTime(), FinalProperties.FORMAT_DATE);
     }
 
     /**

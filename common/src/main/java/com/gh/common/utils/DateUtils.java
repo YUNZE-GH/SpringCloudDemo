@@ -182,5 +182,12 @@ public interface DateUtils<T> {
      */
     String dateToCNDate(T datetime) throws ParseException;
 
-    public Object datetimeDiff(T beginDatetime, T endDatetime, int unit);
+    /**
+     * 计算两个日期之间的相差多长时间
+     * @param beginDatetime 开始时间 例：1609837425000l
+     * @param endDatetime 结束时间 例：1609923825000l
+     * @param unit 计算结果单位，0：年，1：月，2：天，3：小时，4：分钟，5：秒，6：毫秒
+     * @return 1.0（天）
+     */
+    float datetimeDiff(long beginDatetime, long endDatetime, int unit);
 }
