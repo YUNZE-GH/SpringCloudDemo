@@ -467,16 +467,17 @@ public class Datetime<T> implements DateUtils<T> {
     /**
      * 计算日期加减几天之后的日期
      *
-     * @param timestamp
-     * @param day
-     * @return
+     * @param timestamp 开始时间 2021-01-10 22:15:43
+     * @param day 几天之前或几天之后，-1为一天前，1为一天后
+     * @param format 返回日期格式
+     * @return 例：2021-01-11 22:15:43
      */
-    public String getDatetimeAddOrMinus(long timestamp, int day) {
+    public String getDatetimeAddOrMinus(long timestamp, int day, String format) {
         Date date = new Date(timestamp);
         Calendar calendar = Calendar.getInstance(); // new一个Calendar类,把Date放进去
         calendar.setTime(date);
         calendar.add(Calendar.DATE, day);
-        return getFormattedDateTime(calendar.getTime(), FinalProperties.FORMAT_DATE);
+        return getFormattedDateTime(calendar.getTime(), format);
     }
 
     /**

@@ -190,4 +190,13 @@ public interface DateUtils<T> {
      * @return 1.0（天）
      */
     float datetimeDiff(long beginDatetime, long endDatetime, int unit);
+
+    /**
+     * 计算日期加减几天之后的日期
+     * @param timestamp 开始时间 2021-01-10 22:15:43
+     * @param day 几天之前或几天之后，-1为一天前，1为一天后
+     * @param format 返回日期格式
+     * @return 例：2021-01-11 22:15:43
+     */
+    String getDatetimeAddOrMinus(long timestamp, int day, String format);
 }
