@@ -14,11 +14,16 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class ConsumerController {
 
-    @Autowired
-    RestTemplate restTemplate;
+//    @Autowired
+    private RestTemplate restTemplate;
 
-    @Autowired
-    ProviderService service;
+//    @Autowired
+    private final ProviderService service;
+
+    ConsumerController(ProviderService service, RestTemplate restTemplate) {
+        this.service = service;
+        this.restTemplate = restTemplate;
+    }
 
     @Value("${server.port}")
     private String serverPort;
