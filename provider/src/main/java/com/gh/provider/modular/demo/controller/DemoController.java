@@ -1,6 +1,7 @@
 package com.gh.provider.modular.demo.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.gh.common.SDK;
 import com.gh.common.toolsclass.ResultData;
 import com.gh.common.enums.CodeEnum;
@@ -45,7 +46,13 @@ public class DemoController {
     public ResultData one(@PathVariable("id") String id) {
         logger.info("=====> /one");
         Demo byId = service.getById(id);
-        return new ResultData(CodeEnum.SUCCESS.get(), byId, serverPort, SDK.getDateAPI().getDatetime());
+        return new ResultData(CodeEnum.SUCCESS.get(), byId, serverPort, SDK.getDateUtils().getDatetime());
+    }
+
+    @PostMapping(value = "/getDemoById")
+    public ResultData getDemoById(@RequestBody JSONObject json){
+        Demo bo = service.getById(json.get("id").toString());
+        return new ResultData(CodeEnum.SUCCESS.get(), bo, serverPort, SDK.getDateUtils().getDatetime());
     }
 
     @PostMapping(value = "/all")
