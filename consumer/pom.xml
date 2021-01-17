@@ -59,6 +59,12 @@
         <!-- nacos配置中心 [end] -->
 
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+            <version>0.2.1.RELEASE</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.gh</groupId>
             <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
