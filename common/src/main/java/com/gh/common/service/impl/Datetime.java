@@ -1,8 +1,8 @@
-package com.gh.common.utils;
+package com.gh.common.service.impl;
 
+import com.gh.common.service.DateUtils;
 import com.gh.common.toolsclass.FinalProperties;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

@@ -1,4 +1,4 @@
-package com.gh.common.utils;
+package com.gh.common.service;
 
 import java.text.ParseException;
 import java.util.Map;
