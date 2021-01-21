@@ -1,15 +1,20 @@
 package com.gh.consumer.controller;
 
 
+import com.alibaba.csp.sentinel.slots.block.RuleConstant;
+import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
+import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 import com.gh.common.toolsclass.ResultData;
 import com.gh.consumer.feign.ProviderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class ConsumerController {
@@ -40,8 +45,9 @@ public class ConsumerController {
         return service.one(id);
     }
 
-    @PostMapping(value = "all")
+    @PostMapping(value = "/all")
     public ResultData all() {
         return service.all();
     }
+
 }
