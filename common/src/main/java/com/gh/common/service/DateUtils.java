@@ -1,12 +1,21 @@
 package com.gh.common.service;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 /**
  * 日期时间API
  */
 public interface DateUtils<T> {
+
+    /**
+     * 获取指定格式的SimpleDateFormat对象
+     * @param format 格式
+     * @return
+     */
+    SimpleDateFormat getSimpleDateFormat(String format);
 
     /**
      * 获取指定格式的当前日期时间
@@ -195,8 +204,28 @@ public interface DateUtils<T> {
      * 计算日期加减几天之后的日期
      * @param timestamp 开始时间 2021-01-10 22:15:43
      * @param day 几天之前或几天之后，-1为一天前，1为一天后
-     * @param format 返回日期格式
+     * @param returnValueFormat 返回日期格式 例："yyyy-MM-dd"或"yyyy-MM-dd HH:mm:ss"等
      * @return 例：2021-01-11 22:15:43
      */
-    String getDatetimeAddOrMinus(long timestamp, int day, String format);
+    String getDatetimeAddOrMinus(long timestamp, int day, String returnValueFormat);
+
+    /**
+     * 将时间戳转为指定日期格式的字符串
+     *
+     * @param timestamp 需要转换的时间戳 例：1611241077000
+     * @param returnValueFormat 返回日期格式 例："yyyy-MM-dd"或"yyyy-MM-dd HH:mm:ss"等
+     * @return 2021-01-21 22:57:57
+     */
+    String getTimeStampToString(long timestamp, String returnValueFormat);
+
+    /**
+     * 将指定日期格式的字符串转为时间戳
+     *
+     * @param dateTime 需要转换的时间戳 例：2021-01-21 22:57:57
+     * @param parameValueFormat 返回日期格式 例："yyyy-MM-dd"或"yyyy-MM-dd HH:mm:ss"等
+     * @return 1611241077000
+     */
+    long getStringToTimeStamp(String dateTime, String parameValueFormat) throws ParseException;
+
+    Date getStringToDate(String dateTime, String parameValueFormat) throws ParseException;
 }

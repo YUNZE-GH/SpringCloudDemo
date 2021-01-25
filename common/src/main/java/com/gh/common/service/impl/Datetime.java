@@ -3,6 +3,7 @@ package com.gh.common.service.impl;
 import com.gh.common.service.DateUtils;
 import com.gh.common.toolsclass.FinalProperties;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,14 +17,22 @@ import java.util.Map;
 public class Datetime<T> implements DateUtils<T> {
 
     /**
+     * 获取指定格式的SimpleDateFormat对象
+     * @param format 格式
+     * @return
+     */
+    public SimpleDateFormat getSimpleDateFormat(String format) {
+        return new SimpleDateFormat(format);
+    }
+
+    /**
      * 获取指定格式的当前日期时间
      *
      * @param format 格式，例：yyyy-MM-dd
      * @return 2020-12-31
      */
     public String getDateTime(String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(new Date());
+        return getSimpleDateFormat(format).format(new Date());
     }
 
     /**
@@ -48,8 +57,7 @@ public class Datetime<T> implements DateUtils<T> {
     }
 
     private String getFormattedDateTime(Date datetime, String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(datetime);
+        return getSimpleDateFormat(format).format(datetime);
     }
 
     /**
@@ -157,9 +165,9 @@ public class Datetime<T> implements DateUtils<T> {
      * @return 星期一
      */
     public String getWeek(T datetime) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat(FinalProperties.FORMAT_DATE);
         Calendar c = Calendar.getInstance();
-        c.setTime(sdf.parse(getFormattedDateTime(datetime, FinalProperties.FORMAT_DATE)));
+        String formattedDateTime = getFormattedDateTime(datetime, FinalProperties.FORMAT_DATE);
+        c.setTime(getSimpleDateFormat(FinalProperties.FORMAT_DATE).parse(formattedDateTime));
         return getWeek(c);
     }
 
@@ -469,27 +477,41 @@ public class Datetime<T> implements DateUtils<T> {
      *
      * @param timestamp 开始时间 2021-01-10 22:15:43
      * @param day 几天之前或几天之后，-1为一天前，1为一天后
-     * @param format 返回日期格式
+     * @param returnValueFormat 返回日期格式
      * @return 例：2021-01-11 22:15:43
      */
-    public String getDatetimeAddOrMinus(long timestamp, int day, String format) {
+    public String getDatetimeAddOrMinus(long timestamp, int day, String returnValueFormat) {
         Date date = new Date(timestamp);
         Calendar calendar = Calendar.getInstance(); // new一个Calendar类,把Date放进去
         calendar.setTime(date);
         calendar.add(Calendar.DATE, day);
-        return getFormattedDateTime(calendar.getTime(), format);
+        return getFormattedDateTime(calendar.getTime(), returnValueFormat);
     }
 
     /**
-     * 将时间戳转为日期格式
+     * 将时间戳转为指定日期格式的字符串
      *
-     * @param timestamp
-     * @return
+     * @param timestamp 需要转换的时间戳 例：1611241077000
+     * @param returnValueFormat 返回日期格式 例："yyyy-MM-dd"或"yyyy-MM-dd HH:mm:ss"等
+     * @return 2021-01-21 22:57:57
      */
-    public String getTimeStampChangeDateTime(long timestamp) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return sdf.format(new Date(timestamp));
+    public String getTimeStampToString(long timestamp, String returnValueFormat) {
+        return getSimpleDateFormat(returnValueFormat).format(new Date(timestamp));
     }
 
+    /**
+     * 将指定日期格式的字符串转为时间戳
+     *
+     * @param dateTime 需要转换的时间戳 例：2021-01-21 22:57:57
+     * @param parameValueFormat 返回日期格式 例："yyyy-MM-dd"或"yyyy-MM-dd HH:mm:ss"等
+     * @return 1611241077000
+     */
+    public long getStringToTimeStamp(String dateTime, String parameValueFormat) throws ParseException {
+        return getSimpleDateFormat(parameValueFormat).parse(dateTime).getTime();
+    }
+
+    public Date getStringToDate(String dateTime, String parameValueFormat) throws ParseException {
+        return getSimpleDateFormat(parameValueFormat).parse(dateTime);
+    }
 
 }
