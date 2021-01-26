@@ -150,6 +150,15 @@ public interface DateUtils<T> {
     String getMonthEnd(int amount) throws ParseException;
 
     /**
+     * 获取指定日期所在月份的最后一天的日期
+     * @param datetime 指定日期时间，支持Date、String、Long类型
+     * @param format 日期格式 例：yyyy-MM-dd HH:mm:ss
+     * @return 2021-01-26
+     * @throws ParseException
+     */
+    String getMonthEndByDateTime(T datetime, String format) throws ParseException;
+
+    /**
      * 获取几几年的第几周的第一天日期和最后一天日期
      *
      * @param year 几几年，例：2020
@@ -227,5 +236,12 @@ public interface DateUtils<T> {
      */
     long getStringToTimeStamp(String dateTime, String parameValueFormat) throws ParseException;
 
+    /**
+     * 将指定日期格式的字符串转为Date
+     * @param dateTime 日期
+     * @param parameValueFormat 格式
+     * @return
+     * @throws ParseException
+     */
     Date getStringToDate(String dateTime, String parameValueFormat) throws ParseException;
 }

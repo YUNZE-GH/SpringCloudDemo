@@ -6,6 +6,7 @@ import com.gh.common.service.impl.Datetime;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 
 public class SDK {
@@ -31,7 +32,10 @@ public class SDK {
 //        long stringToTimeStamp = SDK.getDateUtils().getStringToTimeStamp("2021-01-25 09:00:00", FinalProperties.FORMAT_DATE);
 //        System.err.println(stringToTimeStamp);
 
-        Date stringToDate = SDK.getDateUtils().getStringToDate("2021-01-25 09:00:00", FinalProperties.FORMAT_DATETIME);
-        System.err.println(stringToDate);
+//        Date stringToDate = SDK.getDateUtils().getStringToDate("2021-01-25 09:00:00", FinalProperties.FORMAT_DATETIME);
+//        System.err.println(stringToDate);
+
+
+        System.err.println(SDK.getDateUtils().getMonthEndByDateTime(new Date(), FinalProperties.FORMAT_DATETIME));
     }
 }

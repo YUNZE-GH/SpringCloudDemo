@@ -3,7 +3,6 @@ package com.gh.common.service.impl;
 import com.gh.common.service.DateUtils;
 import com.gh.common.toolsclass.FinalProperties;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -253,6 +252,30 @@ public class Datetime<T> implements DateUtils<T> {
     public String getMonthEnd(int amount) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, amount);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        Date date = calendar.getTime();
+        return getFormattedDateTime(date, FinalProperties.FORMAT_DATE);
+    }
+
+    /**
+     * 获取指定日期所在月份的最后一天的日期
+     * @param datetime 指定日期时间，支持Date、String、Long类型
+     * @param format 日期格式 例：yyyy-MM-dd HH:mm:ss
+     * @return 2021-01-26
+     * @throws ParseException
+     */
+    public String getMonthEndByDateTime(T datetime, String format) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        String result = "";
+        if (datetime instanceof Date) {
+            result = getFormattedDateTime((Date) datetime, format);
+        } else if (datetime instanceof String) {
+            result = sdf.format(sdf.parse(datetime.toString()));
+        } else if (datetime instanceof Long) {
+            result = sdf.format(new Date(Long.parseLong(datetime.toString())));
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(getStringToDate(result, format));
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date date = calendar.getTime();
         return getFormattedDateTime(date, FinalProperties.FORMAT_DATE);
@@ -510,6 +533,13 @@ public class Datetime<T> implements DateUtils<T> {
         return getSimpleDateFormat(parameValueFormat).parse(dateTime).getTime();
     }
 
+    /**
+     * 将指定日期格式的字符串转为Date
+     * @param dateTime 日期
+     * @param parameValueFormat 格式
+     * @return
+     * @throws ParseException
+     */
     public Date getStringToDate(String dateTime, String parameValueFormat) throws ParseException {
         return getSimpleDateFormat(parameValueFormat).parse(dateTime);
     }
