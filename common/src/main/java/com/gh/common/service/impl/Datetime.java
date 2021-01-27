@@ -1,5 +1,6 @@
 package com.gh.common.service.impl;
 
+import com.gh.common.SDK;
 import com.gh.common.service.DateUtils;
 import com.gh.common.toolsclass.FinalProperties;
 
@@ -257,6 +258,17 @@ public class Datetime<T> implements DateUtils<T> {
         return getFormattedDateTime(date, FinalProperties.FORMAT_DATE);
     }
 
+    public static void main(String[] args) throws ParseException {
+        String temp = "2021-02-01 23:59:59";
+        Date date = SDK.getDateUtils().getStringToDate(temp, FinalProperties.FORMAT_DATETIME);
+        String monethEnd = SDK.getDateUtils().getMonthEndByDateTime(date, FinalProperties.FORMAT_DATETIME, 1);
+        System.err.println(monethEnd);
+
+        String s = SDK.getDateUtils().getMonthEnd(0);
+        System.err.println(s);
+    }
+
+
     /**
      * 获取指定日期所在月份的最后一天的日期
      * @param datetime 指定日期时间，支持Date、String、Long类型
@@ -278,7 +290,83 @@ public class Datetime<T> implements DateUtils<T> {
         calendar.setTime(getStringToDate(result, format));
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date date = calendar.getTime();
-        return getFormattedDateTime(date, FinalProperties.FORMAT_DATE);
+        return getFormattedDateTime(date, format);
+    }
+
+    /**
+     * 获取指定日期所在月份上月、当月或下月的最后一天的日期
+     * @param datetime 指定日期时间，支持Date
+     * @param format 日期格式 例：yyyy-MM-dd HH:mm:ss
+     * @param amount 当amount为0时，为当月，-1时为上月，1时为下月
+     * @return
+     * @throws ParseException
+     */
+    public String getMonthEndByDateTime(T datetime, String format, int amount) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        String result = "";
+        if (datetime instanceof Date) {
+            result = getFormattedDateTime((Date) datetime, format);
+        } else if (datetime instanceof String) {
+            result = sdf.format(sdf.parse(datetime.toString()));
+        } else if (datetime instanceof Long) {
+            result = sdf.format(new Date(Long.parseLong(datetime.toString())));
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(getStringToDate(result, format));
+        calendar.add(Calendar.MONTH, amount);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        Date date = calendar.getTime();
+        return getFormattedDateTime(date, format);
+    }
+
+    /**
+     * 获取指定日期所在月份的第一天的日期
+     * @param datetime 指定日期时间，支持Date、String、Long类型
+     * @param format 日期格式 例：yyyy-MM-dd HH:mm:ss
+     * @return 2021-01-01
+     * @throws ParseException
+     */
+    public String getMonthBeginByDateTime(T datetime, String format) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        String result = "";
+        if (datetime instanceof Date) {
+            result = getFormattedDateTime((Date) datetime, format);
+        } else if (datetime instanceof String) {
+            result = sdf.format(sdf.parse(datetime.toString()));
+        } else if (datetime instanceof Long) {
+            result = sdf.format(new Date(Long.parseLong(datetime.toString())));
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(getStringToDate(result, format));
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        Date date = calendar.getTime();
+        return getFormattedDateTime(date, format);
+    }
+
+    /**
+     * 获取指定日期所在月份上月、当月或下月的第一天的日期
+     * @param datetime 指定日期时间，支持Date、String、Long类型
+     * @param format 日期格式 例：yyyy-MM-dd HH:mm:ss
+     * @param amount 当amount为0时，为当月，-1时为上月，1时为下月
+     * @return 2021-01-01
+     * @throws ParseException
+     */
+    public String getMonthBeginByDateTime(T datetime, String format, int amount) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        String result = "";
+        if (datetime instanceof Date) {
+            result = getFormattedDateTime((Date) datetime, format);
+        } else if (datetime instanceof String) {
+            result = sdf.format(sdf.parse(datetime.toString()));
+        } else if (datetime instanceof Long) {
+            result = sdf.format(new Date(Long.parseLong(datetime.toString())));
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(getStringToDate(result, format));
+        calendar.add(Calendar.MONTH, amount);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        Date date = calendar.getTime();
+        return getFormattedDateTime(date, format);
     }
 
     /**

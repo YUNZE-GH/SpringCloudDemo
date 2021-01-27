@@ -159,6 +159,35 @@ public interface DateUtils<T> {
     String getMonthEndByDateTime(T datetime, String format) throws ParseException;
 
     /**
+     * 获取指定日期所在月份上月、当月或下月的最后一天的日期
+     * @param datetime 指定日期时间，支持Date
+     * @param format 日期格式 例：yyyy-MM-dd HH:mm:ss
+     * @param amount 当amount为0时，为当月，-1时为上月，1时为下月
+     * @return
+     * @throws ParseException
+     */
+    String getMonthEndByDateTime(T datetime, String format, int amount) throws ParseException;
+
+    /**
+     * 获取指定日期所在月份的第一天的日期
+     * @param datetime 指定日期时间，支持Date、String、Long类型
+     * @param format 日期格式 例：yyyy-MM-dd HH:mm:ss
+     * @return 2021-01-01
+     * @throws ParseException
+     */
+    String getMonthBeginByDateTime(T datetime, String format) throws ParseException;
+
+    /**
+     * 获取指定日期所在月份上月、当月或下月的第一天的日期
+     * @param datetime 指定日期时间，支持Date、String、Long类型
+     * @param format 日期格式 例：yyyy-MM-dd HH:mm:ss
+     * @param amount 当amount为0时，为当月，-1时为上月，1时为下月
+     * @return 2021-01-01
+     * @throws ParseException
+     */
+    String getMonthBeginByDateTime(T datetime, String format, int amount) throws ParseException;
+
+    /**
      * 获取几几年的第几周的第一天日期和最后一天日期
      *
      * @param year 几几年，例：2020
