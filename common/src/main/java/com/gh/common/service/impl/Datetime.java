@@ -1,6 +1,5 @@
 package com.gh.common.service.impl;
 
-import com.gh.common.SDK;
 import com.gh.common.service.DateUtils;
 import com.gh.common.toolsclass.FinalProperties;
 
@@ -56,6 +55,14 @@ public class Datetime<T> implements DateUtils<T> {
         return result;
     }
 
+    /**
+     * 根据指定日期时间和指定格式获取日期时间
+     *
+     * @param datetime 指定日期时间，仅支持Date
+     * @param format   日期格式 例：yyyy-MM-dd HH:mm:ss
+     * @return 2020-12-31 00:00:00
+     * @throws ParseException 日期格式转换异常
+     */
     private String getFormattedDateTime(Date datetime, String format) {
         return getSimpleDateFormat(format).format(datetime);
     }
@@ -257,17 +264,6 @@ public class Datetime<T> implements DateUtils<T> {
         Date date = calendar.getTime();
         return getFormattedDateTime(date, FinalProperties.FORMAT_DATE);
     }
-
-    public static void main(String[] args) throws ParseException {
-        String temp = "2021-02-01 23:59:59";
-        Date date = SDK.getDateUtils().getStringToDate(temp, FinalProperties.FORMAT_DATETIME);
-        String monethEnd = SDK.getDateUtils().getMonthEndByDateTime(date, FinalProperties.FORMAT_DATETIME, 1);
-        System.err.println(monethEnd);
-
-        String s = SDK.getDateUtils().getMonthEnd(0);
-        System.err.println(s);
-    }
-
 
     /**
      * 获取指定日期所在月份的最后一天的日期
@@ -614,22 +610,21 @@ public class Datetime<T> implements DateUtils<T> {
      * 将指定日期格式的字符串转为时间戳
      *
      * @param dateTime 需要转换的时间戳 例：2021-01-21 22:57:57
-     * @param parameValueFormat 返回日期格式 例："yyyy-MM-dd"或"yyyy-MM-dd HH:mm:ss"等
+     * @param paramsValueFormat 返回日期格式 例："yyyy-MM-dd"或"yyyy-MM-dd HH:mm:ss"等
      * @return 1611241077000
      */
-    public long getStringToTimeStamp(String dateTime, String parameValueFormat) throws ParseException {
-        return getSimpleDateFormat(parameValueFormat).parse(dateTime).getTime();
+    public long getStringToTimeStamp(String dateTime, String paramsValueFormat) throws ParseException {
+        return getSimpleDateFormat(paramsValueFormat).parse(dateTime).getTime();
     }
 
     /**
      * 将指定日期格式的字符串转为Date
      * @param dateTime 日期
-     * @param parameValueFormat 格式
-     * @return
+     * @param paramsValueFormat 格式
      * @throws ParseException
      */
-    public Date getStringToDate(String dateTime, String parameValueFormat) throws ParseException {
-        return getSimpleDateFormat(parameValueFormat).parse(dateTime);
+    public Date getStringToDate(String dateTime, String paramsValueFormat) throws ParseException {
+        return getSimpleDateFormat(paramsValueFormat).parse(dateTime);
     }
 
 }

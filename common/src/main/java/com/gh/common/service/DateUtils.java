@@ -260,17 +260,17 @@ public interface DateUtils<T> {
      * 将指定日期格式的字符串转为时间戳
      *
      * @param dateTime 需要转换的时间戳 例：2021-01-21 22:57:57
-     * @param parameValueFormat 返回日期格式 例："yyyy-MM-dd"或"yyyy-MM-dd HH:mm:ss"等
+     * @param paramsValueFormat 返回日期格式 例："yyyy-MM-dd"或"yyyy-MM-dd HH:mm:ss"等
      * @return 1611241077000
      */
-    long getStringToTimeStamp(String dateTime, String parameValueFormat) throws ParseException;
+    long getStringToTimeStamp(String dateTime, String paramsValueFormat) throws ParseException;
 
     /**
      * 将指定日期格式的字符串转为Date
      * @param dateTime 日期
-     * @param parameValueFormat 格式
+     * @param paramsValueFormat 格式
      * @return
      * @throws ParseException
      */
-    Date getStringToDate(String dateTime, String parameValueFormat) throws ParseException;
+    Date getStringToDate(String dateTime, String paramsValueFormat) throws ParseException;
 }
