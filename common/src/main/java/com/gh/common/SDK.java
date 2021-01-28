@@ -36,6 +36,6 @@ public class SDK {
 //        System.err.println(stringToDate);
 
 
-        System.err.println(SDK.getDateUtils().getMonthEndByDateTime(new Date(), FinalProperties.FORMAT_DATETIME));
+//        System.err.println(SDK.getDateUtils().getMonthEndByDateTime(new Date(), FinalProperties.FORMAT_DATETIME));
     }
 }
