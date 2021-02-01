@@ -54,7 +54,7 @@ public interface DateUtils<T> {
      *
      * @return 2020-12-31 00:00:00
      */
-    String getDatetime();
+    String getDateTime();
 
     /**
      * 获取当前年份

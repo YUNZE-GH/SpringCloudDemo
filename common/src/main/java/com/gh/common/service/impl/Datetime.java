@@ -90,7 +90,7 @@ public class Datetime<T> implements DateUtils<T> {
      *
      * @return 2020-12-31 00:00:00
      */
-    public String getDatetime() {
+    public String getDateTime() {
         return getDateTime("yyyy-MM-dd HH:mm:ss");
     }
 

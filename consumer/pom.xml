@@ -69,6 +69,13 @@
             <version>1.7.1</version>
         </dependency>
         <!-- sentinel流量控制、熔断降级、系统负载 [end] -->
+        <!-- sentinel整合Nacos [start] -->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
+            <version>1.7.1</version>
+        </dependency>
+        <!-- sentinel整合Nacos [end] -->
 
         <dependency>
             <groupId>com.gh</groupId>
