@@ -1,0 +1,11 @@
+[
+  {
+    "resource": "one",
+    "grade": 1,
+    "count": 50,
+    "timeWindow": 5,
+    "minRequestAmount": 2,
+    "statIntervalMs": 5000,
+    "slowRatioThreshold": true
+  }
+]

@@ -3,7 +3,7 @@
     "resource": "all",
     "limitApp": "default",
     "grade": 1,
-    "count": 1,
+    "count": 5,
     "strategy": 0,
     "controlBehavior": 0,
     "clusterMode": false

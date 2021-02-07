@@ -3,6 +3,7 @@ package com.gh.consumer.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import com.gh.common.toolsclass.ResultData;
 import com.gh.consumer.config.SentinelBlockHandler;
 import com.gh.consumer.feign.ProviderService;
@@ -45,8 +46,11 @@ public class ConsumerController {
     }
 
     @PostMapping(value = "one/{id}")
-    @SentinelResource(value = "/one")
+    @SentinelResource(value = "one", fallbackClass = {SentinelBlockHandler.class}, fallback = "fuseHandler")
     public ResultData one(@PathVariable("id") String id) {
+        if (Integer.parseInt(id) > 10) {
+            throw new RuntimeException("凉凉！");
+        }
         return service.one(id);
     }
 
