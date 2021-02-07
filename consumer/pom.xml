@@ -63,11 +63,6 @@
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
             <version>2.1.0.RELEASE</version>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-core</artifactId>
-            <version>1.7.1</version>
-        </dependency>
         <!-- sentinel流量控制、熔断降级、系统负载 [end] -->
         <!-- sentinel整合Nacos [start] -->
         <dependency>

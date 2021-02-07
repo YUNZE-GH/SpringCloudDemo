@@ -1,9 +1,18 @@
 [
   {
-    "resource": "/all",
+    "resource": "all",
     "limitApp": "default",
     "grade": 1,
-    "count": 5,
+    "count": 1,
+    "strategy": 0,
+    "controlBehavior": 0,
+    "clusterMode": false
+  },
+  {
+    "resource": "test",
+    "limitApp": "default",
+    "grade": 1,
+    "count": 1,
     "strategy": 0,
     "controlBehavior": 0,
     "clusterMode": false

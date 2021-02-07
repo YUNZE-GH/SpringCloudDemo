@@ -10,14 +10,13 @@ import com.gh.common.toolsclass.ResultData;
  * @version 1.0
  * @date 2021/1/31 15:31
  */
-public class SentinelHandler {
+public class SentinelBlockHandler {
 
-    public static ResultData fallbackHandler(BlockException exception) {
+    public static ResultData fuseHandler(BlockException exception) {
         return new ResultData(CodeEnum.OTHER_ERROR.get(), null, "自定义熔断降级控制", SDK.getDateUtils().getDateTime());
     }
 
-    public static ResultData blockHandler(BlockException exception) {
-        System.err.println("===========>    自定义限流控制");
-        return new ResultData(CodeEnum.OTHER_ERROR.get(), null, "自定义限流控制", SDK.getDateUtils().getDateTime());
+    public static ResultData flowHandler(BlockException exception) {
+        return new ResultData(CodeEnum.OTHER_ERROR.get(), null, "自定义流控保护", SDK.getDateUtils().getDateTime());
     }
 }
