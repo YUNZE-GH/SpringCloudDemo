@@ -1,10 +1,9 @@
 package com.gh.consumer.feign;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gh.common.toolsclass.ResultData;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "provider")
 public interface ProviderService {
@@ -17,4 +16,7 @@ public interface ProviderService {
 
     @PostMapping(value = "/all")
     ResultData all();
+
+    @PostMapping(value = "/saveDemo")
+    ResultData saveDemo(@RequestBody JSONObject json);
 }

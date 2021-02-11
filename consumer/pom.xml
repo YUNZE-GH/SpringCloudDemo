@@ -42,7 +42,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.66</version>
+            <version>${fastjson.version}</version>
         </dependency>
         <!-- fastjson [end]  -->
         <!-- nacos注册中心 [start] -->
