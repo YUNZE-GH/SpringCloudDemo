@@ -6,11 +6,14 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import axios from "axios"
+import common from '../src/assets/common.js'
+import { test } from 'shelljs'
 
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.prototype.$http = axios
+Vue.prototype.$common = common
 
 /* eslint-disable no-new */
 new Vue({

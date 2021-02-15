@@ -3,6 +3,8 @@
         <el-button type="primary" @click="btnClick">主要按钮</el-button>
         <br>
         {{info}}
+        <br>
+        <el-button type="primary" @click="btnClick2">主要按钮2</el-button>
     </div>
 </template>
 
@@ -20,9 +22,12 @@
                 let url1 = 'https://api.coindesk.com/v1/bpi/currentprice.json';
                 let url2 = '/api/test';
                 this.$http.get(url2).then(response => {
-                    this.info = response
+                    this.info = response;
                     this.$message.success({ message: "查询成功！", center: true });
                 })
+            },
+            btnClick2: function() {
+                this.$common.test();
             }
         }
     };
