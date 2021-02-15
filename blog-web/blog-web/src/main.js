@@ -12,7 +12,7 @@ import { test } from 'shelljs'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-Vue.prototype.$http = axios
+Vue.prototype.$axios = axios
 Vue.prototype.$common = common
 
 /* eslint-disable no-new */
