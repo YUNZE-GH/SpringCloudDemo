@@ -582,16 +582,31 @@ public class Datetime<T> implements DateUtils<T> {
     /**
      * 计算日期加减几天之后的日期
      *
-     * @param timestamp 开始时间 2021-01-10 22:15:43
+     * @param date 开始时间 2021-01-10 22:15:43
      * @param day 几天之前或几天之后，-1为一天前，1为一天后
      * @param returnValueFormat 返回日期格式
      * @return 例：2021-01-11 22:15:43
      */
-    public String getDatetimeAddOrMinus(long timestamp, int day, String returnValueFormat) {
-        Date date = new Date(timestamp);
+    public String getDatetimeAddOrMinusByDay(Date date, int day, String returnValueFormat) {
+        return datetimeAddOrMinus(date, Calendar.DATE, day, returnValueFormat);
+    }
+
+    /**
+     * 计算日期加减几月之后的日期
+     *
+     * @param date 开始时间 2021-01-10 22:15:43
+     * @param month 几月之前或几月之后，-1为一月前，1为一月后
+     * @param returnValueFormat 返回日期格式
+     * @return 例：2021-01-11 22:15:43
+     */
+    public String getDatetimeAddOrMinusByMonth(Date date, int month, String returnValueFormat) {
+        return datetimeAddOrMinus(date, Calendar.MONTH, month, returnValueFormat);
+    }
+
+    private String datetimeAddOrMinus(Date date, int unit, int amount, String returnValueFormat){
         Calendar calendar = Calendar.getInstance(); // new一个Calendar类,把Date放进去
         calendar.setTime(date);
-        calendar.add(Calendar.DATE, day);
+        calendar.add(unit, amount);
         return getFormattedDateTime(calendar.getTime(), returnValueFormat);
     }
 
