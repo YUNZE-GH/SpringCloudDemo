@@ -4,9 +4,11 @@ package com.gh.consumer.controller;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
+import com.alibaba.fastjson.JSONObject;
 import com.gh.common.toolsclass.ResultData;
 import com.gh.consumer.config.SentinelBlockHandler;
 import com.gh.consumer.feign.ProviderService;
+import com.gh.consumer.service.TestService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -20,9 +22,12 @@ public class ConsumerController {
     //    @Autowired
     private final ProviderService service;
 
-    ConsumerController(ProviderService service, RestTemplate restTemplate) {
+    private final TestService testService;
+
+    ConsumerController(ProviderService service, RestTemplate restTemplate, TestService testService) {
         this.service = service;
         this.restTemplate = restTemplate;
+        this.testService = testService;
     }
 
     @Value("${server.port}")
@@ -31,7 +36,7 @@ public class ConsumerController {
     @GetMapping(value = "/test")
     @SentinelResource(value = "test", blockHandlerClass = {ConsumerController.class}, blockHandler = "testBlockHandler")
     public String test(){
-        return "9020测试接口";
+        return "接口测试";
     }
 
     public static String testBlockHandler (BlockException e) {
@@ -46,17 +51,37 @@ public class ConsumerController {
     }
 
     @PostMapping(value = "one/{id}")
-    @SentinelResource(value = "one", fallbackClass = {SentinelBlockHandler.class}, fallback = "fuseHandler")
     public ResultData one(@PathVariable("id") String id) {
-        if (Integer.parseInt(id) > 10) {
-            throw new RuntimeException("凉凉！");
-        }
         return service.one(id);
     }
 
+    /**
+     * sentinel流控
+     * @return
+     */
     @PostMapping(value = "/all")
     @SentinelResource(value = "all", blockHandlerClass = {SentinelBlockHandler.class}, blockHandler = "flowHandler")
     public ResultData all() {
         return service.all();
+    }
+
+    /**
+     * sentinel熔断降级示例
+     * @return
+     * @throws Exception
+     */
+    @GetMapping(value = "/getError")
+    public String getError() throws Exception {
+        String temp = "";
+        for (int i = 0; i < 10; i++) {
+            Thread.sleep(100);
+            temp += testService.getUserName(i);
+        }
+        return temp;
+    }
+
+    @PostMapping(value = "saveDemo")
+    public ResultData saveDemo(@RequestBody JSONObject json) {
+        return service.saveDemo(json);
     }
 }

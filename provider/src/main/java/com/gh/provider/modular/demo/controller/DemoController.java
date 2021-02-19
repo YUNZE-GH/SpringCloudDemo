@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * <p>
@@ -67,6 +68,13 @@ public class DemoController {
     @RequestMapping(value = "/test")
     public String test(){
         return name;
+    }
+
+    @PostMapping(value = "/saveDemo")
+    public ResultData saveDemo(@RequestBody JSONObject json){
+        Demo bo = json.toJavaObject(Demo.class);
+        boolean save = service.save(bo);
+        return new ResultData(save ? CodeEnum.SUCCESS.get() : CodeEnum.BUSINESS_ERROR.get(), "", String.valueOf(save), SDK.getDateUtils().getDateTime());
     }
 }
 
