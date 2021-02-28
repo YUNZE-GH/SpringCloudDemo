@@ -71,7 +71,17 @@
             <version>1.7.1</version>
         </dependency>
         <!-- sentinel整合Nacos [end] -->
-
+        <!-- websocket通讯协议 [start] -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <!-- websocket通讯协议 [end] -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.6</version>
+        </dependency>
         <dependency>
             <groupId>com.gh</groupId>
             <artifactId>common</artifactId>
