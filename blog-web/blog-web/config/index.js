@@ -17,13 +17,6 @@ module.exports = {
                 pathRewrite: {
                     '^/api': ''
                 }
-            },
-            '/websocket': {
-                changeOrigin: true,
-                target: 'ws://localhost:9020',
-                pathRewrite: {
-                    '^/websocket': ''
-                }
             }
         },
 
