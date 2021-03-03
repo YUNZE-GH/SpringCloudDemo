@@ -150,4 +150,10 @@ public class WebSocket {
     public static synchronized int getOnlineCount() {
         return onlineNumber;
     }
+
+
+    public static Map<String, WebSocket> getClients(){
+        return clients;
+    }
+
 }
