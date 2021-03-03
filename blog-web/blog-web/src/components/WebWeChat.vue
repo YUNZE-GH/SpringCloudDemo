@@ -105,6 +105,12 @@
                             "说：" +
                             obj.textMessage
                         );
+                        that.$notify({
+                            title: obj.fromusername + "对" + obj.tousername + "说：",
+                            message: obj.textMessage,
+                            position: 'bottom-right',
+                            type: 'info'
+                        });
                     }
                 };
             }
@@ -140,8 +146,8 @@
                 }
                 var message = {
                     message: this.form.content, // 发送消息内容
-                    username: this.username,    // 信息发送人
-                    to: selectText,             // 信息接收人
+                    username: this.username, // 信息发送人
+                    to: selectText, // 信息接收人
                 };
                 this.webSocket.send(JSON.stringify(message));
                 this.form.content = "";

@@ -28,7 +28,7 @@ public class WebSocket {
     /**
      * 以用户的姓名为key，WebSocket为对象保存起来
      */
-    private static Map<String, WebSocket> clients = new ConcurrentHashMap<String, WebSocket>();
+    private static Map<String, WebSocket> clients = new ConcurrentHashMap<>();
     /**
      * 会话
      */
@@ -84,7 +84,7 @@ public class WebSocket {
     @OnClose
     public void onClose() {
         onlineNumber--;
-        //webSockets.remove(this);
+        // 删除下线用户
         clients.remove(username);
         try {
             //messageType 1代表上线 2代表下线 3代表在线名单  4代表普通消息
