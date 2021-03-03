@@ -11,7 +11,8 @@
         <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="在线用户">
                 <el-select v-model="form.username" placeholder="请选择聊天用户">
-                    <el-option v-for="item in options" :key="item.username" :label="item.username" :value="item.username">
+                    <el-option v-for="item in options" :key="item.username" :label="item.username"
+                        :value="item.username">
                     </el-option>
                 </el-select>
             </el-form-item>
@@ -28,7 +29,9 @@
         name: "WebWeChat",
         data() {
             return {
-                options: [{username: "TEST"}],
+                options: [{
+                    username: "--所有--"
+                }],
                 form: {
                     content: null,
                     username: null, // 信息发送对像
@@ -47,14 +50,14 @@
                     "ws://localhost:9020/websocket/" + this.username
                 );
                 // 连通之后的回调事件
-                this.webSocket.onopen = function() {
+                this.webSocket.onopen = function () {
                     // webSocket.send( document.getElementById('username').value+"已经上线了");
                     console.log("已经连通了websocket");
                     that.setMessageInnerHTML("已经连通了websocket");
                 };
 
                 // 接收后台服务端的消息
-                this.webSocket.onmessage = function(evt) {
+                this.webSocket.onmessage = function (evt) {
                     var received_msg = evt.data;
                     console.log("数据已接收:" + received_msg);
                     var obj = JSON.parse(received_msg);
@@ -64,37 +67,35 @@
                         // 把名称放入到selection当中供选择
                         var onlineName = obj.username;
                         var option = {
-                            username: onlineName,
+                            username: onlineName
                         };
-                        this.options.push(option);
-                        this.setMessageInnerHTML(onlineName + "上线了");
+                        that.options.push(option);
+                        that.setMessageInnerHTML(onlineName + "上线了");
                     } else if (obj.messageType == 2) {
-                        $("#onLineUser").empty();
+                        that.options = [{
+                            username: "--所有--"
+                        }];
                         var onlineName = obj.onlineUsers;
                         var offlineName = obj.username;
-                        var option = {
-                            username: "--所有--",
-                        };
                         for (var i = 0; i < onlineName.length; i++) {
-                            if (!(onlineName[i] == this.form.username)) {
-                                option = {
-                                    username: onlineName[i],
-                                };
-                            }
-                        }
-                        this.options.push(option);
-                        this.setMessageInnerHTML(offlineName + "下线了");
-                    } else if (obj.messageType == 3) {
-                        var onlineName = obj.onlineUsers;
-                        for (var i = 0; i < onlineName.length; i++) {
-                            if (!(onlineName[i] == this.username)) {
+                            if (!(onlineName[i] == that.form.username)) {
                                 var option = {
                                     username: onlineName[i],
                                 };
-                                this.options.push(option);
+                                that.options.push(option);
                             }
                         }
-                        this.options.push(option);
+                        that.setMessageInnerHTML(offlineName + "下线了");
+                    } else if (obj.messageType == 3) {
+                        var onlineName = obj.onlineUsers;
+                        for (var i = 0; i < onlineName.length; i++) {
+                            if (!(onlineName[i] == that.username)) {
+                                var option = {
+                                    username: onlineName[i],
+                                };
+                                that.options.push(option);
+                            }
+                        }
                         console.log("获取了在线的名单" + onlineName.toString());
                     } else {
                         that.setMessageInnerHTML(
@@ -109,19 +110,16 @@
             }
         },
         methods: {
-            loadInfo: function() {
-                alert(1);
-            },
             // 关闭websocket连接
-            closeWebSocket: function() {
+            closeWebSocket: function () {
                 this.$message.success({
                     message: "退出聊天室成功！",
                     center: true,
                 });
                 // 直接关闭websocket的连接
-                webSocket.close();
+                this.webSocket.close();
             },
-            send: function() {
+            send: function () {
                 this.$message.success({
                     message: this.form.content,
                     center: true,
@@ -137,22 +135,23 @@
                         "对" +
                         selectText +
                         "说：" +
-                        $("#text").val()
+                        this.form.content
                     );
                 }
                 var message = {
-                    message: document.getElementById("text").value,
-                    username: document.getElementById("username").value,
-                    to: selectText,
+                    message: this.form.content, // 发送消息内容
+                    username: this.username,    // 信息发送人
+                    to: selectText,             // 信息接收人
                 };
-                webSocket.send(JSON.stringify(message));
+                this.webSocket.send(JSON.stringify(message));
                 this.form.content = "";
             },
-            setMessageInnerHTML: function(innerHTML) {
+            setMessageInnerHTML: function (innerHTML) {
                 this.message += innerHTML + "、";
             }
         },
     };
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
