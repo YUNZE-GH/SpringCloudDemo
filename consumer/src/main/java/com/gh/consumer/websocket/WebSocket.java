@@ -38,6 +38,8 @@ public class WebSocket {
      */
     private String username;
 
+
+
     /**
      * 建立连接
      *
@@ -151,9 +153,12 @@ public class WebSocket {
         return onlineNumber;
     }
 
-
     public static Map<String, WebSocket> getClients(){
         return clients;
+    }
+
+    public Session getSession() {
+        return session;
     }
 
 }
