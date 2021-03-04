@@ -62,7 +62,7 @@
                     console.log("数据已接收:" + received_msg);
                     var obj = JSON.parse(received_msg);
                     console.log("可以解析成json:" + obj.messageType);
-                    // 1代表上线 2代表下线 3代表在线名单 4代表普通消息
+                    // 1代表上线 2代表下线 3代表在线名单 4代表普通消息 5代表系统消息
                     if (obj.messageType == 1) {
                         // 把名称放入到selection当中供选择
                         var onlineName = obj.username;
@@ -97,7 +97,7 @@
                             }
                         }
                         console.log("获取了在线的名单" + onlineName.toString());
-                    } else {
+                    } else if (obj.messageType == 4) {
                         that.setMessageInnerHTML(
                             obj.fromusername +
                             "对" +
@@ -105,8 +105,9 @@
                             "说：" +
                             obj.textMessage
                         );
+                    } else {
                         that.$notify({
-                            title: obj.fromusername + "对" + obj.tousername + "说：",
+                            title: "系统通知",
                             message: obj.textMessage,
                             position: 'bottom-right',
                             type: 'info'

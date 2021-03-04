@@ -25,20 +25,21 @@ public class WebSocket {
      * 在线人数
      */
     public static int onlineNumber = 0;
+
     /**
      * 以用户的姓名为key，WebSocket为对象保存起来
      */
     private static Map<String, WebSocket> clients = new ConcurrentHashMap<>();
+
     /**
      * 会话
      */
     private Session session;
+
     /**
      * 用户名称
      */
     private String username;
-
-
 
     /**
      * 建立连接
@@ -58,7 +59,7 @@ public class WebSocket {
             Map<String, Object> map1 = Maps.newHashMap();
             map1.put("messageType", 1);
             map1.put("username", username);
-            sendMessageAll(JSON.toJSONString(map1), username);
+            sendMessageAll(JSON.toJSONString(map1));
 
             //把自己的信息加入到map当中去
             clients.put(username, this);
@@ -77,7 +78,6 @@ public class WebSocket {
     @OnError
     public void onError(Session session, Throwable error) {
         System.err.println("服务端发生了错误" + error.getMessage());
-        //error.printStackTrace();
     }
 
     /**
@@ -94,7 +94,7 @@ public class WebSocket {
             map1.put("messageType", 2);
             map1.put("onlineUsers", clients.keySet());
             map1.put("username", username);
-            sendMessageAll(JSON.toJSONString(map1), username);
+            sendMessageAll(JSON.toJSONString(map1));
         } catch (IOException e) {
             System.err.println(username + "下线的时候通知所有人发生了错误");
         }
@@ -116,14 +116,14 @@ public class WebSocket {
             String fromusername = jsonObject.getString("username");
             String tousername = jsonObject.getString("to");
             //如果不是发给所有，那么就发给某一个人
-            //messageType 1代表上线 2代表下线 3代表在线名单  4代表普通消息
+            //messageType 1代表上线、2代表下线、3代表在线名单、4代表普通消息、5代表系统消息
             Map<String, Object> map1 = Maps.newHashMap();
             map1.put("messageType", 4);
             map1.put("textMessage", textMessage);
             map1.put("fromusername", fromusername);
             if (tousername.equals("All")) {
                 map1.put("tousername", "所有人");
-                sendMessageAll(JSON.toJSONString(map1), fromusername);
+                sendMessageAll(JSON.toJSONString(map1));
             } else {
                 map1.put("tousername", tousername);
                 sendMessageTo(JSON.toJSONString(map1), tousername);
@@ -143,7 +143,7 @@ public class WebSocket {
         }
     }
 
-    public void sendMessageAll(String message, String FromUserName) throws IOException {
+    public void sendMessageAll(String message) throws IOException {
         for (WebSocket item : clients.values()) {
             item.session.getAsyncRemote().sendText(message);
         }
