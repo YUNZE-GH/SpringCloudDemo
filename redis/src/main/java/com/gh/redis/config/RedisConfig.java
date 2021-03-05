@@ -24,16 +24,8 @@ import java.io.Serializable;
 @EnableAutoConfiguration
 public class RedisConfig {
 
-    @Resource
-    private LettuceConnectionFactory lettuceConnectionFactory;
-
     @Bean
     public RedisTemplate<String, Serializable> redisTemplate(LettuceConnectionFactory redisConnectionFactory){
-        /*RedisTemplate<Object, Serializable> template = new RedisTemplate<>();
-        template.setConnectionFactory(redisConnectionFactory);
-
-        Jackson2JsonRedisSerializer<Serializable> ser = new Jackson2JsonRedisSerializer<>(Serializable.class);
-        template.setDefaultSerializer(ser);*/
         RedisTemplate<String, Serializable> template = new RedisTemplate();
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
