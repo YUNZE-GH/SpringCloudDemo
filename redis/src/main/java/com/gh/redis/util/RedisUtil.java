@@ -2,7 +2,7 @@ package com.gh.redis.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @author: 3hgh
  * @create: 2021-03-05 10:26
  **/
-@Component
+@Repository
 public class RedisUtil {
 
     @Autowired
