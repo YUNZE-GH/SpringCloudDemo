@@ -70,6 +70,12 @@
             <artifactId>sentinel-datasource-nacos</artifactId>
         </dependency>
         <!-- sentinel整合Nacos [end] -->
+
+        <dependency>
+            <groupId>com.gh</groupId>
+            <artifactId>redis</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
