@@ -1,5 +1,0 @@
-server:
-  port: 9777
-spring:
-  application:
-    name: nacos-config
