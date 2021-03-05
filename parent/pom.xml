@@ -135,7 +135,7 @@
 			</dependency>
 			<!-- sentinel整合Nacos [end] -->
 
-			<!-- swagger接口在线文档 [start]  -->
+			<!-- swagger2接口在线文档 [start]  -->
 			<dependency>
 				<groupId>io.springfox</groupId>
 				<artifactId>springfox-swagger2</artifactId>
@@ -146,7 +146,7 @@
 				<artifactId>springfox-swagger-ui</artifactId>
 				<version>${swagger2.version}</version>
 			</dependency>
-			<!-- swagger接口在线文档 [end]  -->
+			<!-- swagger2接口在线文档 [end]  -->
 		</dependencies>
 	</dependencyManagement>
 
