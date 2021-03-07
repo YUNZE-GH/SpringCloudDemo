@@ -2,8 +2,11 @@ package com.gh.consumer.job;
 
 import com.alibaba.fastjson.JSON;
 import com.gh.common.SDK;
+import com.gh.common.toolsclass.ResultData;
 import com.gh.consumer.websocket.WebSocket;
+import com.gh.redis.util.RedisUtil;
 import com.google.common.collect.Maps;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +21,12 @@ import java.util.Map;
  */
 @Component
 public class TaskJob {
+    final RedisUtil redisUtil;
+
+    @Autowired
+    public TaskJob(RedisUtil redisUtil){
+        this.redisUtil = redisUtil;
+    }
 
     /**
      * 定时发送系统通知信息
@@ -34,5 +43,7 @@ public class TaskJob {
         for (WebSocket item : WebSocket.getClients().values()) {
             item.getSession().getAsyncRemote().sendText(JSON.toJSONString(map1));
         }
+
+        System.err.println(((ResultData)redisUtil.get("demo")).toString());
     }
 }
