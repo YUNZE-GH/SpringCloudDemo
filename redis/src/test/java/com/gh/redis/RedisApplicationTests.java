@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @SpringBootTest
@@ -21,7 +19,7 @@ class RedisApplicationTests {
     private RedisUtil redisUtil;
 
     @Test
-    void redisUtilTest() {
+    void test1() {
         ResultData resultData = new ResultData();
         resultData.setCode(0);
         resultData.setMessage("redis测试");
@@ -44,8 +42,8 @@ class RedisApplicationTests {
     }
 
     @Test
-    void test() {
-        Set<String> list = redisUtil.getPattern("l");
+    void test2() {
+        Set<String> list = redisUtil.getPattern("d");
         for (String s: list) {
             System.err.println(s);
         }

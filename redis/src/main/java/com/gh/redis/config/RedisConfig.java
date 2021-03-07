@@ -11,10 +11,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import java.io.Serializable;
 
 /**
- * @program: blog-cloud
- * @description
- * @author: 3hgh
- * @create: 2021-03-05 10:22
+ * @author gaohan
+ * @version 1.0
+ * @date 2021-03-05 10:22
  **/
 @Configuration
 @EnableAutoConfiguration

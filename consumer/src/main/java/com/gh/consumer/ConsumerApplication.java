@@ -13,8 +13,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableFeignClients(basePackages = "com.gh.consumer.feign")
 //@ComponentScan(basePackages = "com.gh.consumer.*")
 @ComponentScans(value = {
-		@ComponentScan(value = "com.gh.consumer.*"),
-		@ComponentScan(value = "com.gh.redis.*")
+		@ComponentScan(value = "com.gh.consumer.*")
+		,@ComponentScan(value = "com.gh.redis.*")
 })
 @EnableScheduling	// 开启定时任务功能
 @SpringBootApplication
@@ -23,6 +23,4 @@ public class ConsumerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ConsumerApplication.class, args);
 	}
-
-
 }

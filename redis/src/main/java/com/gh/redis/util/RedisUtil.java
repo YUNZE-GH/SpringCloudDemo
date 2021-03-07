@@ -12,10 +12,9 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @program: blog-cloud
- * @description redis缓存工具类
- * @author: 3hgh
- * @create: 2021-03-05 10:26
+ * @author gaohan
+ * @date  2021-03-05 10:26
+ * redis缓存工具类
  **/
 @Repository
 public class RedisUtil {
