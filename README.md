@@ -5,7 +5,7 @@
 
 持久层框架技术：Mybatis-Plus、Druid
 
-缓存：redis
+缓存：Redis
 
 服务中心、配置中心中间件：Nacos
 
