@@ -11,25 +11,21 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author gaohan
  * @version 1.0
  * @date 2021/2/28 22:53
  */
+// todo:尝试将WebSocket持久化
 @Component
 @ServerEndpoint("/websocket/{username}")
 public class WebSocket {
+
     /**
      * 在线人数
      */
     public static int onlineNumber = 0;
-
-    /**
-     * 以用户的姓名为key，WebSocket为对象保存起来
-     */
-    private static Map<String, WebSocket> clients = new ConcurrentHashMap<>();
 
     /**
      * 会话
@@ -62,12 +58,12 @@ public class WebSocket {
             sendMessageAll(JSON.toJSONString(map1));
 
             //把自己的信息加入到map当中去
-            clients.put(username, this);
+            WebSocketTools.getClients().put(username, this);
             //给自己发一条消息：告诉自己现在都有谁在线
             Map<String, Object> map2 = Maps.newHashMap();
             map2.put("messageType", 3);
             //移除掉自己
-            Set<String> set = clients.keySet();
+            Set<String> set = WebSocketTools.getClients().keySet();
             map2.put("onlineUsers", set);
             sendMessageTo(JSON.toJSONString(map2), username);
         } catch (IOException e) {
@@ -87,12 +83,12 @@ public class WebSocket {
     public void onClose() {
         onlineNumber--;
         // 删除下线用户
-        clients.remove(username);
+        WebSocketTools.getClients().remove(username);
         try {
             //messageType 1代表上线 2代表下线 3代表在线名单  4代表普通消息
             Map<String, Object> map1 = Maps.newHashMap();
             map1.put("messageType", 2);
-            map1.put("onlineUsers", clients.keySet());
+            map1.put("onlineUsers", WebSocketTools.getClients().keySet());
             map1.put("username", username);
             sendMessageAll(JSON.toJSONString(map1));
         } catch (IOException e) {
@@ -135,7 +131,7 @@ public class WebSocket {
     }
 
     public void sendMessageTo(String message, String ToUserName) throws IOException {
-        for (WebSocket item : clients.values()) {
+        for (WebSocket item : WebSocketTools.getClients().values()) {
             if (item.username.equals(ToUserName)) {
                 item.session.getAsyncRemote().sendText(message);
                 break;
@@ -144,7 +140,7 @@ public class WebSocket {
     }
 
     public void sendMessageAll(String message) throws IOException {
-        for (WebSocket item : clients.values()) {
+        for (WebSocket item : WebSocketTools.getClients().values()) {
             item.session.getAsyncRemote().sendText(message);
         }
     }
@@ -154,7 +150,7 @@ public class WebSocket {
     }
 
     public static Map<String, WebSocket> getClients(){
-        return clients;
+        return WebSocketTools.getClients();
     }
 
     public Session getSession() {

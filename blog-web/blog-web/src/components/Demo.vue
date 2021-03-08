@@ -8,7 +8,8 @@
         <br />
         <br />
         <el-divider></el-divider>
-
+        <el-button type="primary" @click="btnClick3">创建连接</el-button>
+        <br />
     </div>
 </template>
 
@@ -16,7 +17,9 @@
     export default {
         data() {
             return {
-                
+                info: null,
+                username: "赵六", // 登录用户
+                webSocket: null
             };
         },
         methods: {
@@ -33,6 +36,24 @@
             },
             btnClick2: function () {
                 this.$common.test();
+            },
+            btnClick3: function () {
+                let that = this;
+                if ("WebSocket" in window) {
+                    this.webSocket = new WebSocket(
+                        "ws://localhost:9010/websocket/" + this.username
+                    );
+                    // 连通之后的回调事件
+                    this.webSocket.onopen = function () {
+                        console.log("已经连通了websocket");
+                    };
+
+                    // 接收后台服务端的消息
+                    this.webSocket.onmessage = function (evt) {
+                        var received_msg = evt.data;
+                        console.log("数据已接收:" + received_msg);
+                    };
+                }
             }
         },
     };

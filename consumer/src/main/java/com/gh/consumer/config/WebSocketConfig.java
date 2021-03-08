@@ -10,7 +10,7 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
  * @date 2021/2/28 22:49
  */
 @Configuration
-public class WebSocketStompConfig {
+public class WebSocketConfig {
 
     @Bean
     public ServerEndpointExporter serverEndpointExporter(){

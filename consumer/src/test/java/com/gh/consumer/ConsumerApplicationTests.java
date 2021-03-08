@@ -38,5 +38,4 @@ class ConsumerApplicationTests {
         redisUtil.insertOrUpdate("test", "redis工具测试");
         System.err.println(redisUtil.get("test"));
     }
-
 }
