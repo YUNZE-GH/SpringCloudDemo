@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户表 服务实现类
@@ -28,5 +30,15 @@ public class BaseUserServiceImpl extends ServiceImpl<BaseUserMapper, BaseUser> i
     @Override
     public int getCount() {
         return baseUserMapper.getCount();
+    }
+
+    @Override
+    public List<BaseUser> getListAll(BaseUser bo, int page, int rows) {
+        return baseUserMapper.selectList(null);
+    }
+
+    @Override
+    public int getCountAll(BaseUser bo) {
+        return baseUserMapper.selectCount(null);
     }
 }

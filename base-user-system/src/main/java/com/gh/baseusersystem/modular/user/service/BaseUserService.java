@@ -2,6 +2,9 @@ package com.gh.baseusersystem.modular.user.service;
 
 import com.gh.baseusersystem.modular.user.entity.BaseUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.catalina.User;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,4 +17,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface BaseUserService extends IService<BaseUser> {
 
     int getCount();
+
+    List<BaseUser> getListAll(BaseUser bo, int page, int rows);
+
+    int getCountAll(BaseUser bo);
 }

@@ -19,17 +19,35 @@ public class ResultData implements Serializable {
 
     }
 
+    /**
+     *
+     * @param code 返回编码
+     * @param data 返回数据
+     */
     public ResultData(int code, Object data) {
         this.code = code;
         this.data = data;
     }
 
-    public ResultData(int code, int total, Object data) {
+    /**
+     *
+     * @param code 返回编码
+     * @param data 返回数据
+     * @param message 备注
+     */
+    public ResultData(int code, Object data, String message) {
         this.code = code;
-        this.total = total;
         this.data = data;
+        this.message = message;
     }
 
+    /**
+     *
+     * @param code 返回编码
+     * @param data 返回数据
+     * @param message 备注
+     * @param datetime 返回时间
+     */
     public ResultData(int code, Object data, String message, String datetime) {
         this.code = code;
         this.data = data;
@@ -37,6 +55,40 @@ public class ResultData implements Serializable {
         this.datetime = datetime;
     }
 
+    /**
+     *
+     * @param code 返回编码
+     * @param total 数据量
+     * @param data 返回数据
+     */
+    public ResultData(int code, int total, Object data) {
+        this.code = code;
+        this.total = total;
+        this.data = data;
+    }
+
+    /**
+     *
+     * @param code 返回编码
+     * @param total 数据量
+     * @param data 返回数据
+     * @param message 备注
+     */
+    public ResultData(int code, int total, Object data, String message) {
+        this.code = code;
+        this.total = total;
+        this.data = data;
+        this.message = message;
+    }
+
+    /**
+     *
+     * @param code 返回编码
+     * @param total 数据量
+     * @param data 返回数据
+     * @param message 备注
+     * @param datetime 返回时间
+     */
     public ResultData(int code, int total, Object data, String message, String datetime) {
         this.code = code;
         this.total = total;
