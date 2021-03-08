@@ -62,14 +62,6 @@ public class DemoController {
         return new ResultData(CodeEnum.SUCCESS.get(), list, serverPort, LocalDateTime.now().toString());
     }
 
-    @Value("${name}")
-    private String name;
-
-    @RequestMapping(value = "/test")
-    public String test(){
-        return name;
-    }
-
     @PostMapping(value = "/saveDemo")
     public ResultData saveDemo(@RequestBody JSONObject json){
         Demo bo = json.toJavaObject(Demo.class);

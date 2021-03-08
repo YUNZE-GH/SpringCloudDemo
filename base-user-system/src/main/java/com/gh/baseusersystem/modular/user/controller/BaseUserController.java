@@ -1,7 +1,7 @@
-package com.gh.provider.modular.user.controller;
+package com.gh.baseusersystem.modular.user.controller;
 
 
-import com.gh.provider.modular.user.service.BaseUserService;
+import com.gh.baseusersystem.modular.user.service.BaseUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
