@@ -49,5 +49,15 @@ public class BaseUserController {
         }
         return new ResultData(CodeEnum.SUCCESS.get(), count, list, "查询成功", SDK.getDateUtils().getDateTime());
     }
+
+    @GetMapping(value = "/getUser")
+    public ResultData getUser(BaseUser bo, Integer page, Integer rows){
+        int count = service.getCountAll(bo);
+        List<BaseUser> list = new ArrayList<>();
+        if (count > 0) {
+            list = service.getListAll(bo, page, rows);
+        }
+        return new ResultData(CodeEnum.SUCCESS.get(), count, list, "查询成功", SDK.getDateUtils().getDateTime());
+    }
 }
 
