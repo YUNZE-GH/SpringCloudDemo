@@ -28,7 +28,6 @@ public class AopAspectConfig {
      * AOP的切入点
      */
     @Pointcut("execution(public * com.gh.provider.modular.*.controller..*.*(..))")
-//    @Pointcut("execution(* com.hhh.cloud.framework.hnt.company.controller..*.*(..))")
     public void executePackage() {
 
     }
@@ -52,8 +51,9 @@ public class AopAspectConfig {
 
         // 记录请求详细信息
         String url = request.getRequestURL().toString();
-        String uri = url.split("/")[url.split("/").length - 1];
         System.err.println("URL : " + url);
+
+        System.err.println("返回信息:" + result);
 
     }
 }

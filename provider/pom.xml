@@ -68,19 +68,35 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
-        <!-- Druid数据库连接池 [end]  -->
+        <!-- Druid数据库连接池 [end] -->
 
-        <!-- mybatis-plus [start]  -->
+        <!-- mybatis-plus [start] -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
-        <!-- mybatis-plus [end]  -->
+        <!-- mybatis-plus [end] -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+
+        <!-- springSecurity [start] -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!-- springSecurity [end] -->
+
+        <!-- jwt [start] -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+        <!-- jwt [end] -->
+
     </dependencies>
 
     <build>
