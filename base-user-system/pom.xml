@@ -58,6 +58,14 @@
 			<artifactId>mybatis-plus-boot-starter</artifactId>
 		</dependency>
 		<!-- mybatis-plus [end]  -->
+
+		<!-- jwt [start] -->
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>3.10.3</version>
+		</dependency>
+		<!-- jwt [end] -->
 	</dependencies>
 
 	<build>
