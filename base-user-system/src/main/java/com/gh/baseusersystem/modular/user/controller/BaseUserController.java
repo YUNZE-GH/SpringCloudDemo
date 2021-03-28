@@ -1,14 +1,12 @@
 package com.gh.baseusersystem.modular.user.controller;
 
 
-import com.baomidou.mybatisplus.extension.api.R;
 import com.gh.baseusersystem.modular.user.entity.BaseUser;
 import com.gh.baseusersystem.modular.user.service.BaseUserService;
 import com.gh.baseusersystem.utils.AjaxResult;
 import com.gh.baseusersystem.utils.JwtUtil;
 import com.gh.common.SDK;
 import com.gh.common.enums.CodeEnum;
-import com.gh.common.toolsclass.FinalProperties;
 import com.gh.common.toolsclass.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
