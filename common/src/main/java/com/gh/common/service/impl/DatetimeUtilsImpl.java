@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * 日期时间
  */
-public class Datetime<T> implements DateUtils<T> {
+public class DatetimeUtilsImpl<T> implements DateUtils<T> {
 
     /**
      * 获取指定格式的SimpleDateFormat对象

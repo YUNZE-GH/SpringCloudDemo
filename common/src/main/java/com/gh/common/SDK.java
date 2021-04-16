@@ -1,12 +1,9 @@
 package com.gh.common;
 
-import com.gh.common.toolsclass.FinalProperties;
 import com.gh.common.service.DateUtils;
-import com.gh.common.service.impl.Datetime;
+import com.gh.common.service.impl.DatetimeUtilsImpl;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Date;
 
 public class SDK {
@@ -16,7 +13,7 @@ public class SDK {
      * @return DateUtils
      */
     public static DateUtils getDateUtils() {
-        return new Datetime<Date>();
+        return new DatetimeUtilsImpl<Date>();
     }
 
     public static void main(String[] args) throws ParseException {
