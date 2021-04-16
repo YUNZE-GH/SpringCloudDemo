@@ -57,7 +57,7 @@ public class LocalDateTimeUtilsImpl<T> implements LocalDateTimeUtils<T> {
         } else if (clazz == String.class) {
             return (T) this.localDateTimeToString(date, FinalProperties.FORMAT_DATETIME);
         } else if (clazz == Long.class) {
-            return (T) date.toEpochSecond(ZoneOffset.of("+8"));
+//            return (T) date.toEpochSecond(ZoneOffset.of("+8"));
         }
         return null;
     }
