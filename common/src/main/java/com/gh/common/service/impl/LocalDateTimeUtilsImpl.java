@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
  * @version 1.0
  * @date 2021-04-08 12:01
  **/
-public class LocalDateTimeUtilsImpl<T> implements LocalDateTimeUtils<T> {
+public class LocalDateTimeUtilsImpl implements LocalDateTimeUtils {
 
     @Override
     public DateTimeFormatter getDateTimeFormatter() {
@@ -30,11 +30,34 @@ public class LocalDateTimeUtilsImpl<T> implements LocalDateTimeUtils<T> {
     }
 
     @Override
+    public String localDateTimeToString(LocalDateTime date) throws Exception {
+        return this.localDateTimeToType(date, String.class);
+    }
+
+    @Override
     public String localDateTimeToString(LocalDateTime date, String format) {
         if (date == null) {
             date = LocalDateTime.now();
         }
         return getDateTimeFormatter(format).format(date);
+    }
+
+    @Override
+    public <T> T localDateTimeToType(LocalDateTime date, Class<T> clazz) throws Exception {
+        if (clazz == LocalDateTime.class) {
+            return (T) date;
+        } else if (clazz == LocalDate.class) {
+            return (T) date.toLocalDate();
+        } else if (clazz == LocalTime.class) {
+            return (T) date.toLocalTime();
+        } else if (clazz == String.class) {
+            return (T) this.localDateTimeToString(date, FinalProperties.FORMAT_DATETIME);
+        } else if (clazz == Long.class) {
+            Long time = (Long) date.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+            return (T) time;
+        } else {
+            throw new Exception("不支持转换为" + clazz.getName() + "类型！");
+        }
     }
 
     @Override
@@ -45,21 +68,27 @@ public class LocalDateTimeUtilsImpl<T> implements LocalDateTimeUtils<T> {
         return LocalDateTime.parse(date, this.getDateTimeFormatter(format));
     }
 
-    public <T> T theBeginOfTheDay(LocalDateTime date, Class<T> clazz){
+    @Override
+    public <T> T beginOfTheDay(LocalDateTime date, Class<T> clazz) throws Exception {
+        return this.beginOfTheDay(date, 0, clazz);
+    }
+
+    @Override
+    public <T> T beginOfTheDay(LocalDateTime date, Integer plusDays, Class<T> clazz) throws Exception {
+        LocalDateTime dateTime = LocalDateTime.of(date.toLocalDate(), LocalTime.MIN);
+        dateTime = dateTime.plusDays(plusDays);
+        return this.localDateTimeToType(dateTime, clazz);
+    }
+
+    @Override
+    public <T> T endOfTheDay(LocalDateTime date, Class<T> clazz) throws Exception {
+        return this.endOfTheDay(date, 0, clazz);
+    }
+
+    @Override
+    public <T> T endOfTheDay(LocalDateTime date, Integer plusDays, Class<T> clazz) throws Exception {
         LocalDateTime dateTime = LocalDateTime.of(date.toLocalDate(), LocalTime.MAX);
-
-        return null;
+        dateTime = dateTime.plusDays(plusDays);
+        return this.localDateTimeToType(dateTime, clazz);
     }
-
-    private <T> T localDateTimeToType(LocalDateTime date, Class<T> clazz) {
-        if (clazz == LocalDateTime.class) {
-            return (T) date;
-        } else if (clazz == String.class) {
-            return (T) this.localDateTimeToString(date, FinalProperties.FORMAT_DATETIME);
-        } else if (clazz == Long.class) {
-//            return (T) date.toEpochSecond(ZoneOffset.of("+8"));
-        }
-        return null;
-    }
-
 }
