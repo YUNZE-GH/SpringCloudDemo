@@ -11,9 +11,9 @@
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 
-	<artifactId>redis</artifactId>
+	<artifactId>redis-utils</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>redis</name>
+	<name>redis-utils</name>
 	<description>redis工具包</description>
 
 	<properties>

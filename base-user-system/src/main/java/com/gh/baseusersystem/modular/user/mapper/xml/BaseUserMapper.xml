@@ -4,4 +4,6 @@
     <select id="getCount" resultType="int">
         select count(*) from base_user
     </select>
+
+
 </mapper>

@@ -73,7 +73,7 @@
 
         <dependency>
             <groupId>com.gh</groupId>
-            <artifactId>redis</artifactId>
+            <artifactId>redis-utils</artifactId>
         </dependency>
     </dependencies>
 

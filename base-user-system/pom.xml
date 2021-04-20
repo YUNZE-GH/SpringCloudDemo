@@ -59,6 +59,11 @@
 		</dependency>
 		<!-- mybatis-plus [end]  -->
 
+		<dependency>
+			<groupId>com.gh</groupId>
+			<artifactId>redis-utils</artifactId>
+		</dependency>
+
 		<!-- jwt [start] -->
 		<dependency>
 			<groupId>com.auth0</groupId>

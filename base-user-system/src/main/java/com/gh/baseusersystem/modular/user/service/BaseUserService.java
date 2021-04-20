@@ -21,4 +21,6 @@ public interface BaseUserService extends IService<BaseUser> {
     List<BaseUser> getListAll(BaseUser bo, int page, int rows);
 
     int getCountAll(BaseUser bo);
+
+    String loginVerify(String account, String password) throws Exception;
 }

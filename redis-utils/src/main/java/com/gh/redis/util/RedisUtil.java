@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 @Repository
 public class RedisUtil {
 
-    @Autowired
+    @Autowired(required = false)
     RedisTemplate<String, Serializable> redisTemplate;   // key-value是对象的
 
     public RedisUtil(){

@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.gh.*.modular.*.mapper")
+@MapperScan("com.gh.baseusersystem.modular.*.mapper")
 public class BaseUserSystemApplication {
 
 	public static void main(String[] args) {

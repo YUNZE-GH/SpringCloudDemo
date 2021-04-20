@@ -69,9 +69,10 @@ public class BaseUserController {
 
 
     @GetMapping(value = "/login")
-    public AjaxResult login(@RequestBody BaseUser bo) {
+    public AjaxResult login(@RequestBody BaseUser bo) throws Exception {
         String account = bo.getUserAccount();
         String password = bo.getUserPassword();
+        service.loginVerify(account, password);
         //身份验证
         boolean isSuccess = false;
         if ("admin".equals(account) && "123456".equals(password)) {
