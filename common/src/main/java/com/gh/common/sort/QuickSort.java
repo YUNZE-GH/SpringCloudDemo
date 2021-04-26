@@ -1,6 +1,7 @@
 package com.gh.common.sort;
 
 /**
+ * 快速排序
  * @author gaohan
  * @version 1.0
  * @date 2021/4/25 21:49
