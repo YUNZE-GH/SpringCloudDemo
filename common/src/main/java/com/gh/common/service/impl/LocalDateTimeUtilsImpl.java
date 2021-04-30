@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 
 /**
  * blog-cloud
@@ -90,5 +91,17 @@ public class LocalDateTimeUtilsImpl implements LocalDateTimeUtils {
         LocalDateTime dateTime = LocalDateTime.of(date.toLocalDate(), LocalTime.MAX);
         dateTime = dateTime.plusDays(plusDays);
         return this.localDateTimeToType(dateTime, clazz);
+    }
+
+    @Override
+    public <T> T getMonthBegin(LocalDateTime date, Class<T> clazz) throws Exception {
+        LocalDateTime firstday = date.with(TemporalAdjusters.firstDayOfMonth());
+        return this.beginOfTheDay(firstday, clazz);
+    }
+
+    @Override
+    public <T> T getMonthEnd(LocalDateTime date, Class<T> clazz) throws Exception {
+        LocalDateTime lastDay = date.with(TemporalAdjusters.lastDayOfMonth());
+        return this.endOfTheDay(lastDay, clazz);
     }
 }

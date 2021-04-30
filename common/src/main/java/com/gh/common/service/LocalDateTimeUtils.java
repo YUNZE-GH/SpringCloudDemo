@@ -95,4 +95,22 @@ public interface LocalDateTimeUtils {
      */
     <T> T endOfTheDay(LocalDateTime date, Integer plusDays, Class<T> clazz) throws Exception;
 
+    /**
+     * 获取指定日期所在月的第一天
+     * 例：传入2021-04-16 10:00:00和String.class,则返回2021-04-01 00:00:00
+     *
+     * @param date  指定日期 designated date
+     * @param clazz 指定返回类型 designate result type
+     */
+    <T> T getMonthBegin(LocalDateTime date, Class<T> clazz) throws Exception;
+
+    /**
+     * 获取指定日期所在月的第最后一天
+     * 例：传入2021-04-16 10:00:00和String.class,则返回2021-04-30 23:59:59
+     *
+     * @param date  指定日期 designated date
+     * @param clazz 指定返回类型 designate result type
+     */
+    <T> T getMonthEnd(LocalDateTime date, Class<T> clazz) throws Exception;
+
 }
