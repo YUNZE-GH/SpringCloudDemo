@@ -25,20 +25,18 @@ public class SDK {
      * LocalDateTime数据类型日期时间操作工具
      * @return LocalDateTimeUtils
      */
-    public static LocalDateTimeUtils getLocalDateTimeUtils(){return new LocalDateTimeUtilsImpl();
-    }
+    public static LocalDateTimeUtils getLocalDateTimeUtils(){return new LocalDateTimeUtilsImpl();}
 
     /**
      * 加密工具类
      * @return EncryptionUtils
      */
-    public static EncryptionUtils encryptionUtils(){return new EncryptionUtilsImpl();
-    }
+    public static EncryptionUtils encryptionUtils(){return new EncryptionUtilsImpl();}
 
     public static void main(String[] args) throws Exception {
-        LocalDateTime date = SDK.getLocalDateTimeUtils().stringToLocalDateTime("2021-04-29 00:00:00", FinalProperties.FORMAT_DATETIME);
+        /*LocalDateTime date = SDK.getLocalDateTimeUtils().stringToLocalDateTime("2021-04-29 00:00:00", FinalProperties.FORMAT_DATETIME);
 
         System.err.println(SDK.getLocalDateTimeUtils().getMonthBegin(date, LocalDateTime.class));
-        System.err.println(SDK.getLocalDateTimeUtils().getMonthEnd(date, LocalDateTime.class));
+        System.err.println(SDK.getLocalDateTimeUtils().getMonthEnd(date, LocalDateTime.class));*/
     }
 }
