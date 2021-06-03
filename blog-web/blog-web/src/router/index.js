@@ -11,6 +11,13 @@ export default new Router({
         path: '/',
         name: 'Login',
         component: Login
+        /* ,
+        children: [
+            {
+                path: '/userinfo',
+                meta: {title}
+            }
+        ] */
     }, {
         path: '/WebWeChat',
         name: 'WebWeChat',

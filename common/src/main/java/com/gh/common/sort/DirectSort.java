@@ -8,10 +8,10 @@ package com.gh.common.sort;
  */
 public class DirectSort {
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         int[] array = {1, 1, 2, 4, 7, 5};
         directSort(array);
-    }
+    }*/
 
     public static void directSort(int[] array) {
         for (int i = 0; i < array.length; i++) {

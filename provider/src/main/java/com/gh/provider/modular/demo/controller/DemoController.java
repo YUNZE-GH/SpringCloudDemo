@@ -3,8 +3,8 @@ package com.gh.provider.modular.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.gh.common.SDK;
-import com.gh.common.toolsclass.ResultData;
 import com.gh.common.enums.CodeEnum;
+import com.gh.common.toolsclass.ResultData;
 import com.gh.provider.modular.demo.entity.Demo;
 import com.gh.provider.modular.demo.service.DemoService;
 import org.slf4j.Logger;
@@ -15,9 +15,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * <p>

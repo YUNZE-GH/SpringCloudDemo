@@ -10,12 +10,12 @@ import java.util.Arrays;
  * @date 2021/4/24 23:49
  */
 public class ShellSort {
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         int[] arr = new int[]{2, 1, 3, 5, 4, 9, 7, 8};
         shellSort(arr);
         System.out.println(Arrays.toString(arr));
 
-    }
+    }*/
 
     // 希尔排序
     public static void shellSort(int[] arr) {

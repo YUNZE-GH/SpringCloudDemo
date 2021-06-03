@@ -2,7 +2,6 @@ package com.gh.consumer.job;
 
 import com.alibaba.fastjson.JSON;
 import com.gh.common.SDK;
-import com.gh.common.toolsclass.ResultData;
 import com.gh.consumer.websocket.WebSocket;
 import com.gh.redis.util.RedisUtil;
 import com.google.common.collect.Maps;
@@ -43,7 +42,5 @@ public class TaskJob {
         for (WebSocket item : WebSocket.getClients().values()) {
             item.getSession().getAsyncRemote().sendText(JSON.toJSONString(map1));
         }
-
-        System.err.println(((ResultData)redisUtil.get("demo")).toString());
     }
 }

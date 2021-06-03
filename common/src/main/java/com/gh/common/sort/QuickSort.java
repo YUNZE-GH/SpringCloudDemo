@@ -8,10 +8,10 @@ package com.gh.common.sort;
  */
 public class QuickSort {
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         int[] arr = {3, 4, 1, 6, 2, 5};
         quickSort(arr, 0, arr.length - 1);
-    }
+    }*/
 
     public static void quickSort(int[] arr, int leftIndex, int rightIndex) {
         if (leftIndex >= rightIndex) {

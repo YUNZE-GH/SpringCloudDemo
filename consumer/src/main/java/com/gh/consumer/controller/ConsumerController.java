@@ -3,7 +3,6 @@ package com.gh.consumer.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
-import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import com.alibaba.fastjson.JSONObject;
 import com.gh.common.toolsclass.ResultData;
 import com.gh.consumer.config.SentinelBlockHandler;
