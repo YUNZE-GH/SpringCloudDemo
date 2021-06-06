@@ -31,6 +31,8 @@
 		<mysql-connector.version>8.0.23</mysql-connector.version>
 		<mybatis-plus.version>3.0.5</mybatis-plus.version>
 		<druid.version>1.1.21</druid.version>
+		<junit.version>4.12</junit.version>
+		<common.version>0.0.1-SNAPSHOT</common.version>
 	</properties>
 
 	<dependencies>
@@ -48,6 +50,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
 		<dependency>
@@ -73,13 +80,13 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${junit.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.gh</groupId>
 			<artifactId>common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${common.version}</version>
 		</dependency>
 	</dependencies>
 

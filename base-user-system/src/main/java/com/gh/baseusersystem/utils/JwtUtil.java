@@ -17,8 +17,8 @@ import java.util.HashMap;
 public class JwtUtil {
 
     /**
-     * 过期时间为一天
-     * TODO 正式上线更换为15分钟
+     * 用户token的过期时间为一天
+     * TODO 正式上线更换为120分钟
      */
     private static final long EXPIRE_TIME = 24 * 60 * 60 * 1000;
 
@@ -28,10 +28,10 @@ public class JwtUtil {
     private static final String TOKEN_SECRET = "18067f08-f06d-4bb1-8db8-35d02116f7ff";
 
     /**
-     * 生成签名,15分钟后过期
+     * 生成签名,一段时间后后过期
      *
-     * @param userAccount
-     * @param userId
+     * @param userAccount 账号
+     * @param userId 用户id
      * @return
      */
     public static String sign(String userAccount, String userId) {
@@ -43,7 +43,7 @@ public class JwtUtil {
         HashMap<String, Object> header = new HashMap<>(2);
         header.put("typ", "JWT");
         header.put("alg", "HS256");
-        //附带username和userID生成签名
+        //附带userAccount和userID生成签名
         return JWT.create().withHeader(header).withClaim("userAccount", userAccount)
                 .withClaim("userId", userId).withExpiresAt(date).sign(algorithm);
     }
