@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.gh.common.SDK;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class JwtUtil {
      * @param userId 用户id
      * @return
      */
-    public static String sign(String userAccount, String userId) {
+    public static String sign(String userAccount, String userId) throws Exception {
         //过期时间
         Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
         //私钥及加密算法

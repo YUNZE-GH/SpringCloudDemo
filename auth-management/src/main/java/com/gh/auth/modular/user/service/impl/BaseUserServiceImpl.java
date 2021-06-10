@@ -30,7 +30,7 @@ public class BaseUserServiceImpl extends ServiceImpl<BaseUserMapper, BaseUser> i
     @Override
     public String loginVerify(String account, String password) throws Exception {
         String pwd = baseMapper.loginVerify(account);
-        if (!StringUtils.isEmpty(pwd) && pwd.equals(SDK.encryptionUtils().useMD5Encryption(password))) {
+        if (!StringUtils.isEmpty(pwd) && pwd.equals(SDK.encryptionUtils().encryptionMD5(password))) {
 
             LambdaQueryWrapper<BaseUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
             lambdaQueryWrapper.select(BaseUser::getId, BaseUser::getUserId, BaseUser::getUserAccount, BaseUser::getUserName);
