@@ -33,12 +33,13 @@ public class BaseUserServiceImpl extends ServiceImpl<BaseUserMapper, BaseUser> i
         if (!StringUtils.isEmpty(pwd) && pwd.equals(SDK.encryptionUtils().useMD5Encryption(password))) {
 
             LambdaQueryWrapper<BaseUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.select(BaseUser::getId, BaseUser::getUserId, BaseUser::getUserAccount, BaseUser::getUserName);
             lambdaQueryWrapper.eq(BaseUser::getUserAccount, account);
             BaseUser bo = baseMapper.selectOne(lambdaQueryWrapper);
 
             // 通过登录校验，将信息存入redis，并返回token
             String token = JwtUtil.sign(bo.getUserAccount(), bo.getUserId());
-            redisUtil.insertOrUpdate(token, JSONObject.toJSONString(bo));
+            redisUtil.insertOrUpdate(token, JSONObject.parseObject(JSONObject.toJSONString(bo)));
             return token;
         }
         throw new Exception("登录异常，账号或密码错误");
