@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/parent/pom.xml" />
         <option value="$PROJECT_DIR$/redis/pom.xml" />
         <option value="$PROJECT_DIR$/base-user-system/pom.xml" />
+        <option value="$PROJECT_DIR$/auth-management/pom.xml" />
       </list>
     </option>
   </component>

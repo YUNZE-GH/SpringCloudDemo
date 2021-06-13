@@ -4,7 +4,7 @@ package com.gh.baseusersystem.modular.user.controller;
 import com.gh.baseusersystem.modular.user.entity.BaseUser;
 import com.gh.baseusersystem.modular.user.service.BaseUserService;
 import com.gh.baseusersystem.utils.AjaxResult;
-import com.gh.baseusersystem.utils.JwtUtil;
+import com.gh.common.service.impl.JwtUtilsImpl;
 import com.gh.common.SDK;
 import com.gh.common.enums.CodeEnum;
 import com.gh.common.toolsclass.ResultData;
@@ -41,8 +41,7 @@ public class BaseUserController {
     public int getCount(HttpServletRequest request) {
         String token = request.getHeader("token");
         System.err.println(token);
-        boolean verity = JwtUtil.verity(token);
-        System.err.println(verity);
+//        boolean verity = JwtUtilsImpl.verity(token);
         return service.getCount();
     }
 
@@ -63,27 +62,6 @@ public class BaseUserController {
             list = service.getListAll(bo, page, rows);
         }
         return new ResultData(CodeEnum.SUCCESS.get(), count, list, "查询成功", SDK.getDateUtils().getDateTime());
-    }
-
-
-    @GetMapping(value = "/login")
-    public AjaxResult login(@RequestBody BaseUser bo) throws Exception {
-        String account = bo.getUserAccount();
-        String password = bo.getUserPassword();
-        service.loginVerify(account, password);
-        //身份验证
-        boolean isSuccess = false;
-        if ("admin".equals(account) && "123456".equals(password)) {
-            isSuccess = true;
-        }
-        if (isSuccess) {
-            //返回token
-            String token = JwtUtil.sign(account, password);
-            if (token != null) {
-                return AjaxResult.success("成功", token);
-            }
-        }
-        return AjaxResult.fail();
     }
 }
 

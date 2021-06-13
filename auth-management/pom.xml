@@ -61,18 +61,12 @@
         </dependency>
         <!-- mybatis-plus [end]  -->
 
+        <!-- redis-utils [start] -->
         <dependency>
             <groupId>com.gh</groupId>
             <artifactId>redis-utils</artifactId>
         </dependency>
-
-        <!-- jwt [start] -->
-        <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>3.10.3</version>
-        </dependency>
-        <!-- jwt [end] -->
+        <!-- redis-utils [end] -->
     </dependencies>
 
     <build>
