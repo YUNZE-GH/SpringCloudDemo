@@ -1,8 +1,10 @@
 package com.gh.common.toolsclass;
 
+import com.gh.common.SDK;
 import com.gh.common.enums.CodeEnum;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @author gaohan
@@ -12,12 +14,12 @@ import java.io.Serializable;
 public class ResultData<T> implements Serializable {
 
     private int code;
-    private String datetime;
-    private String message;
+    private String datetime = SDK.getLocalDateTimeUtils().localDateTimeToString(LocalDateTime.now());
+    private String message = "成功";
     private int total;
     private T data;
 
-    public ResultData() {
+    public ResultData() throws Exception {
 
     }
 
@@ -25,7 +27,7 @@ public class ResultData<T> implements Serializable {
      * @param code 返回编码
      * @param data 返回数据
      */
-    public ResultData(int code, T data) {
+    public ResultData(int code, T data) throws Exception {
         this.code = code;
         this.data = data;
     }
@@ -35,7 +37,7 @@ public class ResultData<T> implements Serializable {
      * @param data    返回数据
      * @param message 备注
      */
-    public ResultData(int code, T data, String message) {
+    public ResultData(int code, T data, String message) throws Exception {
         this.code = code;
         this.data = data;
         this.message = message;
@@ -47,7 +49,7 @@ public class ResultData<T> implements Serializable {
      * @param message  备注
      * @param datetime 返回时间
      */
-    public ResultData(int code, T data, String message, String datetime) {
+    public ResultData(int code, T data, String message, String datetime) throws Exception {
         this.code = code;
         this.data = data;
         this.message = message;
@@ -59,7 +61,7 @@ public class ResultData<T> implements Serializable {
      * @param total 数据量
      * @param data  返回数据
      */
-    public ResultData(int code, int total, T data) {
+    public ResultData(int code, int total, T data) throws Exception {
         this.code = code;
         this.total = total;
         this.data = data;
@@ -71,7 +73,7 @@ public class ResultData<T> implements Serializable {
      * @param data    返回数据
      * @param message 备注
      */
-    public ResultData(int code, int total, T data, String message) {
+    public ResultData(int code, int total, T data, String message) throws Exception {
         this.code = code;
         this.total = total;
         this.data = data;
@@ -85,7 +87,7 @@ public class ResultData<T> implements Serializable {
      * @param message  备注
      * @param datetime 返回时间
      */
-    public ResultData(int code, int total, T data, String message, String datetime) {
+    public ResultData(int code, int total, T data, String message, String datetime) throws Exception {
         this.code = code;
         this.total = total;
         this.data = data;
@@ -99,8 +101,8 @@ public class ResultData<T> implements Serializable {
      * @param data 成功返回数据
      * @return ResultData
      */
-    public static ResultData success(Object data) {
-        return new ResultData(CodeEnum.SUCCESS.get(), data, "成功");
+    public static ResultData success(Object data) throws Exception {
+        return new ResultData(CodeEnum.SUCCESS.get(), data);
     }
 
     /**
@@ -109,7 +111,7 @@ public class ResultData<T> implements Serializable {
      * @param msg 失败提示
      * @return ResultData
      */
-    public static ResultData error(String msg) {
+    public static ResultData error(String msg) throws Exception {
         return new ResultData(CodeEnum.BUSINESS_ERROR.get(), null, msg);
     }
 
