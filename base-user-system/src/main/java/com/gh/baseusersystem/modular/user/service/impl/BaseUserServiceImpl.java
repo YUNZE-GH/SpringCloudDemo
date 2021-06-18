@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gh.baseusersystem.modular.user.entity.BaseUser;
 import com.gh.baseusersystem.modular.user.mapper.BaseUserMapper;
 import com.gh.baseusersystem.modular.user.service.BaseUserService;
-import com.gh.baseusersystem.utils.JwtUtil;
 import com.gh.common.SDK;
 import com.gh.redis.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +45,10 @@ public class BaseUserServiceImpl extends ServiceImpl<BaseUserMapper, BaseUser> i
     @Override
     public String loginVerify(String account, String password) throws Exception {
         String pwd = baseMapper.loginVerify(account);
-        if (!StringUtils.isEmpty(pwd) && SDK.encryptionUtils().useMD5Encryption(password).equals(pwd)) {
+        if (!StringUtils.isEmpty(pwd) && SDK.encryptionUtils().encryptionMD5(password).equals(pwd)) {
             BaseUser bo = baseMapper.selectOneByUserAccount(account);
             // 通过登录校验，将信息存入redis，并返回token
-            String token = JwtUtil.sign(bo.getUserAccount(), bo.getUserId());
+            String token = SDK.JWT().sign(bo.getUserAccount(), bo.getUserId());
             redisUtil.insertOrUpdate(token, JSONObject.toJSONString(bo));
             return token;
         }

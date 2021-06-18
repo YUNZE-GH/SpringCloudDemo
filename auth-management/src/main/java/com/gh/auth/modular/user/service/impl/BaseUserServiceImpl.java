@@ -3,15 +3,17 @@ package com.gh.auth.modular.user.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.gh.auth.config.AuthProperties;
 import com.gh.auth.modular.user.entity.BaseUser;
 import com.gh.auth.modular.user.mapper.BaseUserMapper;
 import com.gh.auth.modular.user.service.BaseUserService;
-import com.gh.auth.utils.JwtUtil;
 import com.gh.common.SDK;
 import com.gh.redis.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.UUID;
 
 /**
  * <p>
@@ -24,8 +26,16 @@ import org.springframework.util.StringUtils;
 @Service
 public class BaseUserServiceImpl extends ServiceImpl<BaseUserMapper, BaseUser> implements BaseUserService {
 
-    @Autowired(required = false)
-    private RedisUtil redisUtil;
+//    @Autowired(required = false)
+    private final RedisUtil redisUtil;
+
+    private final AuthProperties authProperties;
+
+    @Autowired
+    public BaseUserServiceImpl(RedisUtil redisUtil, AuthProperties authProperties) {
+        this.redisUtil = redisUtil;
+        this.authProperties = authProperties;
+    }
 
     @Override
     public String loginVerify(String account, String password) throws Exception {
@@ -36,10 +46,13 @@ public class BaseUserServiceImpl extends ServiceImpl<BaseUserMapper, BaseUser> i
             lambdaQueryWrapper.select(BaseUser::getId, BaseUser::getUserId, BaseUser::getUserAccount, BaseUser::getUserName);
             lambdaQueryWrapper.eq(BaseUser::getUserAccount, account);
             BaseUser bo = baseMapper.selectOne(lambdaQueryWrapper);
+            JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(bo));
 
             // 通过登录校验，将信息存入redis，并返回token
-            String token = JwtUtil.sign(bo.getUserAccount(), bo.getUserId());
-            redisUtil.insertOrUpdate(token, JSONObject.parseObject(JSONObject.toJSONString(bo)));
+            String token = UUID.randomUUID().toString().replace("-", "");
+            json.put("token", token);
+
+            redisUtil.insertOrUpdateByMinutes(token, json, authProperties.getTokenValidPeriod());
             return token;
         }
         throw new Exception("登录异常，账号或密码错误");
