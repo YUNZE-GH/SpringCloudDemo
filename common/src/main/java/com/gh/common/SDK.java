@@ -18,6 +18,7 @@ public class SDK {
 
     /**
      * Date类型日期时间操作工具
+     *
      * @return DateUtils
      */
     public static DateUtils getDateUtils() {
@@ -26,30 +27,40 @@ public class SDK {
 
     /**
      * LocalDateTime数据类型日期时间操作工具
+     *
      * @return LocalDateTimeUtils
      */
-    public static LocalDateTimeUtils getLocalDateTimeUtils(){return new LocalDateTimeUtilsImpl();}
+    public static LocalDateTimeUtils getLocalDateTimeUtils() {
+        return new LocalDateTimeUtilsImpl();
+    }
 
     /**
      * 加密工具类
+     *
      * @return EncryptionUtils
      */
-    public static EncryptionUtils encryptionUtils() throws Exception {return new EncryptionUtilsImpl();}
+    public static EncryptionUtils encryptionUtils() {
+        return new EncryptionUtilsImpl();
+    }
 
     /**
      * JSON WEB TOKEN工具
+     *
      * @return JwtUtilsImpl
      */
-    public static JwtUtils JWT() throws Exception {return new JwtUtilsImpl();}
+    public static JwtUtils JWT()  {
+        return new JwtUtilsImpl();
+    }
 
     public static void main(String[] args) throws Exception {
-        /*LocalDateTime date = SDK.getLocalDateTimeUtils().stringToLocalDateTime("2021-04-29 00:00:00", FinalProperties.FORMAT_DATETIME);
+        JwtUtilsImpl jwt = new JwtUtilsImpl();
+        String token = jwt.sign("admin", "123");
+        System.err.println("token:" + token);
 
-        System.err.println(SDK.getLocalDateTimeUtils().getMonthBegin(date, LocalDateTime.class));
-        System.err.println(SDK.getLocalDateTimeUtils().getMonthEnd(date, LocalDateTime.class));*/
-        String s = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyQWNjb3VudCI6ImFkbWluIiwiZXhwIjoxNjIzMzgyNTg3LCJ1c2VySWQiOiIxMDAxIn0.h2KTO4AG0Vw8gPTNCWyYvF6Ew4KC_nIq6kTXkru-s_Y";
-        String aes = SDK.encryptionUtils().encryptionAES(s);
-        System.err.println(aes);
+        boolean verity_1 = jwt.verity(token);
+        System.err.println("verity_1:" + verity_1);
 
+        boolean verity_2 = jwt.verity(token.substring(0, token.length() - 1));
+        System.err.println("verity_2:" + verity_2);
     }
 }

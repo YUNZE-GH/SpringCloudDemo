@@ -12,11 +12,11 @@ import com.gh.common.toolsclass.ResultData;
  */
 public class SentinelBlockHandler {
 
-    public static ResultData fuseHandler(String id, BlockException exception) {
+    public static ResultData fuseHandler(String id, BlockException exception) throws Exception {
         return new ResultData(CodeEnum.OTHER_ERROR.get(), null, id + "自定义熔断降级控制", SDK.getDateUtils().getDateTime());
     }
 
-    public static ResultData flowHandler(BlockException exception) {
+    public static ResultData flowHandler(BlockException exception) throws Exception {
         return new ResultData(CodeEnum.OTHER_ERROR.get(), null, "自定义流控保护", SDK.getDateUtils().getDateTime());
     }
 

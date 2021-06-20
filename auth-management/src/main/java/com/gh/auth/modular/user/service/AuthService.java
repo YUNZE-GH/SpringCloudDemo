@@ -11,7 +11,21 @@ import com.gh.auth.modular.user.entity.BaseUser;
  * @author gaohan
  * @since 2021-03-08
  */
-public interface BaseUserService extends IService<BaseUser> {
+public interface AuthService extends IService<BaseUser> {
 
+    /**
+     * 登录校验
+     * @param account   账号
+     * @param password  密码
+     * @return
+     * @throws Exception
+     */
     String loginVerify(String account, String password) throws Exception;
+
+    /**
+     * 验证token
+     * @param token
+     * @return
+     */
+    boolean verityToken(String token);
 }

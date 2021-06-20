@@ -98,6 +98,15 @@ public class ResultData<T> implements Serializable {
     /**
      * 成功
      *
+     * @return ResultData
+     */
+    public static ResultData success() throws Exception {
+        return new ResultData(CodeEnum.SUCCESS.get(), null);
+    }
+
+    /**
+     * 成功
+     *
      * @param data 成功返回数据
      * @return ResultData
      */

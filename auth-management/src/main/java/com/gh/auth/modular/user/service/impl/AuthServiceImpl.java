@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gh.auth.config.AuthProperties;
 import com.gh.auth.modular.user.entity.BaseUser;
 import com.gh.auth.modular.user.mapper.BaseUserMapper;
-import com.gh.auth.modular.user.service.BaseUserService;
+import com.gh.auth.modular.user.service.AuthService;
 import com.gh.common.SDK;
 import com.gh.redis.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.UUID;
  * @since 2021-03-08
  */
 @Service
-public class BaseUserServiceImpl extends ServiceImpl<BaseUserMapper, BaseUser> implements BaseUserService {
+public class AuthServiceImpl extends ServiceImpl<BaseUserMapper, BaseUser> implements AuthService {
 
 //    @Autowired(required = false)
     private final RedisUtil redisUtil;
@@ -32,7 +32,7 @@ public class BaseUserServiceImpl extends ServiceImpl<BaseUserMapper, BaseUser> i
     private final AuthProperties authProperties;
 
     @Autowired
-    public BaseUserServiceImpl(RedisUtil redisUtil, AuthProperties authProperties) {
+    public AuthServiceImpl(RedisUtil redisUtil, AuthProperties authProperties) {
         this.redisUtil = redisUtil;
         this.authProperties = authProperties;
     }
@@ -56,6 +56,11 @@ public class BaseUserServiceImpl extends ServiceImpl<BaseUserMapper, BaseUser> i
             return token;
         }
         throw new Exception("登录异常，账号或密码错误");
+    }
+
+    @Override
+    public boolean verityToken(String token) {
+        return redisUtil.hasKey(token);
     }
 
 }
