@@ -9,7 +9,8 @@ import org.springframework.context.annotation.ComponentScans;
 @SpringBootApplication
 @MapperScan("com.gh.baseusersystem.modular.*.mapper")
 @ComponentScans(value = {
-		@ComponentScan(value = "com.gh.redis.*")
+		@ComponentScan(value = "com.gh.redis.*"),
+		@ComponentScan(value = "com.gh.auth.*")
 })
 public class BaseUserSystemApplication {
 

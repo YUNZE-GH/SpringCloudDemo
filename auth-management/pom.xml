@@ -40,6 +40,12 @@
         </dependency>
         <!-- nacos配置中心 [end] -->
 
+        <!--整合zuul-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+        </dependency>
+
         <!-- mysql驱动 [start]  -->
         <dependency>
             <groupId>mysql</groupId>
@@ -67,6 +73,8 @@
             <artifactId>redis-utils</artifactId>
         </dependency>
         <!-- redis-utils [end] -->
+
+
     </dependencies>
 
     <build>
