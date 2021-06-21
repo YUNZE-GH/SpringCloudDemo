@@ -19,8 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class AuthInterceptor implements HandlerInterceptor {
 
-    @Autowired
+    @Autowired(required = false)
     private AuthService authService;
+
 
     /**
      * 预处理（在请求处理之前进行调用，即Controller方法调用之前）
