@@ -10,22 +10,34 @@
         <!-- 设置父类的相对对路径 -->
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>auth-management</artifactId>
+    <artifactId>open-interface</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>auth-management</name>
-    <description>权限管理服务</description>
+    <name>open-interface</name>
+    <description>开放接口服务</description>
 
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
         <spring-cloud-alibaba.version>2.1.2.RELEASE</spring-cloud-alibaba.version>
-        <fastjson.version>1.2.62</fastjson.version>
     </properties>
 
     <dependencies>
+        <!-- nacos注册中心 [start] -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!-- nacos注册中心 [end] -->
+
+        <!-- nacos配置中心 [start] -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!-- nacos配置中心 [end] -->
+
         <!-- mysql驱动 [start]  -->
         <dependency>
             <groupId>mysql</groupId>
@@ -47,16 +59,20 @@
         </dependency>
         <!-- mybatis-plus [end]  -->
 
-        <!-- redis-utils [start] -->
         <dependency>
             <groupId>com.gh</groupId>
             <artifactId>redis-utils</artifactId>
         </dependency>
-        <!-- redis-utils [end] -->
+
+        <dependency>
+            <groupId>com.gh</groupId>
+            <artifactId>auth-management</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
-        <!--<plugins>
+        <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -70,7 +86,7 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
-        </plugins>-->
+        </plugins>
 
         <!-- 解决mapper.xml不在resources中时提示”Invalid bound statement (not found) “问题 -->
         <resources>

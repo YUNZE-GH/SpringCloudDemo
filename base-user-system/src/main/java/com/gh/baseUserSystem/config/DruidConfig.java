@@ -1,4 +1,4 @@
-package com.gh.baseusersystem.config;
+package com.gh.baseUserSystem.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
