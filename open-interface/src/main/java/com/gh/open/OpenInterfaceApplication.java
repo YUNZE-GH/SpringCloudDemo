@@ -1,4 +1,4 @@
-package com.gh.baseusersystem;
+package com.gh.open;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -7,14 +7,14 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 
 @SpringBootApplication
-@MapperScan("com.gh.baseusersystem.modular.*.mapper")
+@MapperScan("com.gh.*.modular.*.mapper")
 @ComponentScans(value = {
 		@ComponentScan(value = "com.gh.redis.*")
 })
-public class BaseUserSystemApplication {
+public class OpenInterfaceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BaseUserSystemApplication.class, args);
+		SpringApplication.run(OpenInterfaceApplication.class, args);
 	}
 
 }

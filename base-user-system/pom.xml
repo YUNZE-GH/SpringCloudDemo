@@ -63,6 +63,12 @@
 			<groupId>com.gh</groupId>
 			<artifactId>redis-utils</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.gh</groupId>
+			<artifactId>auth-management</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

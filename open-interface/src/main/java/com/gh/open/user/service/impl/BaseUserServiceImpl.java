@@ -1,4 +1,4 @@
-package com.gh.auth.modular.user.service.impl;
+package com.gh.open.user.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -24,7 +24,7 @@ import java.util.UUID;
  * @since 2021-03-08
  */
 @Service
-public class AuthServiceImpl extends ServiceImpl<BaseUserMapper, BaseUser> implements AuthService {
+public class BaseUserServiceImpl extends ServiceImpl<BaseUserMapper, BaseUser> implements AuthService {
 
     @Autowired
     private RedisUtil redisUtil;

@@ -20,7 +20,8 @@
         <module>redis-utils</module>
         <module>consumer</module>
         <module>provider</module>
-<!--        <module>auth-management</module>-->
+        <module>open-interface</module>
+        <!--        <module>auth-management</module>-->
 
     </modules>
 
