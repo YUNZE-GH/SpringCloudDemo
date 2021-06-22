@@ -21,7 +21,6 @@
         <module>consumer</module>
         <module>provider</module>
         <module>open-interface</module>
-        <!--        <module>auth-management</module>-->
 
     </modules>
 

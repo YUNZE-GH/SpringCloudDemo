@@ -157,7 +157,7 @@
         第二种就是单独给dao下目录配置debug模式，代码如下，这样配置sql语句会打印，其他还是正常info级别：
         【logging.level.org.mybatis=debug logging.level.dao=debug】
      -->
-    <logger name="com.gh.open.modular" level="DEBUG"/>
+    <logger name="com.gh.openInterface.modular" level="DEBUG"/>
 
     <!--
         root节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性
@@ -169,7 +169,7 @@
     <!-- 4. 最终的策略 -->
     <!-- 4.1 开发环境:打印控制台-->
     <springProfile name="dev">
-        <logger name="com.gh.open" level="debug"/>
+        <logger name="com.gh.openInterface" level="debug"/>
     </springProfile>
 
     <root level="info">

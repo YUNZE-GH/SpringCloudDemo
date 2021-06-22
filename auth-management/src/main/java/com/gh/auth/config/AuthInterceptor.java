@@ -1,6 +1,6 @@
 package com.gh.auth.config;
 
-import com.gh.auth.modular.user.service.AuthService;
+import com.gh.auth.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

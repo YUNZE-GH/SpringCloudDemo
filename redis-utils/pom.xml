@@ -27,20 +27,6 @@
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 		<!-- Redis缓存 [end]  -->
-
-		<!-- nacos注册中心 [start] -->
-		<dependency>
-			<groupId>com.alibaba.cloud</groupId>
-			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-		</dependency>
-		<!-- nacos注册中心 [end] -->
-
-		<!-- nacos配置中心 [start] -->
-		<dependency>
-			<groupId>com.alibaba.cloud</groupId>
-			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-		</dependency>
-		<!-- nacos配置中心 [end] -->
 	</dependencies>
 
 	<build>

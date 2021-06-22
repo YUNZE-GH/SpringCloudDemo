@@ -42,26 +42,26 @@ public class DemoController {
     }
 
     @PostMapping(value = "/one/{id}")
-    public ResultData one(@PathVariable("id") String id) {
+    public ResultData one(@PathVariable("id") String id) throws Exception {
         logger.info("=====> /one");
         Demo byId = service.getById(id);
         return new ResultData(CodeEnum.SUCCESS.get(), byId, serverPort, SDK.getDateUtils().getDateTime());
     }
 
     @PostMapping(value = "/getDemoById")
-    public ResultData getDemoById(@RequestBody JSONObject json){
+    public ResultData getDemoById(@RequestBody JSONObject json) throws Exception {
         Demo bo = service.getById(json.get("id").toString());
         return new ResultData(CodeEnum.SUCCESS.get(), bo, serverPort, SDK.getDateUtils().getDateTime());
     }
 
     @PostMapping(value = "/all")
-    public ResultData all() {
+    public ResultData all() throws Exception {
         List<Demo> list = service.list(null);
         return new ResultData(CodeEnum.SUCCESS.get(), list, serverPort, LocalDateTime.now().toString());
     }
 
     @PostMapping(value = "/saveDemo")
-    public ResultData saveDemo(@RequestBody JSONObject json){
+    public ResultData saveDemo(@RequestBody JSONObject json) throws Exception {
         Demo bo = json.toJavaObject(Demo.class);
         boolean save = service.save(bo);
         return new ResultData(save ? CodeEnum.SUCCESS.get() : CodeEnum.BUSINESS_ERROR.get(), "", String.valueOf(save), SDK.getDateUtils().getDateTime());
