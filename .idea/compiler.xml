@@ -8,11 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="base-user-system" />
+        <module name="open-interface" />
         <module name="common" />
         <module name="provider" />
         <module name="redis-utils" />
         <module name="auth-management" />
-        <module name="provider2" />
         <module name="config" />
         <module name="consumer" />
         <module name="redis" />
@@ -24,6 +24,7 @@
       <module name="eureka" target="1.8" />
       <module name="generator" target="1.8" />
       <module name="provider (2)" target="8" />
+      <module name="provider2" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -38,6 +39,7 @@
       <module name="demo" options="-parameters" />
       <module name="eureka" options="-parameters" />
       <module name="generator" options="-parameters" />
+      <module name="open-interface" options="-parameters" />
       <module name="provider" options="-parameters" />
       <module name="provider (2)" options="-parameters" />
       <module name="provider2" options="-parameters" />

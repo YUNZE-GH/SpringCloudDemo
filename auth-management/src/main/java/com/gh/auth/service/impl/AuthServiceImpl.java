@@ -12,6 +12,12 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     @Override
+    public String authVerify(String userAccount, String userPassword) {
+
+        return null;
+    }
+
+    @Override
     public boolean verityToken(String token) {
         return true;
     }

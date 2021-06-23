@@ -7,5 +7,7 @@ package com.gh.auth.service;
  */
 public interface AuthService {
 
+    String authVerify(String userAccount, String userPassword);
+
     boolean verityToken(String token);
 }

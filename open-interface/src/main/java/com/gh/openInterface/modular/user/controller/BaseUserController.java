@@ -27,7 +27,7 @@ public class BaseUserController {
         this.baseUserService = baseUserService;
     }
 
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/auth/login")
     public ResultData<Object> login(@RequestBody JSONObject json) throws Exception {
         if (!json.containsKey("userAccount") || !json.containsKey("userPassword")) {
             throw new Exception("登录异常，账号和密码不能为空");
