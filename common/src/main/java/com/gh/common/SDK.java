@@ -4,10 +4,7 @@ import com.gh.common.service.DateUtils;
 import com.gh.common.service.EncryptionUtils;
 import com.gh.common.service.JwtUtils;
 import com.gh.common.service.LocalDateTimeUtils;
-import com.gh.common.service.impl.DatetimeUtilsImpl;
-import com.gh.common.service.impl.EncryptionUtilsImpl;
-import com.gh.common.service.impl.JwtUtilsImpl;
-import com.gh.common.service.impl.LocalDateTimeUtilsImpl;
+import com.gh.common.service.impl.*;
 import com.gh.common.toolsclass.FinalProperties;
 import sun.security.provider.MD5;
 
@@ -43,12 +40,16 @@ public class SDK {
         return new EncryptionUtilsImpl();
     }
 
+    public static HttpUtilsImpl httpUtils() {
+        return new HttpUtilsImpl();
+    }
+
     /**
      * JSON WEB TOKEN工具
      *
      * @return JwtUtilsImpl
      */
-    public static JwtUtils JWT()  {
+    public static JwtUtils JWT() {
         return new JwtUtilsImpl();
     }
 
