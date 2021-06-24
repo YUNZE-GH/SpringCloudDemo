@@ -36,26 +36,6 @@
         </dependency>-->
         <!-- eureka [end]  -->
 
-        <!-- feign [start]  -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-        <!-- feign [end]  -->
-
-        <!-- nacos注册中心 [start] -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
-        <!-- nacos注册中心 [end] -->
-
-        <!-- nacos配置中心 [start] -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency>
-        <!-- nacos配置中心 [end] -->
 
         <!-- sentinel流量控制、熔断降级、系统负载 [start] -->
         <dependency>

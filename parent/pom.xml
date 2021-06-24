@@ -89,6 +89,14 @@
 		</dependency>
 		<!-- nacos配置中心 [end] -->
 
+		<!-- feign [start]  -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>${spring-cloud-alibaba.version}</version>
+		</dependency>
+		<!-- feign [end]  -->
+
 		<!-- mysql驱动 [start]  -->
 		<dependency>
 			<groupId>mysql</groupId>
