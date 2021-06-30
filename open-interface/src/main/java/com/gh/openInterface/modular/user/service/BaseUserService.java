@@ -1,6 +1,7 @@
 package com.gh.openInterface.modular.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.gh.common.toolsclass.ResultData;
 import com.gh.openInterface.modular.user.entity.BaseUser;
 
 /**
@@ -18,7 +19,6 @@ public interface BaseUserService extends IService<BaseUser> {
      * @param account   账号
      * @param password  密码
      * @return
-     * @throws Exception
      */
-    String loginVerify(String account, String password) throws Exception;
+    ResultData<Object> loginVerify(String account, String password);
 }

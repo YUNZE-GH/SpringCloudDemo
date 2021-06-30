@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 
 @SpringBootApplication
-@MapperScan("com.gh.*.modular.*.mapper")
+@MapperScan("com.gh.*.modular.*.mapper")	// 需要兼顾扫描到jar包里的mapper
 //@ComponentScans(value = {
 //		@ComponentScan(value = "com.gh.redis.*"),
 //		@ComponentScan(value = "com.gh.auth.*")

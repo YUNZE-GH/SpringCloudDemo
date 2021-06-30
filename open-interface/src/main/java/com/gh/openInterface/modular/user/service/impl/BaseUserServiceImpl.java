@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gh.common.SDK;
+import com.gh.common.toolsclass.ResultData;
 import com.gh.openInterface.modular.user.entity.BaseUser;
 import com.gh.openInterface.modular.user.mapper.BaseUserMapper;
 import com.gh.openInterface.modular.user.service.BaseUserService;
@@ -24,10 +25,9 @@ import java.util.UUID;
 public class BaseUserServiceImpl extends ServiceImpl<BaseUserMapper, BaseUser> implements BaseUserService {
 
     @Override
-    public String loginVerify(String account, String password) throws Exception {
+    public ResultData<Object> loginVerify(String account, String password) {
         String pwd = baseMapper.loginVerify(account);
         if (!StringUtils.isEmpty(pwd) && pwd.equals(SDK.encryptionUtils().encryptionMD5(password))) {
-
             LambdaQueryWrapper<BaseUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
             lambdaQueryWrapper.select(BaseUser::getId, BaseUser::getUserId, BaseUser::getUserAccount, BaseUser::getUserName);
             lambdaQueryWrapper.eq(BaseUser::getUserAccount, account);
@@ -37,9 +37,9 @@ public class BaseUserServiceImpl extends ServiceImpl<BaseUserMapper, BaseUser> i
             // 通过登录校验，将信息存入redis，并返回token
             String token = UUID.randomUUID().toString().replace("-", "");
             json.put("token", token);
-            return token;
+            return ResultData.success(token);
         }
-        throw new Exception("登录异常，账号或密码错误");
+        return ResultData.error("登录异常，账号或密码错误");
     }
 
 

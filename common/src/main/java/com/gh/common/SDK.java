@@ -40,7 +40,11 @@ public class SDK {
         return new EncryptionUtilsImpl();
     }
 
-    public static HttpUtilsImpl httpUtils() {
+    /**
+     * Http请求工具
+     * @return
+     */
+    public static HttpUtilsImpl httpRequest() {
         return new HttpUtilsImpl();
     }
 
