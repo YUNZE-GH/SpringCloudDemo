@@ -33,7 +33,7 @@ public class AuthInterceptor implements HandlerInterceptor {
      * @throws Exception
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         log.info("执行了拦截器的preHandle方法");
         log.info("handler:" + handler.toString());
         String authorization = request.getHeader("Authorization");

@@ -1,7 +1,16 @@
 package com.gh.auth.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.gh.auth.config.AuthProperties;
 import com.gh.auth.service.AuthService;
+import com.gh.common.SDK;
+import com.gh.common.enums.CodeEnum;
+import com.gh.common.toolsclass.ResultData;
+import com.gh.common.toolsclass.UserJwt;
+import com.gh.redis.util.RedisUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * @author gaohan
@@ -11,14 +20,33 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    @Override
-    public String authVerify(String userAccount, String userPassword) {
+    @Autowired
+    private AuthProperties authProperties;
 
-        return null;
+    /*@Autowired
+    public AuthServiceImpl(AuthProperties authProperties){
+        this.authProperties = authProperties;
+    }*/
+
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Override
+    public ResultData authVerify(JSONObject json) {
+        if (!StringUtils.isEmpty(authProperties.getTokenValidPeriod())) {
+            json.put("tokenValidPeriod", authProperties.getTokenValidPeriod());
+        }
+        String resultResponse = SDK.httpRequest().doPostJson(authProperties.getServerPath() + "/sys-api/auth/login", json.toString());
+        JSONObject jsonObject = JSONObject.parseObject(resultResponse);
+        if (jsonObject.getInteger("code") != CodeEnum.SUCCESS.get()) {
+            return StringUtils.isEmpty(jsonObject.get("message")) ? ResultData.error("登录失败") : ResultData.error(jsonObject.getString("message"));
+        }
+        UserJwt userJwt = JSONObject.toJavaObject(jsonObject.getJSONObject("data"), UserJwt.class);
+        return ResultData.success(userJwt);
     }
 
     @Override
     public boolean verityToken(String token) {
-        return true;
+        return redisUtil.hasKey(token);
     }
 }

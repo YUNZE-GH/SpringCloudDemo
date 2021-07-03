@@ -25,20 +25,22 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class OkHttpConfiguration {
 
-    @Value("${ok.http.connect-timeout}")
-    private Integer connectTimeout;
+//    @Value("${ok.http.connect-timeout}")
+    private Integer connectTimeout = 30;
 
-    @Value("${ok.http.read-timeout}")
-    private Integer readTimeout;
+//    @Value("${ok.http.read-timeout}")
+    private Integer readTimeout = 30;
 
-    @Value("${ok.http.write-timeout}")
-    private Integer writeTimeout;
+//    @Value("${ok.http.write-timeout}")
+    private Integer writeTimeout = 30;
 
-    @Value("${ok.http.max-idle-connections}")
-    private Integer maxIdleConnections;
+//    连接池中整体的空闲连接的最大数量
+//    @Value("${ok.http.max-idle-connections}")
+    private Integer maxIdleConnections = 200;
 
-    @Value("${ok.http.keep-alive-duration}")
-    private Long keepAliveDuration;
+//    连接空闲时间最多为 300 秒
+//    @Value("${ok.http.keep-alive-duration}")
+    private Long keepAliveDuration = 300L;
 
     @Bean
     public OkHttpClient okHttpClient() {

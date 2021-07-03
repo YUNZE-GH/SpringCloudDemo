@@ -1,15 +1,11 @@
 package com.gh.openInterface.modular.user.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.gh.common.enums.CodeEnum;
 import com.gh.common.toolsclass.ResultData;
 import com.gh.openInterface.modular.user.service.BaseUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * blog-cloud
@@ -19,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021-06-09 14:59
  **/
 @RestController
-@RequestMapping("/sys-api")
+@RequestMapping("/sys-api/auth")
 @Slf4j
 public class BaseUserController {
 
@@ -30,16 +26,24 @@ public class BaseUserController {
         this.baseUserService = baseUserService;
     }
 
-    @PostMapping(value = "/auth/login")
+    // 账号密码登陆接口
+    @PostMapping(value = "/login")
     public ResultData<Object> login(@RequestBody JSONObject json) {
         try {
             if (!json.containsKey("userAccount") || !json.containsKey("userPassword")) {
                 ResultData.error("登录异常，账号和密码不能为空");
             }
-            return baseUserService.loginVerify(json.getString("userAccount"), json.getString("userPassword"));
+            long tokenValidPeriod = json.containsKey("tokenValidPeriod") ? json.getLong("tokenValidPeriod") : 120;
+            return baseUserService.loginVerify(json.getString("userAccount"), json.getString("userPassword"), tokenValidPeriod);
         } catch (Exception e) {
             e.printStackTrace();
             return ResultData.error("系统异常");
         }
+    }
+
+    // 身份令牌校验接口
+    @PostMapping(value = "/verifyToken/{token}")
+    public ResultData<JSONObject> verifyToken(@PathVariable("token") String token) {
+        return baseUserService.verifyToken(token);
     }
 }

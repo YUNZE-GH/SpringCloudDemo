@@ -25,11 +25,6 @@ public class AuthProperties {
     private String serverPath;
 
     /**
-     * 登陆接口
-     */
-    private String authVerifyPath;
-
-    /**
      * 免登陆接口
      */
     private String authExcludePath;

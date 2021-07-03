@@ -2,8 +2,6 @@ package com.gh.common.service.impl;
 
 import com.gh.common.toolsclass.SpringContextHolder;
 import okhttp3.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
@@ -12,7 +10,7 @@ import java.util.Map;
  * @version 1.0
  * @date 2021/6/24 22:52
  */
-public class HttpUtilsImpl {
+public class HttpRequest {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final MediaType XML = MediaType.parse("application/xml; charset=utf-8");
 

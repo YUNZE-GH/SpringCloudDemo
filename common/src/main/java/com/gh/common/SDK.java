@@ -5,10 +5,7 @@ import com.gh.common.service.EncryptionUtils;
 import com.gh.common.service.JwtUtils;
 import com.gh.common.service.LocalDateTimeUtils;
 import com.gh.common.service.impl.*;
-import com.gh.common.toolsclass.FinalProperties;
-import sun.security.provider.MD5;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class SDK {
@@ -44,8 +41,8 @@ public class SDK {
      * Http请求工具
      * @return
      */
-    public static HttpUtilsImpl httpRequest() {
-        return new HttpUtilsImpl();
+    public static HttpRequest httpRequest() {
+        return new HttpRequest();
     }
 
     /**

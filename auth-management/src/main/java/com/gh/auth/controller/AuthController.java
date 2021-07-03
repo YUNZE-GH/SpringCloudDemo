@@ -2,7 +2,10 @@ package com.gh.auth.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.gh.auth.config.AuthProperties;
+import com.gh.auth.service.AuthService;
 import com.gh.common.SDK;
+import com.gh.common.toolsclass.ResultData;
+import com.gh.common.toolsclass.UserJwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,10 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Autowired
-    private AuthProperties authProperties;
+    private AuthService authService;
 
     @PostMapping(value = "/login")
-    public String login(@RequestBody JSONObject json){
-        return SDK.httpRequest().doPostJson(authProperties.getServerPath() + authProperties.getAuthVerifyPath(), json.toString());
+    public ResultData login(@RequestBody JSONObject json){
+        // 校验数据
+
+        // 登陆判断
+        return authService.authVerify(json);
     }
 }
