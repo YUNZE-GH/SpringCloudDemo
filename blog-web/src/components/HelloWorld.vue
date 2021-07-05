@@ -1,7 +1,9 @@
 <template>
     <div class="hello">
         <h1>{{ msg }}</h1>
+
         <el-button @click="btnClick">请求</el-button>
+        {{ resultResponse }}
     </div>
 </template>
 
@@ -17,17 +19,22 @@ export default {
                 "userAccount": "admin",
                 "userPassword": "123456",
                 "tokenValidPeriod": 240
-            }
+            },
+            resultResponse: {}
         }
     },
     methods: {
         btnClick() {
             let url = "/api/auth/login";
             this.$http.post(url, this.params).then(response => {
-                console.log(response);
+                this.resultResponse = response;
             })
         }
+    },
+    mounted() {
+        console.log(process.env)
     }
+
 }
 </script>
 
