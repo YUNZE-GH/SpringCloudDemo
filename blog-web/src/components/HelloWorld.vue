@@ -1,8 +1,10 @@
 <template>
     <div class="hello">
         <h1>{{ msg }}</h1>
-
-        <el-button @click="btnClick">请求</el-button>
+        <el-input v-model="url"></el-input>
+        <el-button @click="btnClick1">请求1</el-button>
+        <el-button @click="btnClick2">请求2</el-button>
+        <el-button @click="btnClick3">请求3</el-button>
         {{ resultResponse }}
     </div>
 </template>
@@ -15,6 +17,7 @@ export default {
     },
     data() {
         return {
+            url: null,
             params: {
                 "userAccount": "admin",
                 "userPassword": "123456",
@@ -24,9 +27,20 @@ export default {
         }
     },
     methods: {
-        btnClick() {
-            let url = "/api/auth/login";
+        btnClick1() {
+            let url = "/sys-api/auth/login";
             this.$http.post(url, this.params).then(response => {
+                this.resultResponse = response;
+            })
+        },
+        btnClick2() {
+            let url = "http://localhost:9999/sys-api/auth/login";
+            this.$http.post(url, this.params).then(response => {
+                this.resultResponse = response;
+            })
+        },
+        btnClick3() {
+            this.$http.post(this.url, this.params).then(response => {
                 this.resultResponse = response;
             })
         }
