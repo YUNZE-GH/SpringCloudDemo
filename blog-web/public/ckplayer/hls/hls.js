@@ -5914,7 +5914,7 @@ var AESDecryptor = function () {
     this.initTable();
   }
 
-  // Using view.getUint32() also swaps the byte order.
+  // Using views.getUint32() also swaps the byte order.
 
 
   _createClass(AESDecryptor, [{
