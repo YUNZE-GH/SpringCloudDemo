@@ -1,4 +1,4 @@
-let serverPath = process.env.VUE_APP_SERVER_PATH;
+let serverPath = process.env.VUE_APP_SERVER_PATH_BASE;
 
 module.exports = {
     publicPath: "./",   // 打包相对路径

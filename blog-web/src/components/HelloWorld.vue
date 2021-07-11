@@ -10,6 +10,9 @@
 </template>
 
 <script>
+
+import {AUTH_LOGIN} from '@/apis';
+
 export default {
     name: 'HelloWorld',
     props: {
@@ -34,8 +37,7 @@ export default {
             })
         },
         btnClick2() {
-            let url = "http://localhost:9999/sys-api/auth/login";
-            this.$http.post(url, this.params).then(response => {
+            this.$http.post(AUTH_LOGIN, this.params).then(response => {
                 this.resultResponse = response;
             })
         },
