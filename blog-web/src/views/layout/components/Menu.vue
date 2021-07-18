@@ -29,17 +29,26 @@
                 <i class="el-icon-menu"></i>
                 <span slot="title">{{ item.meta.title }}</span>
             </el-menu-item>
-            <el-menu-item index="/email">
-                <i class="el-icon-menu"></i>
-                <span slot="title">导航二</span>
-            </el-menu-item>
+            <router-link to="/email">
+                <el-menu-item index="/email">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">测试-邮箱</span>
+                </el-menu-item>
+            </router-link>
+
+
+
             <el-submenu index="1-4">
                 <template slot="title">
                     <i class="el-icon-menu"></i>
-                    <span>导航一</span>
+                    <span>定时器</span>
                 </template>
-                <el-menu-item index="1-4-1">选项1</el-menu-item>
+                <router-link to="/job">
+                    <el-menu-item index="1-4-1">测试-定时器</el-menu-item>
+                </router-link>
             </el-submenu>
+
+            <router-view></router-view>
 
             <el-submenu index="1-3">
                 <template slot="title">

@@ -6,6 +6,7 @@ const routes = [
         path: '/',
         name: 'LAYOUT',
         meta: {title: '布局'},
+        redirect: '/index',
         component: () => import('@/views/layout/Index'),
         children: [
             {
