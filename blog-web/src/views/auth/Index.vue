@@ -15,7 +15,7 @@
         <el-row class="header">
             <el-col :span="24">
                 <div>
-                    <a href="https://beian.miit.gov.cn/#/Integrated/index">鄂ICP备19029486号</a>
+                    <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank">鄂ICP备19029486号</a>
                 </div>
             </el-col>
         </el-row>

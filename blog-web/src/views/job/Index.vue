@@ -6,7 +6,11 @@
 
 <script>
 export default {
-    name: "Index"
+    name: "Index",
+    methods:{},
+    mounted() {
+        console.log(this.$route)
+    }
 }
 </script>
 

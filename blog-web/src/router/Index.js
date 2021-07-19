@@ -19,14 +19,46 @@ const routes = [
                 path: '/job',
                 name: 'JOB',
                 meta: {title: '定时器', isLogin: true},
-                component: () => import('@/views/job/Index')
+                component: () => import('@/views/job/Index'),
+                children:[
+                    {
+                        path: '/scheduled',
+                        name: 'SCHEDULED',
+                        meta: {title: 'Scheduled', isLogin: true, isShow: false},
+                        component: () => import('@/views/home/Index')
+                    },
+                    {
+                        path: '/quartz',
+                        name: 'QUARTZ',
+                        meta: {title: 'Quartz', isLogin: true, isShow: false},
+                        component: () => import('@/views/home/Index')
+                    },
+                    {
+                        path: '/timer',
+                        name: 'Timer',
+                        meta: {title: 'Timer', isLogin: true, isShow: false},
+                        component: () => import('@/views/home/Index')
+                    },
+                    {
+                        path: '/test2',
+                        name: 'test2',
+                        meta: {title: '测试菜单2', isLogin: true, isShow: false},
+                        component: () => import('@/views/home/Index')
+                    },
+                ]
             },
             {
                 path: '/email',
                 name: 'EMAIL',
                 meta: {title: '邮件', isLogin: true},
                 component: () => import('@/views/email/Index')
-            }
+            },
+            {
+                path: '/test1',
+                name: 'test1',
+                meta: {title: '测试菜单1', isLogin: true, isShow: false},
+                component: () => import('@/views/home/Index')
+            },
         ]
     },
     {

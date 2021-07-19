@@ -7,7 +7,7 @@
 
             <el-container>
                 <el-aside>
-                    <Menu :height="height"/>
+                    <Menu />
                 </el-aside>
 
                 <el-container>
@@ -21,14 +21,19 @@
                     </el-header>
 
                     <el-main>
-                        <Home/>
+                        <div>
+                            <span style="font-size: 26px; height: 40px;line-height: 40px; color: #909399;">
+                                <i class="el-icon-s-fold"></i> <span style="color: #409EFF; font-weight: bold;">首页</span>
+                            </span>
+                        </div>
+                        <router-view></router-view>
                     </el-main>
                 </el-container>
             </el-container>
         </el-container>
-        <el-footer height="40px">
-            <div style="float: right;">
-                <a href="https://beian.miit.gov.cn/#/Integrated/index" style="text-decoration: none">鄂ICP备19029486号</a>
+        <el-footer height="20px">
+            <div>
+                <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" style="text-decoration: none">鄂ICP备19029486号</a>
             </div>
         </el-footer>
     </div>
@@ -38,18 +43,15 @@
 
 import Header from "./components/Header";
 import Menu from "./components/Menu"
-import Home from "../home/Index"
 
 export default {
     name: "Index",
     components: {
         Header,
         Menu,
-        Home
     },
     data() {
         return {
-            height: 'calc(100vh - 60px - 40px)',
         }
     },
     methods: {},
@@ -70,10 +72,15 @@ export default {
 }
 
 .el-footer {
-    background-color: #B3C0D1;
+    background-color: #409EFF;
     color: #333;
     text-align: center;
-    line-height: 40px;
+    line-height: 20px;
+    font-size: 12px;
+}
+
+.el-footer a {
+    color: white;
 }
 
 .el-aside {
@@ -85,6 +92,8 @@ export default {
 
 
 .el-main {
+    margin: 0 20px 20px 20px;
+    padding: 0px;
     background-color: #E9EEF3;
     color: #333;
 }
