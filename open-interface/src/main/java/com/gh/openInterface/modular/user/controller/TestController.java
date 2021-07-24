@@ -1,5 +1,6 @@
 package com.gh.openInterface.modular.user.controller;
 
+import com.gh.openInterface.modular.test.LoggerAnnotation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,5 +19,12 @@ public class TestController {
     @PostMapping(value = "/a")
     public String login() {
         return "ok!";
+    }
+
+
+    @LoggerAnnotation
+    @PostMapping(value = "/b")
+    public String b() {
+        return "b";
     }
 }
