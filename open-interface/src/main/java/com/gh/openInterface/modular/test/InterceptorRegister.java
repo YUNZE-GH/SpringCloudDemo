@@ -19,12 +19,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class InterceptorRegister implements WebMvcConfigurer {
 
     @Bean
-    public LoggerInterceptor loggerInterceptor(){
+    public LoggerInterceptor loggerInterceptor() {
         return new LoggerInterceptor();
+    }
+
+    @Bean
+    public AuthInterceptor authInterceptor() {
+        return new AuthInterceptor();
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loggerInterceptor());
+        registry.addInterceptor(authInterceptor());
     }
 }

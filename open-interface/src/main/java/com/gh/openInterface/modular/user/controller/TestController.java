@@ -1,5 +1,6 @@
 package com.gh.openInterface.modular.user.controller;
 
+import com.gh.openInterface.modular.test.AuthFilter;
 import com.gh.openInterface.modular.test.LoggerAnnotation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class TestController {
 
+    @AuthFilter
     @PostMapping(value = "/a")
     public String login() {
         return "ok!";
