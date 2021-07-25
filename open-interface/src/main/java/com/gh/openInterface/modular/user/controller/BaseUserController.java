@@ -28,7 +28,7 @@ public class BaseUserController {
 
     // 账号密码登陆接口
     @PostMapping(value = "/login")
-    public ResultData<Object> login(@RequestBody JSONObject json) {
+    public ResultData login(@RequestBody JSONObject json) {
         try {
             if (!json.containsKey("userAccount") || !json.containsKey("userPassword")) {
                 ResultData.error("登录异常，账号和密码不能为空");

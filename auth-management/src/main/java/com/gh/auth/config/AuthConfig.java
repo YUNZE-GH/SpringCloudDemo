@@ -1,6 +1,5 @@
 package com.gh.auth.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
@@ -35,7 +34,8 @@ public class AuthConfig implements WebMvcConfigurer {
         interceptorRegistration.addPathPatterns("/**");
 
         // 添加不拦截的路径
-//        interceptorRegistration.excludePathPatterns("/auth/**");
+        interceptorRegistration.excludePathPatterns("/test/b");
+
         String uris = this.getAuthProperties().getAuthExcludePath();
         if (!StringUtils.isEmpty(uris)) {
             String[] array = uris.split(",");

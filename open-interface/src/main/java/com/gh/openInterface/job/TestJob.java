@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * @version 1.0
  * @date 2021/7/20 23:53
  */
-//@Configuration      // 1.主要用于标记配置类，兼备Component的效果。
+@Configuration      // 1.主要用于标记配置类，兼备Component的效果。
 public class TestJob implements SchedulingConfigurer {
     //3.添加定时任务
 //    @Scheduled(cron = "0/5 * * * * ?")
