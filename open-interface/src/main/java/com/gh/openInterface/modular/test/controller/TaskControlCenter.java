@@ -1,5 +1,6 @@
 package com.gh.openInterface.modular.test.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gh.common.toolsclass.ResultData;
 import com.gh.openInterface.job.MyRunnable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,11 @@ import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.TriggerContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 
 /**
@@ -27,30 +28,48 @@ public class TaskControlCenter {
     @Autowired
     private ThreadPoolTaskScheduler threadPoolTaskScheduler;
 
-    private ScheduledFuture<?> future;
-
     @Bean
-    public ThreadPoolTaskScheduler threadPoolTaskScheduler(){
+    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
         return new ThreadPoolTaskScheduler();
     }
 
+    private Map<String, ScheduledFuture> futureMap = new HashMap<>();
+
     @PostMapping(value = "/startTask")
-    public ResultData startTask(){
-        future = threadPoolTaskScheduler.schedule(new MyRunnable(), new Trigger() {
+    public ResultData startTask(@RequestBody JSONObject jsonObject) throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        String classPath = jsonObject.getString("classPath");
+        String uuid = UUID.randomUUID().toString();
+
+        Class clz = Class.forName(classPath);
+
+        Constructor<?> cons[] = null;
+        cons = clz.getConstructors();
+        Object obj = cons[0].newInstance(uuid);
+        Runnable instance = (Runnable) obj;
+
+        ScheduledFuture future = threadPoolTaskScheduler.schedule(instance, new Trigger() {
             @Override
             public Date nextExecutionTime(TriggerContext triggerContext) {
                 String cron = "0/5 * * * * ?";
                 return new CronTrigger(cron).nextExecutionTime(triggerContext);
             }
         });
+        futureMap.put(uuid, future);
+        return ResultData.success(uuid);
+    }
+
+    @PostMapping(value = "/endTask/{futureId}")
+    public ResultData endTask(@PathVariable("futureId") String futureId) {
+        if (futureMap.containsKey(futureId) && futureMap.get(futureId) != null) {
+            System.err.println("停止定时器:" + futureId);
+            futureMap.get(futureId).cancel(true);
+        }
         return ResultData.success();
     }
 
-    @PostMapping(value = "/endTask")
-    public ResultData endTask(){
-        if (future != null) {
-            future.cancel(true);
-        }
-        return ResultData.success();
+    @PostMapping(value = "/jobList")
+    public ResultData jobList() {
+        List<String> list = new ArrayList<>(this.futureMap.keySet());
+        return ResultData.success(list);
     }
 }

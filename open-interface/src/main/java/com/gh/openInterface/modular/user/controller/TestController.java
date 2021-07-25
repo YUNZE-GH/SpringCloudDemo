@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class TestController {
 
-    @AuthFilter
+    @AuthFilter(value = "/a")
     @PostMapping(value = "/a")
     public String login() {
         return "ok!";

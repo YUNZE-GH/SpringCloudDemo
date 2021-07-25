@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  */
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
-    @Override
+     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
@@ -24,7 +24,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         AuthFilter authFilter = method.getAnnotation(AuthFilter.class);
         // 判断当前注解是否存在
         if (authFilter != null) {
-            System.err.println("进入权限过滤:" + LocalDateTime.now());
+            System.err.println("进入权限过滤'" + authFilter.value() + "':" + LocalDateTime.now());
         }
         return true;
     }
@@ -37,7 +37,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         AuthFilter authFilter = method.getAnnotation(AuthFilter.class);
         // 判断当前注解是否存在
         if (authFilter != null) {
-            System.err.println("离开权限过滤:" + LocalDateTime.now());
+            System.err.println("离开权限过滤'" + authFilter.value() + "':" + LocalDateTime.now());
         }
     }
 
