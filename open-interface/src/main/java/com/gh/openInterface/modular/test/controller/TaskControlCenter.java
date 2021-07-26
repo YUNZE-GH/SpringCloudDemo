@@ -9,6 +9,7 @@ import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.TriggerContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
+import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Constructor;
@@ -36,14 +37,14 @@ public class TaskControlCenter {
     private Map<String, ScheduledFuture> futureMap = new HashMap<>();
 
     @PostMapping(value = "/startTask")
-    public ResultData startTask(@RequestBody JSONObject jsonObject) throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public ResultData startTask(@RequestBody JSONObject jsonObject) throws Exception {
+        boolean type = jsonObject.getBoolean("type");
         String classPath = jsonObject.getString("classPath");
         String uuid = UUID.randomUUID().toString();
 
         Class clz = Class.forName(classPath);
 
-        Constructor<?> cons[] = null;
-        cons = clz.getConstructors();
+        Constructor<?> cons[] = clz.getConstructors();
         Object obj = cons[0].newInstance(uuid);
         Runnable instance = (Runnable) obj;
 
@@ -51,7 +52,12 @@ public class TaskControlCenter {
             @Override
             public Date nextExecutionTime(TriggerContext triggerContext) {
                 String cron = "0/5 * * * * ?";
-                return new CronTrigger(cron).nextExecutionTime(triggerContext);
+                long fixedRate = 2000l;
+                if (type) {
+                    return new CronTrigger(cron).nextExecutionTime(triggerContext);
+                } else {
+                    return new PeriodicTrigger(fixedRate).nextExecutionTime(triggerContext);
+                }
             }
         });
         futureMap.put(uuid, future);
@@ -63,6 +69,7 @@ public class TaskControlCenter {
         if (futureMap.containsKey(futureId) && futureMap.get(futureId) != null) {
             System.err.println("停止定时器:" + futureId);
             futureMap.get(futureId).cancel(true);
+            futureMap.remove(futureId);
         }
         return ResultData.success();
     }
