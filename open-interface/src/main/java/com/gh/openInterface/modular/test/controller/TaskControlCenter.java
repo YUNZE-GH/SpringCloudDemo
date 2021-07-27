@@ -2,7 +2,6 @@ package com.gh.openInterface.modular.test.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.gh.common.toolsclass.ResultData;
-import com.gh.openInterface.job.MyRunnable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.Trigger;
@@ -13,7 +12,6 @@ import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 

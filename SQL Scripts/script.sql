@@ -4,25 +4,52 @@ create table demo
         primary key,
     name varchar(36) null,
     sex  varchar(36) null
-) engine=innodb default charset=utf8;
+) engine = innodb
+  default charset = utf8;
 
 
 create table base_user
 (
-    id int auto_increment primary key comment '主键自增id',
-    user_id varchar (36) comment '用户唯一id',
-    user_account varchar (36) comment '账号',
-    user_password varchar (36) comment '密码',
-    user_name varchar (36) comment '名称'
-) engine=innodb default charset=utf8 comment='基础-用户表';
+    id            int auto_increment primary key comment '主键自增id',
+    user_id       varchar(36) comment '用户唯一id',
+    user_account  varchar(36) comment '账号',
+    user_password varchar(36) comment '密码',
+    user_name     varchar(36) comment '名称'
+) engine = innodb
+  default charset = utf8 comment ='基础-用户表';
 
 create table base_notice
 (
-    id int auto_increment primary key comment '主键自增id',
-    notice_id varchar (36) comment '通知编号',
-    notice_from_user_id varchar (36) comment '通知发送人id',
-    notice_to_user_id varchar (36) comment '通知接收人id',
-    notice_content varchar (36) comment '通知文本内容',
-    notice_state int (1) comment '通知状态：0为等待发送，1为已发送',
-    notice_type int (1) comment '通知类型：0为普通信息，1为系统信息，2为异常信息'
-) engine=innodb default charset=utf8 comment='基础-通知表';
+    id                  int auto_increment primary key comment '主键自增id',
+    notice_id           varchar(36) comment '通知编号',
+    notice_from_user_id varchar(36) comment '通知发送人id',
+    notice_to_user_id   varchar(36) comment '通知接收人id',
+    notice_content      varchar(36) comment '通知文本内容',
+    notice_state        int(1) comment '通知状态：0为等待发送，1为已发送',
+    notice_type         int(1) comment '通知类型：0为普通信息，1为系统信息，2为异常信息'
+) engine = innodb
+  default charset = utf8 comment ='基础-通知表';
+
+create table sys_task_job_plan
+(
+    id      int auto_increment primary key comment '主键自增id',
+    task_id varchar(36) comment '任务id',
+    task_name varchar(36) comment '任务名称',
+    task_plan_type tinyint default 0 comment '执行方式：0-执行一次；1-循环执行',
+    task_plan_timing_method tinyint comment '计时方法：0-cron；1-fixedRate；',
+    task_plan_cron varchar(20) comment 'cron通配符',
+    task_plan_fixed_rate long comment 'fixedRate间隔时长（单位：毫秒）',
+    create_time datetime default now() comment '创建时间',
+    create_user_id varchar(36) comment '创建人主键ID',
+    update_time datetime comment '更新时间',
+    update_user_id varchar(36) comment '更新人主键ID',
+    invalid tinyint not null default 0 comment '是否有效：0-有效；1-无效'
+) engine = innodb
+  default charset = utf8 comment ='系统-任务作业执行计划表';
+
+
+CREATE TABLE sys_task_job_history
+(
+
+) engine = innodb
+  default charset = utf8 comment ='系统-任务作业执行历史表';
