@@ -60,3 +60,6 @@ CREATE TABLE sys_task_job_history
     log             varchar(1000) comment '日志记录'
 ) engine = innodb
   default charset = utf8 comment ='系统-任务作业执行历史表';
+
+alter table sys_task_job_history
+    add column execute_ip varchar(36) comment '任务执行地址';
