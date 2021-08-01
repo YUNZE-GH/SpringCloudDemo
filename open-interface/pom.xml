@@ -30,6 +30,13 @@
             <artifactId>redis-utils</artifactId>
         </dependency>
         <!-- redis-utils [end] -->
+
+        <!-- 代码生成器 [start] -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+        </dependency>
+        <!-- 代码生成器 [end] -->
     </dependencies>
 
     <build>
