@@ -39,7 +39,8 @@ public class SDK {
 
     /**
      * Http请求工具
-     * @return
+     *
+     * @return HttpRequest
      */
     public static HttpRequest httpRequest() {
         return new HttpRequest();

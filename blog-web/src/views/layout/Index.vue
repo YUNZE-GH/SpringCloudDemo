@@ -92,9 +92,9 @@ export default {
 
 
 .el-main {
-    margin: 0 20px 20px 20px;
-    padding: 0px;
-    background-color: #E9EEF3;
+    margin: 0 20px 0 20px;
+    padding: 0;
+    background-color: white;
     color: #333;
 }
 

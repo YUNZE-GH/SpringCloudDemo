@@ -33,8 +33,8 @@ public class SysTaskJobPlanController {
     }
 
     @PostMapping(value = "/add")
-    public ResultData<SysTaskJobPlan> add() {
-        return ResultData.success();
+    public ResultData<SysTaskJobPlan> add(SysTaskJobPlan bo) {
+        return taskJobPlanService.add(bo);
     }
 
     @PostMapping(value = "/update")

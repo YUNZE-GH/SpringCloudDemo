@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gh.common.enums.CodeEnum;
+import com.gh.common.exception.BusinessException;
 import com.gh.common.toolsclass.PageFilter;
 import com.gh.common.toolsclass.ResultData;
 import com.gh.taskjob.modular.SysTaskJobPlan.entity.SysTaskJobPlan;
@@ -65,13 +66,31 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
     @Override
     public ResultData<SysTaskJobPlan> add(SysTaskJobPlan bo) {
         bo.setTaskId(UUID.randomUUID().toString());
-        bo.setUpdateTime(LocalDateTime.now());
-        return null;
+        bo.setCreateUserId(null);
+        int insert = baseMapper.insert(bo);
+        if (insert > 0) {
+            SysTaskJobPlan sysTaskJobPlan = baseMapper.selectById(bo.getId());
+            return ResultData.success(sysTaskJobPlan);
+        }
+        return ResultData.error("新增失败！");
     }
 
     @Override
     public ResultData<SysTaskJobPlan> update(SysTaskJobPlan bo) {
-        return null;
+        SysTaskJobPlan plan = baseMapper.selectById(bo.getId());
+        if (plan == null) {
+            throw new BusinessException("不存在该任务！");
+        }
+        if (plan.getStatus() == 1) {
+            throw new BusinessException("当前任务处于执行状态,不可编辑任务信息！");
+        }
+        bo.setUpdateTime(LocalDateTime.now());
+        bo.setUpdateUserId(null);
+        int i = baseMapper.updateById(bo);
+        if (i > 0) {
+            ResultData.success();
+        }
+        return ResultData.error("操作失败！");
     }
 
     @Override

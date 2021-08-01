@@ -22,24 +22,6 @@ const routes = [
                 component: () => import('@/views/job/Index')
             },
             {
-                path: '/job/scheduled',
-                name: 'SCHEDULED',
-                meta: {title: 'Scheduled', isLogin: true, isShow: true},
-                component: () => import('@/views/home/Index')
-            },
-            {
-                path: '/job/quartz',
-                name: 'QUARTZ',
-                meta: {title: 'Quartz', isLogin: true, isShow: true},
-                component: () => import('@/views/home/Index')
-            },
-            {
-                path: '/job/timer',
-                name: 'Timer',
-                meta: {title: 'Timer', isLogin: true, isShow: true},
-                component: () => import('@/views/home/Index')
-            },
-            {
                 path: '/test2',
                 name: 'test2',
                 meta: {title: '测试菜单2', isLogin: true, isShow: false},
@@ -52,10 +34,10 @@ const routes = [
                 component: () => import('@/views/email/Index')
             },
             {
-                path: '/test1',
-                name: 'test1',
-                meta: {title: '测试菜单1', isLogin: true, isShow: false},
-                component: () => import('@/views/home/Index')
+                path: '/test',
+                name: 'test',
+                meta: {title: '测试菜单', isLogin: true, isShow: true},
+                component: () => import('@/components/HelloWorld')
             },
         ]
     },

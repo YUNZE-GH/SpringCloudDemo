@@ -96,4 +96,9 @@ public class SysTaskJobPlan implements Serializable {
      * 任务执行类路径
      */
     private String taskPlanExecuteClassPath;
+
+    /**
+     * 备注
+     */
+    private String remark;
 }

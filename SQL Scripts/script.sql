@@ -48,7 +48,7 @@ create table sys_task_job_plan
 ) engine = innodb
   default charset = utf8 comment ='系统-任务作业执行计划表';
 alter table sys_task_job_plan add column task_plan_execute_class_path varchar(200) comment '任务执行类路径';
-
+alter table sys_task_job_plan add column remark varchar(300) comment '备注';
 
 CREATE TABLE sys_task_job_history
 (
