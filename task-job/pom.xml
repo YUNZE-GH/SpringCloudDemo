@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.gh</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <!-- 设置父类的相对对路径 -->
+        <relativePath>../parent/pom.xml</relativePath>
+    </parent>
+
+    <groupId>com.gh</groupId>
+    <artifactId>task-job</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>task-job</name>
+    <description>任务调度服务</description>
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+        <!-- redis-utils [start] -->
+        <dependency>
+            <groupId>com.gh</groupId>
+            <artifactId>redis-utils</artifactId>
+        </dependency>
+        <!-- redis-utils [end] -->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <classifier>exec</classifier>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <!-- 解决mapper.xml不在resources目录下时提示”Invalid bound statement (not found) “问题 -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
+
+</project>
