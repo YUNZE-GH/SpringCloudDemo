@@ -47,6 +47,7 @@ create table sys_task_job_plan
     invalid                 tinyint not null default 0 comment '是否有效：0-有效；1-无效'
 ) engine = innodb
   default charset = utf8 comment ='系统-任务作业执行计划表';
+alter table sys_task_job_plan add column task_plan_execute_class_path varchar(200) comment '任务执行类路径';
 
 
 CREATE TABLE sys_task_job_history
