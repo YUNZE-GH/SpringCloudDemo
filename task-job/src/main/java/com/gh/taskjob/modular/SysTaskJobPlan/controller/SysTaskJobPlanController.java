@@ -28,18 +28,18 @@ public class SysTaskJobPlanController {
     private SysTaskJobPlanService taskJobPlanService;
 
     @PostMapping(value = "/list")
-    public ResultData<List<SysTaskJobPlan>> list(PageFilter<SysTaskJobPlan> filter) {
+    public ResultData<List<SysTaskJobPlan>> list(@RequestBody PageFilter<SysTaskJobPlan> filter) {
         return taskJobPlanService.list(filter);
     }
 
     @PostMapping(value = "/add")
-    public ResultData<SysTaskJobPlan> add(SysTaskJobPlan bo) {
+    public ResultData add(@RequestBody SysTaskJobPlan bo) {
         return taskJobPlanService.add(bo);
     }
 
     @PostMapping(value = "/update")
-    public ResultData<SysTaskJobPlan> update() {
-        return ResultData.success();
+    public ResultData<SysTaskJobPlan> update(SysTaskJobPlan bo) {
+        return taskJobPlanService.update(bo);
     }
 
     @GetMapping(value = "/delete/{id}")

@@ -3,20 +3,32 @@ package com.gh.taskjob.modular.SysTaskJobPlan.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gh.common.enums.CodeEnum;
 import com.gh.common.exception.BusinessException;
 import com.gh.common.toolsclass.PageFilter;
 import com.gh.common.toolsclass.ResultData;
+import com.gh.taskjob.modular.SysTaskJobHistory.entity.SysTaskJobHistory;
+import com.gh.taskjob.modular.SysTaskJobHistory.service.SysTaskJobHistoryService;
 import com.gh.taskjob.modular.SysTaskJobPlan.entity.SysTaskJobPlan;
 import com.gh.taskjob.modular.SysTaskJobPlan.mapper.SysTaskJobPlanMapper;
 import com.gh.taskjob.modular.SysTaskJobPlan.service.SysTaskJobPlanService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.Trigger;
+import org.springframework.scheduling.TriggerContext;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
+import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * <p>
@@ -28,6 +40,19 @@ import java.util.UUID;
  */
 @Service
 public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper, SysTaskJobPlan> implements SysTaskJobPlanService {
+
+    @Autowired
+    private SysTaskJobHistoryService sysTaskJobHistoryService;
+
+    @Autowired
+    private ThreadPoolTaskScheduler threadPoolTaskScheduler;
+
+    @Bean
+    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
+        return new ThreadPoolTaskScheduler();
+    }
+
+    private Map<String, ScheduledFuture> futureMap = new HashMap<>();
 
     @Override
     public ResultData<List<SysTaskJobPlan>> list(PageFilter<SysTaskJobPlan> filter) {
@@ -64,15 +89,11 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
     }
 
     @Override
-    public ResultData<SysTaskJobPlan> add(SysTaskJobPlan bo) {
+    public ResultData add(SysTaskJobPlan bo) {
         bo.setTaskId(UUID.randomUUID().toString());
         bo.setCreateUserId(null);
         int insert = baseMapper.insert(bo);
-        if (insert > 0) {
-            SysTaskJobPlan sysTaskJobPlan = baseMapper.selectById(bo.getId());
-            return ResultData.success(sysTaskJobPlan);
-        }
-        return ResultData.error("新增失败！");
+        return insert > 0 ? ResultData.success() : ResultData.error("新增失败！");
     }
 
     @Override
@@ -94,12 +115,83 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
     }
 
     @Override
-    public ResultData<SysTaskJobPlan> start(SysTaskJobPlan bo) {
-        return null;
+    @Transactional(rollbackFor = Exception.class)
+    public ResultData start(String id) throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        SysTaskJobPlan bo = baseMapper.selectById(id);
+        if (bo == null) {
+            throw new BusinessException("不存在该任务！");
+        }
+        if (bo.getStatus() == 1) {
+            throw new BusinessException("当前任务已处于执行状态！");
+        }
+
+        bo.setStatus(1);
+        this.updateById(bo);
+
+        String classPath = bo.getTaskPlanExecuteClassPath();
+
+        Class clz = Class.forName(classPath);
+        Constructor<?> cons[] = clz.getConstructors();
+        Object obj = cons[0].newInstance(bo.getTaskId());
+        Runnable instance = (Runnable) obj;
+
+        SysTaskJobHistory history = new SysTaskJobHistory();
+        history.setTaskId(bo.getTaskId());
+        history.setTaskStartTime(LocalDateTime.now());
+
+        Integer taskPlanType = bo.getTaskPlanType();
+        try {
+            if (taskPlanType == 0) {
+                // 执行一次
+                instance.run();
+            } else {
+                // 循环执行
+                this.executeScheduledFuture(instance, bo);
+            }
+
+            history.setStatus(0);
+            history.setLog("执行成功！");
+        } catch (Exception e) {
+            history.setStatus(1);
+            history.setLog(e.getMessage());
+            e.printStackTrace();
+        }
+
+        history.setTaskEndTime(LocalDateTime.now());
+        sysTaskJobHistoryService.add(history);
+        return ResultData.success();
+    }
+
+    private void executeScheduledFuture(Runnable instance, SysTaskJobPlan bo){
+        // 循环执行
+        ScheduledFuture future = threadPoolTaskScheduler.schedule(instance, new Trigger() {
+            @Override
+            public Date nextExecutionTime(TriggerContext triggerContext) {
+                if (bo.getTaskPlanTimingMethod() == 0) {
+                    return new CronTrigger(bo.getTaskPlanCron()).nextExecutionTime(triggerContext);
+                } else {
+                    return new PeriodicTrigger(bo.getTaskPlanFixedRate()).nextExecutionTime(triggerContext);
+                }
+            }
+        });
+        futureMap.put(bo.getTaskId(), future);
     }
 
     @Override
-    public ResultData<SysTaskJobPlan> end(SysTaskJobPlan bo) {
-        return null;
+    public ResultData end(String id) {
+        SysTaskJobPlan bo = baseMapper.selectById(id);
+        if (bo == null) {
+            throw new BusinessException("不存在该任务！");
+        }
+        if (bo.getStatus() == 0) {
+            throw new BusinessException("当前任务已处于停止状态！");
+        }
+
+        if (futureMap.containsKey(bo.getTaskId()) && futureMap.get(bo.getTaskId()) != null) {
+            System.err.println("停止定时器:" + bo.getTaskId());
+            futureMap.get(bo.getTaskId()).cancel(true);
+            futureMap.remove(bo.getTaskId());
+        }
+        return ResultData.success();
     }
 }

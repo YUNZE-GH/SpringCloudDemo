@@ -59,7 +59,7 @@ public class SysTaskJobPlan implements Serializable {
     /**
      * fixedRate间隔时长（单位：毫秒）
      */
-    private String taskPlanFixedRate;
+    private Integer taskPlanFixedRate;
 
     /**
      * 创建时间

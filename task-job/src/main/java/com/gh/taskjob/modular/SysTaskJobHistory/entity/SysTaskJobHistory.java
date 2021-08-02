@@ -30,7 +30,7 @@ public class SysTaskJobHistory implements Serializable {
     private Integer id;
 
     /**
-     * 任务主键ID(sys_task_job_plan[task_id])
+     * 任务编号(sys_task_job_plan[task_id])
      */
     private String taskId;
 
