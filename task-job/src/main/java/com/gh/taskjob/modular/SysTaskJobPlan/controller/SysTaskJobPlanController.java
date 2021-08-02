@@ -8,6 +8,7 @@ import com.gh.taskjob.modular.SysTaskJobPlan.service.SysTaskJobPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
@@ -48,14 +49,14 @@ public class SysTaskJobPlanController {
         return ResultData.success();
     }
 
-    @PostMapping(value = "/start")
-    public ResultData<SysTaskJobPlan> start() {
-        return ResultData.success();
+    @PostMapping(value = "/start/{id}")
+    public ResultData start(@PathVariable("id") String id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, InstantiationException {
+        return taskJobPlanService.start(id);
     }
 
-    @PostMapping(value = "/end")
-    public ResultData<SysTaskJobPlan> end() {
-        return ResultData.success();
+    @PostMapping(value = "/stop/{id}")
+    public ResultData stop(@PathVariable("id") String id) {
+        return taskJobPlanService.stop(id);
     }
 
     @PostMapping(value = "/queryThreadPoolTask")

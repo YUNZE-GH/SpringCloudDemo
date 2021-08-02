@@ -31,26 +31,26 @@
                     </div>
                 </el-col>
             </el-row>
-<!--            <el-row>
-                <el-col :span="6">
-                    <el-form-item label="任务编号" prop="data.taskId">
-                        <el-input v-model="filter.data.taskId" placeholder="请输入任务编号"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item label="任务名称" prop="data.taskName">
-                        <el-input v-model="filter.data.taskName" placeholder="请输入任务名称"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item label="任务状态" prop="data.status">
-                        <el-select v-model="filter.data.status" placeholder="请选择">
-                            <el-option label="停止" value="0"></el-option>
-                            <el-option label="启动" value="1"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>-->
+            <!--            <el-row>
+                            <el-col :span="6">
+                                <el-form-item label="任务编号" prop="data.taskId">
+                                    <el-input v-model="filter.data.taskId" placeholder="请输入任务编号"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <el-form-item label="任务名称" prop="data.taskName">
+                                    <el-input v-model="filter.data.taskName" placeholder="请输入任务名称"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="6">
+                                <el-form-item label="任务状态" prop="data.status">
+                                    <el-select v-model="filter.data.status" placeholder="请选择">
+                                        <el-option label="停止" value="0"></el-option>
+                                        <el-option label="启动" value="1"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>-->
 
         </el-form>
 
@@ -73,11 +73,17 @@
                     prop="taskPlanType"
                     label="执行方式"
                     min-width="180" header-align="center" align="center">
+                    <template slot-scope="scope">
+                        {{ scope.row.taskPlanType === 0 ? "执行一次" : "循环执行" }}
+                    </template>
                 </el-table-column>
                 <el-table-column
                     prop="status"
                     label="任务状态"
                     min-width="180" header-align="center" align="center">
+                    <template slot-scope="scope">
+                        {{ scope.row.status === 0 ? "停止" : "启动" }}
+                    </template>
                 </el-table-column>
                 <el-table-column
                     prop="createTime"
@@ -97,13 +103,13 @@
                         <el-button
                             size="mini"
                             type="success"
-                            @click="handleEdit(scope.$index, scope.row)"
-                            v-if="scope.$index === 1 || scope.$index === 3">启动
+                            @click="handleStart(scope.row)"
+                            v-if="scope.row.status === 0">启动
                         </el-button>
                         <el-button
                             size="mini"
                             type="warning"
-                            @click="handleEdit(scope.$index, scope.row)" v-else>停止
+                            @click="handleStop(scope.row)" v-else>停止
                         </el-button>
                         <el-button
                             size="mini"
@@ -129,7 +135,7 @@
 
 <script>
 
-import {TASK_JOB_PLAN_LIST} from "@/apis/taskJob"
+import {TASK_JOB_PLAN_LIST, TASK_JOB_PLAN_START, TASK_JOB_PLAN_STOP} from "@/apis/taskJob"
 
 export default {
     name: "Index",
@@ -165,10 +171,42 @@ export default {
                 }
             })
         },
+        handleStart(row) {
+            this.$http.post(TASK_JOB_PLAN_START + `${row.id}`, {}).then(response => {
+                let data = response.data;
+                if (data.code === 0) {
+                    this.$message({
+                        message: data.message,
+                        type: 'success'
+                    });
+                } else {
+                    this.$message({
+                        message: data.message,
+                        type: 'error'
+                    });
+                }
+            })
+        },
+        handleEnd(row) {
+            this.$http.post(TASK_JOB_PLAN_STOP + `${row.id}`, {}).then(response => {
+                let data = response.data;
+                if (data.code === 0) {
+                    this.$message({
+                        message: data.message,
+                        type: 'success'
+                    });
+                } else {
+                    this.$message({
+                        message: data.message,
+                        type: 'error'
+                    });
+                }
+            })
+        },
         handleEdit(index, row) {
             console.log(index, row);
         },
-        handleDelete(index, row){
+        handleDelete(index, row) {
             console.log(index, row);
         },
         resetFilter() {
@@ -182,6 +220,7 @@ export default {
         }
     },
     mounted() {
+        this.loadInfo();
         console.log(this.$route)
     }
 }

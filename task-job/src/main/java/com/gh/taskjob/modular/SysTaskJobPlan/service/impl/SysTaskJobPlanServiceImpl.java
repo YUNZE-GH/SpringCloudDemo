@@ -178,7 +178,7 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
     }
 
     @Override
-    public ResultData end(String id) {
+    public ResultData stop(String id) {
         SysTaskJobPlan bo = baseMapper.selectById(id);
         if (bo == null) {
             throw new BusinessException("不存在该任务！");

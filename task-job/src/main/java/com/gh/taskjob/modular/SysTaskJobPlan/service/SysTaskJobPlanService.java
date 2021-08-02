@@ -1,10 +1,9 @@
 package com.gh.taskjob.modular.SysTaskJobPlan.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.gh.common.toolsclass.PageFilter;
 import com.gh.common.toolsclass.ResultData;
-import com.gh.taskjob.modular.SysTaskJobHistory.entity.SysTaskJobHistory;
 import com.gh.taskjob.modular.SysTaskJobPlan.entity.SysTaskJobPlan;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -27,5 +26,5 @@ public interface SysTaskJobPlanService extends IService<SysTaskJobPlan> {
 
     ResultData start(String id) throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException;
 
-    ResultData end(String id);
+    ResultData stop(String id);
 }
