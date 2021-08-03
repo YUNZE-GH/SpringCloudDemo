@@ -12,8 +12,12 @@
         <option value="$PROJECT_DIR$/redis/pom.xml" />
         <option value="$PROJECT_DIR$/auth-management/pom.xml" />
         <option value="$PROJECT_DIR$/base-user-system/pom.xml" />
+        <option value="$PROJECT_DIR$/task-job/pom.xml" />
       </list>
     </option>
+  </component>
+  <component name="PWA">
+    <option name="wasEnabledAtLeastOnce" value="true" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

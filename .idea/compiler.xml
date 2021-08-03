@@ -16,6 +16,7 @@
         <module name="config" />
         <module name="consumer" />
         <module name="redis" />
+        <module name="task-job" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -45,6 +46,7 @@
       <module name="provider2" options="-parameters" />
       <module name="redis" options="-parameters" />
       <module name="redis-utils" options="-parameters" />
+      <module name="task-job" options="-parameters" />
     </option>
   </component>
 </project>

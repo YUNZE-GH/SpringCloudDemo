@@ -31,33 +31,14 @@
                     </div>
                 </el-col>
             </el-row>
-            <!--            <el-row>
-                            <el-col :span="6">
-                                <el-form-item label="任务编号" prop="data.taskId">
-                                    <el-input v-model="filter.data.taskId" placeholder="请输入任务编号"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="6">
-                                <el-form-item label="任务名称" prop="data.taskName">
-                                    <el-input v-model="filter.data.taskName" placeholder="请输入任务名称"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="6">
-                                <el-form-item label="任务状态" prop="data.status">
-                                    <el-select v-model="filter.data.status" placeholder="请选择">
-                                        <el-option label="停止" value="0"></el-option>
-                                        <el-option label="启动" value="1"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>-->
 
         </el-form>
 
 
-        <div style="background-color: white">
+        <div style="background-color: white" >
             <el-table
                 :data="tableData"
+                v-loading="loading"
                 style="width: 100%" stripe>
                 <el-table-column
                     type="index"
@@ -74,7 +55,7 @@
                     label="执行方式"
                     min-width="180" header-align="center" align="center">
                     <template slot-scope="scope">
-                        {{ scope.row.taskPlanType === 0 ? "执行一次" : "循环执行" }}
+                        {{ scope.row.taskPlanType === 0 ? "执行一次" : "规则执行" }}
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -82,7 +63,8 @@
                     label="任务状态"
                     min-width="180" header-align="center" align="center">
                     <template slot-scope="scope">
-                        {{ scope.row.status === 0 ? "停止" : "启动" }}
+                        <el-tag :type="scope.row.status === 0 ? 'primary' : 'success'"
+                            disable-transitions>{{ scope.row.status === 0 ? "停止" : "启动" }}</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -130,15 +112,23 @@
             </el-pagination>
         </div>
 
+        <div>
+            <JobEdit ref="component_job_edit"/>
+        </div>
     </div>
 </template>
 
 <script>
 
+import JobEdit from "@/views/job/components/JobEdit";
+
 import {TASK_JOB_PLAN_LIST, TASK_JOB_PLAN_START, TASK_JOB_PLAN_STOP} from "@/apis/taskJob"
 
 export default {
     name: "Index",
+    components:{
+        JobEdit
+    },
     data() {
         return {
             filter: {
@@ -152,11 +142,14 @@ export default {
                 }
             },
             tableData: [],
-            total: 0
+            total: 0,
+            loading: false,
+
         }
     },
     methods: {
         loadInfo() {
+            this.openLoading();
             this.$http.post(TASK_JOB_PLAN_LIST, this.filter).then(response => {
                 let data = response.data;
                 if (data.code === 0) {
@@ -169,12 +162,14 @@ export default {
                         type: 'error'
                     });
                 }
+                this.closeLoading();
             })
         },
         handleStart(row) {
             this.$http.post(TASK_JOB_PLAN_START + `${row.id}`, {}).then(response => {
                 let data = response.data;
                 if (data.code === 0) {
+                    this.loadInfo();
                     this.$message({
                         message: data.message,
                         type: 'success'
@@ -187,10 +182,11 @@ export default {
                 }
             })
         },
-        handleEnd(row) {
+        handleStop(row) {
             this.$http.post(TASK_JOB_PLAN_STOP + `${row.id}`, {}).then(response => {
                 let data = response.data;
                 if (data.code === 0) {
+                    this.loadInfo();
                     this.$message({
                         message: data.message,
                         type: 'success'
@@ -205,6 +201,7 @@ export default {
         },
         handleEdit(index, row) {
             console.log(index, row);
+            this.$refs.component_job_edit.init();
         },
         handleDelete(index, row) {
             console.log(index, row);
@@ -217,6 +214,17 @@ export default {
         },
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
+        },
+        openLoading(){
+            this.loading = true;
+            setTimeout(()=>{
+                this.loading = false;
+            }, 3000);
+        },
+        closeLoading() {
+            setTimeout(()=>{
+                this.loading = false;
+            }, 300);
         }
     },
     mounted() {

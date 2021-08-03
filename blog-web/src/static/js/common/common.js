@@ -7,6 +7,7 @@ export default {
     },
     getBreadcrumbData(route){
         console.log(route)
-    }
+    },
+
 
 }

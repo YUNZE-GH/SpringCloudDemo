@@ -1,5 +1,5 @@
 let serverPath = process.env.VUE_APP_SERVER_PATH_BASE;
-let taskJobServerPath = process.env.VUE_APP_SERVER_PATH_TASK_JOB;
+// let taskJobServerPath = process.env.VUE_APP_SERVER_PATH_TASK_JOB;
 
 module.exports = {
     publicPath: "./",   // 打包相对路径
@@ -18,14 +18,14 @@ module.exports = {
                     '^/api': '/'
                 }
             },
-            '/scheduled': {
+            /*'/scheduled': {
                 target: `${ taskJobServerPath }`,
                 ws: true,
                 changOrigin: true,
                 pathRewrite: {
                     '^/scheduled': '/'
                 }
-            }
+            }*/
         }
     }
 }
