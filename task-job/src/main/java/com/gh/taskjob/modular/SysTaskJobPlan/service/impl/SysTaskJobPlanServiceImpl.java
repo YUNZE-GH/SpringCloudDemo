@@ -178,6 +178,7 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResultData stop(String id) {
         SysTaskJobPlan bo = baseMapper.selectById(id);
         if (bo == null) {
@@ -191,6 +192,11 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
             System.err.println("停止定时器:" + bo.getTaskId());
             futureMap.get(bo.getTaskId()).cancel(true);
             futureMap.remove(bo.getTaskId());
+
+            bo.setUpdateTime(LocalDateTime.now());
+            bo.setUpdateUserId(null);
+            bo.setStatus(0);
+            baseMapper.updateById(bo);
         }
         return ResultData.success();
     }

@@ -42,7 +42,7 @@ public class SysTaskJobPlan implements Serializable {
     private String taskName;
 
     /**
-     * 执行方式：0-执行一次；1-循环执行
+     * 执行方式：0-执行一次；1-规则执行
      */
     private Integer taskPlanType;
 
