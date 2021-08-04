@@ -15,36 +15,50 @@
                 </el-col>
                 <el-col :span="11" :offset="2">
                     <el-form-item label="执行方式">
-                        <el-radio-group v-model="form.taskPlanType" size="medium">
-                            <el-radio label="0">执行一次</el-radio>
-                            <el-radio label="1">规则执行</el-radio>
-                        </el-radio-group>
+                        <el-select v-model="form.taskPlanType" placeholder="请选择">
+                            <el-option label="执行一次" value="0"></el-option>
+                            <el-option label="无限次" value="1"></el-option>
+                            <el-option label="Cron表达式" value="2"></el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
 
-            <el-row v-if="form.taskPlanType === '1'">
+            <el-row v-if="form.taskPlanType !== '0'">
                 <el-col :span="11">
-                    <el-form-item label="规则类型">
-                        <el-radio-group v-model="form.taskPlanTimingMethod" size="medium">
-                            <el-radio label="0">cron通配符</el-radio>
-                            <el-radio label="1">fixedRate</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="11" :offset="2">
-                    <div v-if="form.taskPlanTimingMethod === '0'">
-                        <el-form-item label="cron通配符">
+                    <div v-if="form.taskPlanType === '2'">
+                        <el-form-item label="Cron通配符">
                             <el-input v-model="form.taskPlanCron"></el-input>
                         </el-form-item>
                     </div>
                     <div v-else>
-                        <el-form-item label="固定时长">
+                        <el-form-item label="执行间隔">
                             <el-input v-model="form.taskPlanFixedRate">
                                 <template slot="suffix">ms</template>
                             </el-input>
                         </el-form-item>
                     </div>
+                </el-col>
+                <el-col :span="11" :offset="2">
+                    <el-form-item label="执行方式">
+                        <el-switch
+                            v-model="form.taskSequentialExecution"
+                            active-value="1"
+                            inactive-value="0"
+                            active-color="#13ce66"
+                            inactive-color="#ff4949">
+                        </el-switch>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <el-row>
+                <el-col :span="24">
+                    <el-form-item label="自定义参数">
+                        <el-input type="textarea" :rows="2" placeholder="请输入json格式数据"
+                                  v-model="form.taskCustomParameters" maxlength="300" show-word-limit>
+                        </el-input>
+                    </el-form-item>
                 </el-col>
             </el-row>
 
@@ -52,10 +66,9 @@
                 <el-col :span="24">
                     <el-form-item label="备注">
                         <el-input type="textarea" :rows="2" placeholder="请输入任务备注内容"
-                            v-model="form.remark" maxlength="300" show-word-limit>
+                                  v-model="form.remark" maxlength="300" show-word-limit>
                         </el-input>
                     </el-form-item>
-
                 </el-col>
             </el-row>
 
@@ -79,10 +92,11 @@ export default {
             form: {
                 taskName: null,
                 taskPlanType: '0',
-                taskPlanTimingMethod: '0',
+                taskSequentialExecution: '0',
                 taskPlanCron: null,
                 taskPlanFixedRate: null,
                 taskPlanExecuteClassPath: null,
+                taskCustomParameters: null,
                 remark: null
             }
         }
@@ -97,6 +111,10 @@ export default {
 
 <style scoped>
 ::v-deep .el-input__inner {
+    width: 100%;
+}
+
+::v-deep .el-select {
     width: 100%;
 }
 </style>

@@ -167,7 +167,7 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
         ScheduledFuture future = threadPoolTaskScheduler.schedule(instance, new Trigger() {
             @Override
             public Date nextExecutionTime(TriggerContext triggerContext) {
-                if (bo.getTaskPlanTimingMethod() == 0) {
+                if (bo.getTaskPlanType() == 2) {
                     return new CronTrigger(bo.getTaskPlanCron()).nextExecutionTime(triggerContext);
                 } else {
                     return new PeriodicTrigger(bo.getTaskPlanFixedRate()).nextExecutionTime(triggerContext);

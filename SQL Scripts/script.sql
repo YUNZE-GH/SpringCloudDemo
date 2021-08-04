@@ -32,23 +32,25 @@ create table base_notice
 
 create table sys_task_job_plan
 (
-    id                      int auto_increment primary key comment '主键自增id',
-    task_id                 varchar(36) comment '任务id',
-    task_name               varchar(36) comment '任务名称',
-    task_plan_type          tinyint          default 0 comment '执行方式：0-执行一次；1-循环执行',
-    task_plan_timing_method tinyint comment '计时方法：0-cron；1-fixedRate；',
-    task_plan_cron          varchar(20) comment 'cron通配符',
-    task_plan_fixed_rate    long comment 'fixedRate间隔时长（单位：毫秒）',
-    create_time             datetime         default now() comment '创建时间',
-    create_user_id          varchar(36) comment '创建人主键ID',
-    update_time             datetime comment '更新时间',
-    update_user_id          varchar(36) comment '更新人主键ID',
-    status                  tinyint          default 0 comment '状态：0-停止；1-启动',
-    invalid                 tinyint not null default 0 comment '是否有效：0-有效；1-无效'
+    id                           int auto_increment primary key comment '主键自增id',
+    task_id                      varchar(36) comment '任务id',
+    task_name                    varchar(36) comment '任务名称',
+    task_plan_execute_class_path varchar(200) comment '任务执行类路径',
+    task_sequential_execution    tinyint          default 0 comment '上个任务未执行完再次被触发时，放弃并发执行：0-否；1-是',
+    task_custom_parameters       varchar(300) comment '自定义参数(json数据)',
+    task_plan_type               tinyint          default 0 comment '触发规则：0-执行一次；1-无限次；2-Cron表达式',
+    task_plan_cron               varchar(20) comment 'cron通配符',
+    task_plan_fixed_rate         long comment 'fixedRate间隔时长（单位：毫秒）',
+    remark                       varchar(300) comment '备注',
+    create_time                  datetime         default now() comment '创建时间',
+    create_user_id               varchar(36) comment '创建人主键ID',
+    update_time                  datetime comment '更新时间',
+    update_user_id               varchar(36) comment '更新人主键ID',
+    status                       tinyint          default 0 comment '状态：0-停止；1-启动',
+    invalid                      tinyint not null default 0 comment '是否有效：0-有效；1-无效'
 ) engine = innodb
   default charset = utf8 comment ='系统-任务作业执行计划表';
-alter table sys_task_job_plan add column task_plan_execute_class_path varchar(200) comment '任务执行类路径';
-alter table sys_task_job_plan add column remark varchar(300) comment '备注';
+
 
 CREATE TABLE sys_task_job_history
 (

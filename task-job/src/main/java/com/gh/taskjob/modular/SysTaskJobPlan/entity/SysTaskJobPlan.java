@@ -2,6 +2,7 @@ package com.gh.taskjob.modular.SysTaskJobPlan.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -42,14 +43,24 @@ public class SysTaskJobPlan implements Serializable {
     private String taskName;
 
     /**
-     * 执行方式：0-执行一次；1-规则执行
+     * 任务执行类路径
      */
-    private Integer taskPlanType;
+    private String taskPlanExecuteClassPath;
 
     /**
-     * 计时方法：0-cron；1-fixedRate；
+     * 上个任务未执行完再次被触发时，放弃并发执行：0-否；1-是
      */
-    private Integer taskPlanTimingMethod;
+    private Integer taskSequentialExecution;
+
+    /**
+     * 自定义参数(json数据)
+     */
+    private String taskCustomParameters;
+
+    /**
+     * 触发规则：0-执行一次；1-无限次；2-Cron表达式
+     */
+    private Integer taskPlanType;
 
     /**
      * cron通配符
@@ -60,6 +71,11 @@ public class SysTaskJobPlan implements Serializable {
      * fixedRate间隔时长（单位：毫秒）
      */
     private Integer taskPlanFixedRate;
+
+    /**
+     * 备注
+     */
+    private String remark;
 
     /**
      * 创建时间
@@ -92,13 +108,5 @@ public class SysTaskJobPlan implements Serializable {
     @TableLogic
     private Integer invalid;
 
-    /**
-     * 任务执行类路径
-     */
-    private String taskPlanExecuteClassPath;
 
-    /**
-     * 备注
-     */
-    private String remark;
 }

@@ -14,6 +14,7 @@ public class MyRunnable implements Runnable{
     public MyRunnable(String uuid) {
         this.uuid = uuid;
     }
+
     @Override
     public void run() {
         System.err.println("定时任务" + this.uuid + ":" + LocalDateTime.now());
