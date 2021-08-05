@@ -1,5 +1,7 @@
 package com.gh.taskjob;
 
+import com.gh.taskjob.annotation.HistoryLogAnnotation;
+
 import java.time.LocalDateTime;
 
 /**
@@ -9,14 +11,10 @@ import java.time.LocalDateTime;
  */
 public class MyRunnable implements Runnable{
 
-    private String uuid;
-
-    public MyRunnable(String uuid) {
-        this.uuid = uuid;
-    }
 
     @Override
+    @HistoryLogAnnotation
     public void run() {
-        System.err.println("定时任务" + this.uuid + ":" + LocalDateTime.now());
+        System.err.println("定时任务:" + LocalDateTime.now());
     }
 }

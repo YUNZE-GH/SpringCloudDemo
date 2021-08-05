@@ -8,6 +8,7 @@ import com.gh.common.enums.CodeEnum;
 import com.gh.common.exception.BusinessException;
 import com.gh.common.toolsclass.PageFilter;
 import com.gh.common.toolsclass.ResultData;
+import com.gh.taskjob.annotation.HistoryLogAnnotation;
 import com.gh.taskjob.modular.SysTaskJobHistory.entity.SysTaskJobHistory;
 import com.gh.taskjob.modular.SysTaskJobHistory.service.SysTaskJobHistoryService;
 import com.gh.taskjob.modular.SysTaskJobPlan.entity.SysTaskJobPlan;
@@ -139,10 +140,10 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
 
         String classPath = bo.getTaskPlanExecuteClassPath();
 
-        Class clz = Class.forName(classPath);
-        Constructor<?> cons[] = clz.getConstructors();
-        Object obj = cons[0].newInstance(bo.getTaskId());
-        Runnable instance = (Runnable) obj;
+        Class<?> clazz = Class.forName(classPath);
+        Constructor<?>[] cons = clazz.getConstructors();
+//        Runnable instance = (Runnable) cons[0].newInstance(bo.getTaskId());
+        Runnable instance = (Runnable) cons[0].newInstance();
 
         SysTaskJobHistory history = new SysTaskJobHistory();
         history.setTaskId(bo.getTaskId());
