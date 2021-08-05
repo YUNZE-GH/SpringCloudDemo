@@ -5,7 +5,6 @@ import com.gh.common.toolsclass.PageFilter;
 import com.gh.common.toolsclass.ResultData;
 import com.gh.taskjob.modular.SysTaskJobPlan.entity.SysTaskJobPlan;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
@@ -24,7 +23,11 @@ public interface SysTaskJobPlanService extends IService<SysTaskJobPlan> {
 
     ResultData<SysTaskJobPlan> update(SysTaskJobPlan bo);
 
-    ResultData start(String id) throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException;
+    ResultData start(String id) throws Exception;
 
     ResultData stop(String id);
+
+    void executeTask(SysTaskJobPlan bo) throws Exception;
+
+    void startedTask() throws Exception;
 }

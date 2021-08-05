@@ -50,7 +50,7 @@ public class SysTaskJobPlanController {
     }
 
     @PostMapping(value = "/start/{id}")
-    public ResultData start(@PathVariable("id") String id) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, InstantiationException {
+    public ResultData start(@PathVariable("id") String id) throws Exception {
         return taskJobPlanService.start(id);
     }
 

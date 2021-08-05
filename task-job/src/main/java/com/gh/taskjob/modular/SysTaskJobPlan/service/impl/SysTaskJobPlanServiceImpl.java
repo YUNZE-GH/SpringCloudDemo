@@ -21,6 +21,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -115,7 +116,7 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public ResultData start(String id) throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
         SysTaskJobPlan bo = baseMapper.selectById(id);
         if (bo == null) {
@@ -125,6 +126,14 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
             throw new BusinessException("当前任务已处于执行状态！");
         }
 
+        this.executeTask(bo);
+
+        return ResultData.success();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public void executeTask(SysTaskJobPlan bo) throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
         bo.setStatus(1);
         this.updateById(bo);
 
@@ -152,6 +161,11 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
             history.setStatus(0);
             history.setLog("执行成功！");
         } catch (Exception e) {
+            // 停止该定时任务
+            futureMap.get(bo.getTaskId()).cancel(true);
+            futureMap.remove(bo.getTaskId());
+
+            // 记录日志
             history.setStatus(1);
             history.setLog(e.getMessage());
             e.printStackTrace();
@@ -159,10 +173,10 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
 
         history.setTaskEndTime(LocalDateTime.now());
         sysTaskJobHistoryService.add(history);
-        return ResultData.success();
     }
 
-    private void executeScheduledFuture(Runnable instance, SysTaskJobPlan bo){
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public void executeScheduledFuture(Runnable instance, SysTaskJobPlan bo) {
         // 循环执行
         ScheduledFuture future = threadPoolTaskScheduler.schedule(instance, new Trigger() {
             @Override
@@ -199,5 +213,15 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
             baseMapper.updateById(bo);
         }
         return ResultData.success();
+    }
+
+    @Override
+    public void startedTask() throws Exception {
+        LambdaQueryWrapper<SysTaskJobPlan> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(SysTaskJobPlan::getStatus, 1).ne(SysTaskJobPlan::getTaskPlanType, 0);
+        List<SysTaskJobPlan> list = baseMapper.selectList(lambdaQueryWrapper);
+        for (SysTaskJobPlan bo : list) {
+            this.executeTask(bo);
+        }
     }
 }
