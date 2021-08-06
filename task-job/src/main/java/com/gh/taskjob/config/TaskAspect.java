@@ -1,7 +1,5 @@
 package com.gh.taskjob.config;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -36,9 +34,10 @@ public class TaskAspect {
      * @within: 匹配使用指定注解的类
      * @annotation:指定方法所应用的注解
      */
-    @Pointcut("@annotation(com.gh.taskjob.annotation.HistoryLogAnnotation)")
+    //  && @target(com.gh.taskjob.annotation.HistoryLogAnnotation)
+    @Pointcut("execution(public * java.lang.Runnable..*.*(..))")
     public void asAnnotation() {
-
+        System.out.println("切入点------------------" + LocalDateTime.now());
     }
 
     /**
@@ -46,7 +45,7 @@ public class TaskAspect {
      */
     @Before("asAnnotation()")
     public void beforeRun() {
-        System.out.println("在HistoryLogAnnotation注解之前执行------------------" + LocalDateTime.now());
+        System.out.println("注解之前执行------------------" + LocalDateTime.now());
     }
 
     /**
@@ -55,7 +54,6 @@ public class TaskAspect {
      */
     @AfterReturning(returning = "result", pointcut = "asAnnotation()")
     public void after(Object result) {
-        System.out.println("在HistoryLogAnnotation注解之后执行------------------" + LocalDateTime.now());
-        log.info("执行成功，Result：{}", JSONObject.toJSONString(result));
+        System.out.println("注解之后执行------------------" + LocalDateTime.now());
     }
 }
