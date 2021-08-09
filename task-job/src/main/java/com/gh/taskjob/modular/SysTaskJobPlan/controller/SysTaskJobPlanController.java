@@ -3,15 +3,9 @@ package com.gh.taskjob.modular.SysTaskJobPlan.controller;
 
 import com.gh.common.toolsclass.PageFilter;
 import com.gh.common.toolsclass.ResultData;
-import com.gh.common.toolsclass.SpringContextHolder;
-import com.gh.taskjob.TaskJobApplication;
-import com.gh.taskjob.job.MyRunnable;
 import com.gh.taskjob.modular.SysTaskJobPlan.entity.SysTaskJobPlan;
 import com.gh.taskjob.modular.SysTaskJobPlan.service.SysTaskJobPlanService;
-import com.gh.taskjob.modular.SysTaskJobPlan.service.impl.SysTaskJobPlanServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,13 +27,8 @@ public class SysTaskJobPlanController {
     @Autowired
     private SysTaskJobPlanService taskJobPlanService;
 
-    @Autowired
-    private ApplicationContext applicationContext;
-
     @PostMapping(value = "/list")
     public ResultData<List<SysTaskJobPlan>> list(@RequestBody PageFilter<SysTaskJobPlan> filter) {
-        MyRunnable bean = (MyRunnable) applicationContext.getBean("myRunnable");
-        bean.run();
         return taskJobPlanService.list(filter);
     }
 

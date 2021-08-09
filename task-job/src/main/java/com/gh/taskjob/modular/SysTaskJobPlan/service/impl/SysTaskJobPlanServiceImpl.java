@@ -4,11 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.gh.common.SDK;
 import com.gh.common.enums.CodeEnum;
 import com.gh.common.exception.BusinessException;
 import com.gh.common.toolsclass.PageFilter;
 import com.gh.common.toolsclass.ResultData;
-import com.gh.common.toolsclass.SpringContextHolder;
+import com.gh.common.toolsclass.BaseTask;
 import com.gh.taskjob.modular.SysTaskJobHistory.entity.SysTaskJobHistory;
 import com.gh.taskjob.modular.SysTaskJobHistory.service.SysTaskJobHistoryService;
 import com.gh.taskjob.modular.SysTaskJobPlan.entity.SysTaskJobPlan;
@@ -28,7 +29,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Constructor;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
@@ -144,9 +144,6 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
         return AopContext.currentProxy() != null ? (SysTaskJobPlanServiceImpl) AopContext.currentProxy() : this;
     }
 
-    //    @Autowired(required = false)
-//    @Qualifier("MyRunnable")
-//    private Runnable instance;
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
@@ -160,7 +157,8 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
 //        Constructor<?>[] cons = clazz.getConstructors();
 //        Runnable instance = (Runnable) cons[0].newInstance(bo.getTaskId());
 
-        Runnable instance = (Runnable) applicationContext.getBean(classPath);
+        BaseTask instance = (BaseTask) applicationContext.getBean(classPath);
+        instance.setParams(SDK.beanMapTool().beanToMap(bo));
 
         SysTaskJobHistory history = new SysTaskJobHistory();
         history.setTaskId(bo.getTaskId());
