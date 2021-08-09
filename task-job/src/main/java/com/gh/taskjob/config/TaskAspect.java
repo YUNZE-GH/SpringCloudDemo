@@ -34,10 +34,10 @@ public class TaskAspect {
      * @within: 匹配使用指定注解的类
      * @annotation:指定方法所应用的注解
      */
-    //  && @target(com.gh.taskjob.annotation.HistoryLogAnnotation)
-    @Pointcut("execution(public * java.lang.Runnable..*.*(..))")
+//    execution(public * com.gh.taskjob.job..*.*(..)) &&
+    @Pointcut("@annotation(com.gh.taskjob.annotation.HistoryLogAnnotation)")
     public void asAnnotation() {
-        System.out.println("切入点------------------" + LocalDateTime.now());
+        System.err.println("切入点------------------" + LocalDateTime.now());
     }
 
     /**
@@ -45,7 +45,7 @@ public class TaskAspect {
      */
     @Before("asAnnotation()")
     public void beforeRun() {
-        System.out.println("注解之前执行------------------" + LocalDateTime.now());
+        System.err.println("注解之前执行------------------" + LocalDateTime.now());
     }
 
     /**
@@ -54,6 +54,6 @@ public class TaskAspect {
      */
     @AfterReturning(returning = "result", pointcut = "asAnnotation()")
     public void after(Object result) {
-        System.out.println("注解之后执行------------------" + LocalDateTime.now());
+        System.err.println("注解之后执行------------------" + LocalDateTime.now());
     }
 }

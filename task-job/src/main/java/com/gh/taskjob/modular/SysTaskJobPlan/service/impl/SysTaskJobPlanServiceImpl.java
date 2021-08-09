@@ -8,13 +8,15 @@ import com.gh.common.enums.CodeEnum;
 import com.gh.common.exception.BusinessException;
 import com.gh.common.toolsclass.PageFilter;
 import com.gh.common.toolsclass.ResultData;
-import com.gh.taskjob.annotation.HistoryLogAnnotation;
+import com.gh.common.toolsclass.SpringContextHolder;
 import com.gh.taskjob.modular.SysTaskJobHistory.entity.SysTaskJobHistory;
 import com.gh.taskjob.modular.SysTaskJobHistory.service.SysTaskJobHistoryService;
 import com.gh.taskjob.modular.SysTaskJobPlan.entity.SysTaskJobPlan;
 import com.gh.taskjob.modular.SysTaskJobPlan.mapper.SysTaskJobPlanMapper;
 import com.gh.taskjob.modular.SysTaskJobPlan.service.SysTaskJobPlanService;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.TriggerContext;
@@ -27,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
@@ -48,6 +49,9 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
 
     @Autowired
     private ThreadPoolTaskScheduler threadPoolTaskScheduler;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     @Bean
     public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
@@ -117,8 +121,8 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public ResultData start(String id) throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    @Transactional(rollbackFor = Exception.class)
+    public ResultData start(String id) throws Exception {
         SysTaskJobPlan bo = baseMapper.selectById(id);
         if (bo == null) {
             throw new BusinessException("不存在该任务！");
@@ -127,23 +131,36 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
             throw new BusinessException("当前任务已处于执行状态！");
         }
 
-        this.executeTask(bo);
+        getSysTaskJobPlanServiceImpl().executeTask(bo);
 
         return ResultData.success();
     }
 
+    /**
+     * 强制获取代理对象，必须开启exposeProxy配置，否则获取不到当前代理对象
+     * @return SysTaskJobPlanServiceImpl
+     */
+    private SysTaskJobPlanServiceImpl getSysTaskJobPlanServiceImpl() {
+        return AopContext.currentProxy() != null ? (SysTaskJobPlanServiceImpl) AopContext.currentProxy() : this;
+    }
+
+    //    @Autowired(required = false)
+//    @Qualifier("MyRunnable")
+//    private Runnable instance;
+
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public void executeTask(SysTaskJobPlan bo) throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public void executeTask(SysTaskJobPlan bo) throws Exception {
         bo.setStatus(1);
         this.updateById(bo);
 
         String classPath = bo.getTaskPlanExecuteClassPath();
 
-        Class<?> clazz = Class.forName(classPath);
-        Constructor<?>[] cons = clazz.getConstructors();
+//        Class<?> clazz = Class.forName(classPath);
+//        Constructor<?>[] cons = clazz.getConstructors();
 //        Runnable instance = (Runnable) cons[0].newInstance(bo.getTaskId());
-        Runnable instance = (Runnable) cons[0].newInstance();
+
+        Runnable instance = (Runnable) applicationContext.getBean(classPath);
 
         SysTaskJobHistory history = new SysTaskJobHistory();
         history.setTaskId(bo.getTaskId());

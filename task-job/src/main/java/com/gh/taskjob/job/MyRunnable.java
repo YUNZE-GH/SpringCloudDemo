@@ -1,16 +1,16 @@
 package com.gh.taskjob.job;
 
 import com.gh.taskjob.annotation.HistoryLogAnnotation;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 /**
  * @author gaohan
  * @version 1.0
- * @date 2021/7/22 23:34
+ * @date 2021/08/06 11:34
  */
-@Component
+@Service
 public class MyRunnable implements Runnable {
 
     @Override
