@@ -1,9 +1,6 @@
 package com.gh.common;
 
-import com.gh.common.service.DateUtils;
-import com.gh.common.service.EncryptionUtils;
-import com.gh.common.service.JwtUtils;
-import com.gh.common.service.LocalDateTimeUtils;
+import com.gh.common.service.*;
 import com.gh.common.service.impl.*;
 
 import java.util.Date;
@@ -35,6 +32,14 @@ public class SDK {
      */
     public static EncryptionUtils encryptionUtils() {
         return new EncryptionUtilsImpl();
+    }
+
+    /**
+     *bean与实体类互转
+     * @return
+     */
+    public static BeanMapTool beanMapTool() {
+        return new BeanMapToolImpl();
     }
 
     /**
