@@ -1,6 +1,7 @@
 package com.gh.taskjob.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -19,6 +20,9 @@ import java.time.LocalDateTime;
 @Slf4j
 public class TaskAspect {
 
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+
     /**
      * 切入点
      * 方法用途（切入点表达式可以用&&,||,!来组合使用）:
@@ -34,7 +38,6 @@ public class TaskAspect {
      * @within: 匹配使用指定注解的类
      * @annotation:指定方法所应用的注解
      */
-//    execution(public * com.gh.taskjob.job..*.*(..)) &&
     @Pointcut("@annotation(com.gh.taskjob.annotation.HistoryLogAnnotation)")
     public void asAnnotation() {
         System.err.println("切入点------------------" + LocalDateTime.now());
@@ -44,8 +47,9 @@ public class TaskAspect {
      * 在HistoryLogAnnotation注解之前执行
      */
     @Before("asAnnotation()")
-    public void beforeRun() {
+    public void beforeRun(JoinPoint joinPoint) {
         System.err.println("注解之前执行------------------" + LocalDateTime.now());
+        this.startTime = LocalDateTime.now();
     }
 
     /**
@@ -53,7 +57,9 @@ public class TaskAspect {
      * @param result
      */
     @AfterReturning(returning = "result", pointcut = "asAnnotation()")
-    public void after(Object result) {
+    public void after(JoinPoint joinPoint, Object result) {
         System.err.println("注解之后执行------------------" + LocalDateTime.now());
+        this.endTime = LocalDateTime.now();
+
     }
 }
