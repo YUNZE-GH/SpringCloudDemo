@@ -1,8 +1,7 @@
 package com.gh.taskjob.modular.SysTaskJobHistory.service;
 
-import com.gh.common.toolsclass.ResultData;
-import com.gh.taskjob.modular.SysTaskJobHistory.entity.SysTaskJobHistory;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.gh.taskjob.modular.SysTaskJobHistory.entity.SysTaskJobHistory;
 
 /**
  * <p>
@@ -14,5 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SysTaskJobHistoryService extends IService<SysTaskJobHistory> {
 
-    ResultData<SysTaskJobHistory> add(SysTaskJobHistory bo);
+    boolean add(SysTaskJobHistory bo);
 }

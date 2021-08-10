@@ -1,11 +1,15 @@
 package com.gh.taskjob.config;
 
+import com.gh.taskjob.modular.SysTaskJobHistory.entity.SysTaskJobHistory;
+import com.gh.taskjob.modular.SysTaskJobHistory.service.SysTaskJobHistoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -19,6 +23,9 @@ import java.time.LocalDateTime;
 @Aspect // 声明为切面
 @Slf4j
 public class TaskAspect {
+
+    @Autowired
+    private SysTaskJobHistoryService taskHistoryService;
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;
@@ -60,6 +67,17 @@ public class TaskAspect {
     public void after(JoinPoint joinPoint, Object result) {
         System.err.println("注解之后执行------------------" + LocalDateTime.now());
         this.endTime = LocalDateTime.now();
+        SysTaskJobHistory bo = new SysTaskJobHistory();
+//        bo.setTaskId();
+        bo.setTaskStartTime(startTime);
+        bo.setTaskEndTime(endTime);
+//        bo.setStatus();
+        bo.setLog("执行成功");
+//        bo.setExecuteIp();
+//        taskHistoryService.add(bo);
 
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        //方法名
+        String methodName = methodSignature.getName();
     }
 }

@@ -21,9 +21,8 @@ import java.time.LocalDateTime;
 public class SysTaskJobHistoryServiceImpl extends ServiceImpl<SysTaskJobHistoryMapper, SysTaskJobHistory> implements SysTaskJobHistoryService {
 
     @Override
-    public ResultData<SysTaskJobHistory> add(SysTaskJobHistory bo) {
+    public boolean add(SysTaskJobHistory bo) {
         bo.setCreateTime(LocalDateTime.now());
-        baseMapper.insert(bo);
-        return null;
+        return baseMapper.insert(bo) > 0;
     }
 }
