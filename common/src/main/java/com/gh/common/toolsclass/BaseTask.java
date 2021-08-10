@@ -1,6 +1,6 @@
 package com.gh.common.toolsclass;
 
-import com.alibaba.fastjson.JSON;
+import org.springframework.aop.framework.AopContext;
 
 import java.util.Map;
 
@@ -23,12 +23,13 @@ public abstract class BaseTask implements Runnable {
 
     @Override
     public void run() {
-        System.err.println(JSON.toJSONString(this.getParams()));
-        this.saveParamsToSession();
+        getBaseTask().start(this.params);
     }
 
-    public void saveParamsToSession() {
-        System.err.println(Thread.currentThread().getName());
+    private BaseTask getBaseTask() {
+        return AopContext.currentProxy() != null ? (BaseTask) AopContext.currentProxy() : this;
     }
+
+    public abstract void start(Map<String, ?> params);
 }
 
