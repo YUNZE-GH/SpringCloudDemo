@@ -59,10 +59,4 @@ public class SysTaskJobHistory implements Serializable {
      */
     private String log;
 
-    /**
-     * 任务执行地址
-     */
-    private String executeIp;
-
-
 }

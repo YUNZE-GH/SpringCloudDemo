@@ -159,11 +159,6 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
 
         BaseTask instance = (BaseTask) applicationContext.getBean(classPath);
         instance.setParams(SDK.beanMapTool().beanToMap(bo));
-
-        SysTaskJobHistory history = new SysTaskJobHistory();
-        history.setTaskId(bo.getTaskId());
-        history.setTaskStartTime(LocalDateTime.now());
-
         Integer taskPlanType = bo.getTaskPlanType();
         try {
             if (taskPlanType == 0) {
@@ -173,22 +168,11 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
                 // 循环执行
                 this.executeScheduledFuture(instance, bo);
             }
-
-            history.setStatus(0);
-            history.setLog("执行成功！");
         } catch (Exception e) {
             // 停止该定时任务
             futureMap.get(bo.getTaskId()).cancel(true);
             futureMap.remove(bo.getTaskId());
-
-            // 记录日志
-            history.setStatus(1);
-            history.setLog(e.getMessage());
-            e.printStackTrace();
         }
-
-        history.setTaskEndTime(LocalDateTime.now());
-        sysTaskJobHistoryService.add(history);
     }
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)

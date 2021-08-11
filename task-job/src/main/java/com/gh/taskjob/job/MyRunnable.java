@@ -20,7 +20,17 @@ public class MyRunnable extends BaseTask {
     @Override
     @HistoryLogAnnotation
     public void start(Map<String, ?> params) {
-        System.err.println("定时任务:" + LocalDateTime.now());
-        System.err.println(JSON.toJSONString(params));
+        LocalDateTime start = LocalDateTime.now();
+        System.err.println("定时任务-开始:" + start);
+        try {
+            Thread.sleep(10000);
+            LocalDateTime end = LocalDateTime.now();
+            System.err.println("定时任务-结束:" + end);
+            System.err.println("定时任务:" + start + "~" + end);
+            System.err.println(JSON.toJSONString(params));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 }

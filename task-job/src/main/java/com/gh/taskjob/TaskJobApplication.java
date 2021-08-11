@@ -10,11 +10,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableAspectJAutoProxy(exposeProxy = true, proxyTargetClass = true)
 public class TaskJobApplication {
 
-
-
     public static void main(String[] args) {
         SpringApplication.run(TaskJobApplication.class, args);
-
     }
 
 }
