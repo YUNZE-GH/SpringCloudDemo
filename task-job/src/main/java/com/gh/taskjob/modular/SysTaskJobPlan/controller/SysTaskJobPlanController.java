@@ -32,13 +32,18 @@ public class SysTaskJobPlanController {
         return taskJobPlanService.list(filter);
     }
 
+    @GetMapping(value = "/detail/{id}")
+    public ResultData<SysTaskJobPlan> detail(@PathVariable("id") String id){
+        return ResultData.success(taskJobPlanService.getById(id));
+    }
+
     @PostMapping(value = "/add")
     public ResultData add(@RequestBody SysTaskJobPlan bo) {
         return taskJobPlanService.add(bo);
     }
 
     @PostMapping(value = "/update")
-    public ResultData<SysTaskJobPlan> update(SysTaskJobPlan bo) {
+    public ResultData<SysTaskJobPlan> update(@RequestBody SysTaskJobPlan bo) {
         return taskJobPlanService.update(bo);
     }
 

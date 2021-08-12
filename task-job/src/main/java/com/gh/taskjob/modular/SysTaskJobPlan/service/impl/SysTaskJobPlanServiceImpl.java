@@ -115,7 +115,7 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
         bo.setUpdateUserId(null);
         int i = baseMapper.updateById(bo);
         if (i > 0) {
-            ResultData.success();
+            return ResultData.success();
         }
         return ResultData.error("操作失败！");
     }
@@ -148,7 +148,11 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void executeTask(SysTaskJobPlan bo) throws Exception {
-        bo.setStatus(1);
+        Integer taskPlanType = bo.getTaskPlanType();
+
+        bo.setStatus(taskPlanType == 0 ? 0 : 1);    // 如果是执行一次，则不改变任务计划状态
+        bo.setUpdateTime(LocalDateTime.now());
+        bo.setUpdateUserId(null);
         this.updateById(bo);
 
         String classPath = bo.getTaskPlanExecuteClassPath();
@@ -159,7 +163,7 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
 
         BaseTask instance = (BaseTask) applicationContext.getBean(classPath);
         instance.setParams(SDK.beanMapTool().beanToMap(bo));
-        Integer taskPlanType = bo.getTaskPlanType();
+
         try {
             if (taskPlanType == 0) {
                 // 执行一次
