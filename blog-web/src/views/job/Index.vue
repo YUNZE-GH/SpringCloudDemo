@@ -35,98 +35,66 @@
         </el-form>
 
 
-        <div style="background-color: white" >
-            <el-table
-                :data="tableData"
-                v-loading="loading"
-                style="width: 100%" stripe>
-                <el-table-column
-                    type="index"
-                    label="序号"
-                    min-width="20" :index="1" header-align="center" align="center">
+        <div style="background-color: white">
+            <el-table :data="tableData" v-loading="loading" style="width: 100%" stripe>
+                <el-table-column type="index" label="序号" min-width="20" :index="1" header-align="center" align="center">
                 </el-table-column>
-                <el-table-column
-                    prop="taskName"
-                    label="任务名称"
-                    min-width="180" header-align="center" align="center">
+                <el-table-column prop="taskName" label="任务名称" min-width="180" header-align="center" align="center">
                 </el-table-column>
-                <el-table-column
-                    prop="taskPlanType"
-                    label="执行方式"
-                    min-width="180" header-align="center" align="center">
+                <el-table-column prop="taskPlanType" label="执行方式" min-width="180" header-align="center" align="center">
                     <template slot-scope="scope">
-                        {{ scope.row.taskPlanType === 0 ? "执行一次" : "规则执行" }}
+                        {{ taskPlanType[scope.row.taskPlanType] }}
                     </template>
                 </el-table-column>
-                <el-table-column
-                    prop="status"
-                    label="任务状态"
-                    min-width="180" header-align="center" align="center">
+                <el-table-column prop="status" label="任务状态" min-width="180" header-align="center" align="center">
                     <template slot-scope="scope">
-                        <el-tag :type="scope.row.status === 0 ? 'primary' : 'success'"
-                            disable-transitions>{{ scope.row.status === 0 ? "停止" : "启动" }}</el-tag>
+                        <el-tag :type="scope.row.status === 0 ? 'primary' : 'success'" disable-transitions>
+                            {{ status[scope.row.status] }}
+                        </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column
-                    prop="createTime"
-                    label="创建时间" header-align="center" align="center" width="180">
+                <el-table-column prop="createTime" label="创建时间" header-align="center" align="center" width="180">
                 </el-table-column>
                 <el-table-column header-align="center" align="center" label="操作" min-width="250">
                     <template slot-scope="scope">
-                        <el-button
-                            size="mini"
-                            @click="handleEdit(scope.$index, scope.row)">详情
+                        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">详情</el-button>
+                        <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)" v-if="scope.row.status === 0">编辑
                         </el-button>
-                        <el-button
-                            size="mini"
-                            type="primary"
-                            @click="handleEdit(scope.$index, scope.row)">编辑
+                        <el-button size="mini" type="success" @click="handleStart(scope.row)"
+                                   v-if="scope.row.status === 0">启动
                         </el-button>
-                        <el-button
-                            size="mini"
-                            type="success"
-                            @click="handleStart(scope.row)"
-                            v-if="scope.row.status === 0">启动
+                        <el-button size="mini" type="warning" @click="handleStop(scope.row)" v-else>停止
                         </el-button>
-                        <el-button
-                            size="mini"
-                            type="warning"
-                            @click="handleStop(scope.row)" v-else>停止
-                        </el-button>
-                        <el-button
-                            size="mini"
-                            type="danger"
-                            @click="handleDelete(scope.$index, scope.row)">删除
+                        <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)" v-if="scope.row.status === 0">删除
                         </el-button>
                     </template>
                 </el-table-column>
             </el-table>
 
-            <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :page-sizes="[1, 2, 3, 4]"
-                :page-size="1"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="total">
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                           :page-sizes="[1, 2, 3, 4]" :page-size="1" layout="total, sizes, prev, pager, next, jumper"
+                           :total="total">
             </el-pagination>
         </div>
 
         <div>
-            <JobEdit ref="component_job_edit"/>
+            <JobEdit ref="component_job_edit" @loadInfo="loadInfo"/>
         </div>
     </div>
 </template>
 
 <script>
-
 import JobEdit from "@/views/job/components/JobEdit";
 
-import {TASK_JOB_PLAN_LIST, TASK_JOB_PLAN_START, TASK_JOB_PLAN_STOP} from "@/apis/taskJob"
+import {
+    TASK_JOB_PLAN_LIST,
+    TASK_JOB_PLAN_START,
+    TASK_JOB_PLAN_STOP
+} from "@/apis/taskJob"
 
 export default {
     name: "Index",
-    components:{
+    components: {
         JobEdit
     },
     data() {
@@ -145,6 +113,14 @@ export default {
             total: 0,
             loading: false,
 
+            status: {
+                0: "停止",
+                1: "启动"
+            },
+            taskPlanType: {
+                0: "执行一次",
+                1: "规则执行"
+            }
         }
     },
     methods: {
@@ -201,7 +177,7 @@ export default {
         },
         handleEdit(index, row) {
             console.log(index, row);
-            this.$refs.component_job_edit.init();
+            this.$refs.component_job_edit.init(row.id);
         },
         handleDelete(index, row) {
             console.log(index, row);
@@ -215,21 +191,21 @@ export default {
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
         },
-        openLoading(){
+        openLoading() {
             this.loading = true;
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.loading = false;
             }, 3000);
         },
         closeLoading() {
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.loading = false;
             }, 300);
         }
     },
     mounted() {
         this.loadInfo();
-        console.log(this.$route)
+        // console.log(this.$route)
     }
 }
 </script>
@@ -247,5 +223,4 @@ export default {
 .search-form-inline .el-table {
     margin-top: 20px;
 }
-
 </style>
