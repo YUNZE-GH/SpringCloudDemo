@@ -57,15 +57,17 @@
                 </el-table-column>
                 <el-table-column header-align="center" align="center" label="操作" min-width="250">
                     <template slot-scope="scope">
-                        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">详情</el-button>
-                        <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)" v-if="scope.row.status === 0">编辑
+                        <el-button size="mini" @click="handleDetail(scope.$index, scope.row)">详情</el-button>
+                        <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)"
+                                   v-if="scope.row.status === 0">编辑
                         </el-button>
                         <el-button size="mini" type="success" @click="handleStart(scope.row)"
                                    v-if="scope.row.status === 0">启动
                         </el-button>
                         <el-button size="mini" type="warning" @click="handleStop(scope.row)" v-else>停止
                         </el-button>
-                        <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)" v-if="scope.row.status === 0">删除
+                        <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)"
+                                   v-if="scope.row.status === 0">删除
                         </el-button>
                     </template>
                 </el-table-column>
@@ -78,12 +80,15 @@
         </div>
 
         <div>
+            <JobDetail ref="component_job_detail"/>
             <JobEdit ref="component_job_edit" @loadInfo="loadInfo"/>
+
         </div>
     </div>
 </template>
 
 <script>
+import JobDetail from "@/views/job/components/JobDetail";
 import JobEdit from "@/views/job/components/JobEdit";
 
 import {
@@ -95,6 +100,7 @@ import {
 export default {
     name: "Index",
     components: {
+        JobDetail,
         JobEdit
     },
     data() {
@@ -175,8 +181,10 @@ export default {
                 }
             })
         },
+        handleDetail(index, row) {
+            this.$refs.component_job_detail.init(row.id);
+        },
         handleEdit(index, row) {
-            console.log(index, row);
             this.$refs.component_job_edit.init(row.id);
         },
         handleDelete(index, row) {
