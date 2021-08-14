@@ -36,7 +36,7 @@ public class ResultData<T> implements Serializable {
      * @param data    返回数据
      * @param message 备注
      */
-    public ResultData(int code, T data, String message)  {
+    public ResultData(int code, T data, String message) {
         this.code = code;
         this.data = data;
         this.message = message;
@@ -111,6 +111,17 @@ public class ResultData<T> implements Serializable {
      */
     public static ResultData success(Object data) {
         return new ResultData(CodeEnum.SUCCESS.get(), data);
+    }
+
+    /**
+     * 成功
+     *
+     * @param total 数据量
+     * @param data  成功返回数据
+     * @return ResultData
+     */
+    public static ResultData success(Integer total, Object data) {
+        return new ResultData(CodeEnum.SUCCESS.get(), total, data);
     }
 
     /**

@@ -1,7 +1,11 @@
 package com.gh.taskjob.modular.SysTaskJobHistory.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.gh.common.toolsclass.PageFilter;
+import com.gh.common.toolsclass.ResultData;
 import com.gh.taskjob.modular.SysTaskJobHistory.entity.SysTaskJobHistory;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,4 +18,6 @@ import com.gh.taskjob.modular.SysTaskJobHistory.entity.SysTaskJobHistory;
 public interface SysTaskJobHistoryService extends IService<SysTaskJobHistory> {
 
     boolean add(SysTaskJobHistory bo);
+
+    ResultData<List<SysTaskJobHistory>> list(PageFilter<SysTaskJobHistory> filter);
 }
