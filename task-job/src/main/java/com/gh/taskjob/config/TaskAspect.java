@@ -1,5 +1,7 @@
 package com.gh.taskjob.config;
 
+import com.gh.common.SDK;
+import com.gh.common.toolsclass.FinalProperties;
 import com.gh.taskjob.modular.SysTaskJobHistory.entity.SysTaskJobHistory;
 import com.gh.taskjob.modular.SysTaskJobHistory.service.SysTaskJobHistoryService;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +11,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
@@ -91,6 +94,8 @@ public class TaskAspect {
         HashMap<String, Object> params = (HashMap<String, Object>) joinPoint.getArgs()[0];
         bo.setTaskEndTime(LocalDateTime.now()); // 任务结束时间
         bo.setTaskId(params.get("taskId").toString());
+        bo.setTaskTimeConsuming(Duration.between(bo.getTaskStartTime(), bo.getTaskEndTime()).toMillis());   // 耗时
+        bo.setTaskExecutionDate(SDK.getLocalDateTimeUtils().localDateTimeToString(bo.getTaskStartTime(), FinalProperties.FORMAT_DATE));
 
         bo.setStatus(0);    // 执行状态：0-成功；1-失败
         bo.setLog("执行成功！");
@@ -104,6 +109,8 @@ public class TaskAspect {
         bo.setTaskEndTime(LocalDateTime.now()); // 任务结束时间
         bo.setTaskId(params.get("taskId").toString());
         bo.setStatus(1);    // 执行状态：0-成功；1-失败
+        bo.setTaskTimeConsuming(Duration.between(bo.getTaskStartTime(), bo.getTaskEndTime()).toMillis());   // 耗时
+        bo.setTaskExecutionDate(SDK.getLocalDateTimeUtils().localDateTimeToString(bo.getTaskStartTime(), FinalProperties.FORMAT_DATE));
 
         StringBuilder str = new StringBuilder();
         str.append(e.getClass() + ":" + e.getMessage() + "\n");
@@ -117,6 +124,5 @@ public class TaskAspect {
         bo.setLog(str.toString());
         taskHistoryService.add(bo);
     }
-
 
 }

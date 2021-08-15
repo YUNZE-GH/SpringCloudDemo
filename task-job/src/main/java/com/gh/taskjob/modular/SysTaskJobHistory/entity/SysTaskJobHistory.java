@@ -2,8 +2,10 @@ package com.gh.taskjob.modular.SysTaskJobHistory.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -43,6 +45,16 @@ public class SysTaskJobHistory implements Serializable {
      * 任务结束时间
      */
     private LocalDateTime taskEndTime;
+
+    /**
+     * 任务耗时
+     */
+    private Long taskTimeConsuming;
+
+    /**
+     * 任务执行日期
+     */
+    private String taskExecutionDate;
 
     /**
      * 创建时间

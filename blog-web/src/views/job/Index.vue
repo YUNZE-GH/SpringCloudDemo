@@ -25,7 +25,7 @@
                     <div style="float: right">
                         <el-form-item>
                             <el-button type="primary" round @click="loadInfo">查询</el-button>
-                            <el-button type="warning" round @click="loadInfo">新增</el-button>
+                            <el-button type="warning" round @click="handleCreate">新增</el-button>
                             <el-button type="info" round @click="resetFilter">重置</el-button>
                         </el-form-item>
                     </div>
@@ -41,7 +41,7 @@
                 </el-table-column>
                 <el-table-column prop="taskName" label="任务名称" min-width="180" header-align="center" align="center">
                 </el-table-column>
-                <el-table-column prop="taskPlanType" label="执行方式" min-width="180" header-align="center" align="center">
+                <el-table-column prop="taskPlanType" label="触发方式" min-width="180" header-align="center" align="center">
                     <template slot-scope="scope">
                         {{ taskPlanType[scope.row.taskPlanType] }}
                     </template>
@@ -53,7 +53,8 @@
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column prop="createTime" label="创建时间" header-align="center" align="center" width="180">
+                <el-table-column prop="createTime" label="创建时间" header-align="center" align="center" width="180"
+                                 :formatter="formatter">
                 </el-table-column>
                 <el-table-column header-align="center" align="center" label="操作" min-width="250">
                     <template slot-scope="scope">
@@ -74,7 +75,7 @@
             </el-table>
 
             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                           :page-sizes="[1, 2, 3, 4]" :page-size="1" layout="total, sizes, prev, pager, next, jumper"
+                           :page-sizes="[10, 20, 30, 40, 50]" :page-size="1" layout="total, sizes, prev, pager, next, jumper"
                            :total="total">
             </el-pagination>
         </div>
@@ -94,7 +95,8 @@ import JobEdit from "@/views/job/components/JobEdit";
 import {
     TASK_JOB_PLAN_LIST,
     TASK_JOB_PLAN_START,
-    TASK_JOB_PLAN_STOP
+    TASK_JOB_PLAN_STOP,
+    TASK_JOB_PLAN_DELETE
 } from "@/apis/taskJob"
 
 export default {
@@ -125,7 +127,8 @@ export default {
             },
             taskPlanType: {
                 0: "执行一次",
-                1: "规则执行"
+                1: "无限次",
+                2: "Cron表达式"
             }
         }
     },
@@ -181,23 +184,47 @@ export default {
                 }
             })
         },
+        formatter(row, column, cellValue) {
+            return this.$common.formatDateTime(cellValue);
+        },
+        handleCreate() {
+            this.$refs.component_job_edit.init('add');
+        },
         handleDetail(index, row) {
             this.$refs.component_job_detail.init(row.id);
         },
         handleEdit(index, row) {
-            this.$refs.component_job_edit.init(row.id);
+            this.$refs.component_job_edit.init('edit', row.id);
         },
         handleDelete(index, row) {
-            console.log(index, row);
+            this.openLoading();
+            this.$http.get(TASK_JOB_PLAN_DELETE + `${row.id}`, {}).then(response => {
+                let data = response.data;
+                if (data.code === 0) {
+                    this.loadInfo();
+                    this.$message({
+                        message: data.message,
+                        type: 'success'
+                    });
+                } else {
+                    this.$message({
+                        message: data.message,
+                        type: 'error'
+                    });
+                }
+                this.closeLoading();
+            })
         },
         resetFilter() {
             this.$refs.filter.resetFields();
         },
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            this.filter.limit = val;
+            this.loadInfo();
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            this.filter.page = val;
+            this.loadInfo();
         },
         openLoading() {
             this.loading = true;

@@ -1,34 +1,27 @@
 <template>
-    <el-dialog
-        :title="title"
-        :visible.sync="dialogVisible"
-        width="50%"
-        append-to-body
-        center>
+    <el-drawer :title="title" :visible.sync="dialogVisible" size="50%" append-to-body center>
 
-        <div v-loading="loading">
-            <el-tabs v-model="activeNameTabs" type="card" @tab-click="handleClick">
-                <el-tab-pane name="first">
-                    <span slot="label"><i class="el-icon-setting"></i> 配置信息</span>
-                    <el-form ref="form" :model="form" label-width="120px" label-suffix=" :" style="padding: 0 20px"
-                             disabled>
-                        <JobInfo :form.sync="form"/>
-                    </el-form>
-                </el-tab-pane>
-                <el-tab-pane name="second">
-                    <span slot="label"><i class="el-icon-time"></i> 历史日志</span>
-                    <div style="width: 90%; margin:0 auto;">
-                        <JobHistoryLog ref="job_history_log"/>
-                    </div>
-                </el-tab-pane>
-            </el-tabs>
+        <el-container>
+            <el-main v-loading="loading">
+                <el-tabs v-model="activeNameTabs" type="card" @tab-click="handleClick">
+                    <el-tab-pane name="first">
+                        <span slot="label"><i class="el-icon-setting"></i> 配置信息</span>
+                        <JobInfo :form.sync="form" :is-disabled="true"/>
+                    </el-tab-pane>
+                    <el-tab-pane name="second">
+                        <span slot="label"><i class="el-icon-time"></i> 历史日志</span>
+                        <div style="width: 90%; margin:0 auto;">
+                            <JobHistoryLog ref="job_history_log"/>
+                        </div>
+                    </el-tab-pane>
+                </el-tabs>
+            </el-main>
 
-        </div>
-
-        <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">关 闭</el-button>
-        </span>
-    </el-dialog>
+            <el-footer height="80px" style="text-align: center;line-height: 80px">
+                <el-button @click="dialogVisible = false">关 闭</el-button>
+            </el-footer>
+        </el-container>
+    </el-drawer>
 </template>
 
 <script>
@@ -107,8 +100,7 @@ export default {
                 this.closeLoading();
             })
         },
-        handleClick(tab, event) {
-            console.log(tab, event);
+        handleClick() {
             if (this.activeNameTabs === 'second') {
                 this.$refs.job_history_log.loadInfo(this.form.taskId);
             }
@@ -130,5 +122,10 @@ export default {
 </script>
 
 <style scoped>
-
+.el-container {
+    height: calc(100vh - 80px);
+}
+.el-main{
+    /*height: calc(1vh - 800px);*/
+}
 </style>

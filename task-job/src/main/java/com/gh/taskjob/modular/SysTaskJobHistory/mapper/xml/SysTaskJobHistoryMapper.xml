@@ -2,4 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gh.taskjob.modular.SysTaskJobHistory.mapper.SysTaskJobHistoryMapper">
 
+    <select id="listSort" resultType="com.gh.taskjob.modular.SysTaskJobHistory.model.TaskHistorySortModel">
+        SELECT task_id, task_execution_date, COUNT(1) as total, COUNT(`status` = 0 OR NULL) as success, COUNT(`status` = 1 OR NULL) as error
+        FROM sys_task_job_history
+        <where>
+            <if test="bo.taskId != null and bo.taskId != ''">
+                and task_id = #{bo.taskId}
+            </if>
+        </where>
+        GROUP BY task_id, task_execution_date
+        ORDER BY task_id DESC, task_execution_date DESC
+    </select>
 </mapper>

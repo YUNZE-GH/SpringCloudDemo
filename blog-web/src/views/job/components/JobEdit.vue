@@ -1,29 +1,24 @@
 <template>
-    <el-dialog
-        :title="title"
-        :visible.sync="dialogVisible"
-        width="50%"
-        append-to-body
-        center>
+    <el-drawer :title="title + typeCode[type] " :visible.sync="dialogVisible" size="50%" append-to-body center>
 
-        <div v-loading="loading">
-            <el-form ref="form" :model="form" label-width="120px" label-suffix=" :" style="padding: 0 20px">
-                <JobInfo :form.sync="form"/>
-            </el-form>
-        </div>
+        <el-container>
+            <el-main v-loading="loading">
+                <JobInfo ref="job_info" :form.sync="form"/>
+            </el-main>
 
-        <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="onUpdate()">确 定</el-button>
-        </span>
-    </el-dialog>
+            <el-footer height="80px" style="text-align: center;line-height: 80px">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="submit()">确 定</el-button>
+            </el-footer>
+        </el-container>
+    </el-drawer>
 </template>
 
 <script>
 
 import JobInfo from "@/views/job/components/JobInfo";
 
-import {TASK_JOB_PLAN_DETAIL, TASK_JOB_PLAN_UPDATE} from "@/apis/taskJob"
+import {TASK_JOB_PLAN_DETAIL, TASK_JOB_PLAN_UPDATE, TASK_JOB_PLAN_ADD} from "@/apis/taskJob"
 
 export default {
     name: "JobEdit",
@@ -31,7 +26,7 @@ export default {
     data() {
         return {
             dialogVisible: false,
-            title: "定时任务编辑",
+            title: "定时任务",
             loading: false,
             form: {
                 id: null,
@@ -45,14 +40,26 @@ export default {
                 taskPlanExecuteClassPath: null,
                 taskCustomParameters: null,
                 remark: null
-            }
+            },
+            typeCode: {
+                'add': "新增",
+                'edit': "编辑"
+            },
+            type: null,
         }
     },
     methods: {
         // 打开弹窗页面
-        init(id) {
+        init(type, id) {
             this.dialogVisible = true;
-            this.queryInfo(id);
+            this.type = type;
+
+            this.clearData();
+            this.$nextTick(()=>{
+                if (type === 'edit') {
+                    this.queryInfo(id);
+                }
+            })
         },
         // 查询任务计划详细信息
         queryInfo(id) {
@@ -65,6 +72,33 @@ export default {
                             this.form[fKey] = data.data[fKey] + "";
                         }
                     }
+                } else {
+                    this.$message({
+                        message: data.message,
+                        type: 'error'
+                    });
+                }
+                this.closeLoading();
+            })
+        },
+        submit() {
+            if (this.type === 'edit') {
+                this.onUpdate();
+            } else {
+                this.onCreate();
+            }
+        },
+        onCreate() {
+            this.openLoading();
+            this.$http.post(TASK_JOB_PLAN_ADD, this.form).then(response => {
+                let data = response.data;
+                if (data.code === 0) {
+                    this.$emit("loadInfo");
+                    this.dialogVisible = false;
+                    this.$message({
+                        message: data.message,
+                        type: 'success'
+                    });
                 } else {
                     this.$message({
                         message: data.message,
@@ -103,8 +137,22 @@ export default {
             setTimeout(() => {
                 this.loading = false;
             }, 300);
-        }
+        },
+        clearData() {
+            this.form = {
+                id: null,
+                taskId: null,
 
+                taskName: null,
+                taskPlanType: '0',
+                taskSequentialExecution: '0',
+                taskPlanCron: null,
+                taskPlanFixedRate: null,
+                taskPlanExecuteClassPath: null,
+                taskCustomParameters: null,
+                remark: null
+            }
+        }
     }
 }
 </script>

@@ -4,8 +4,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.gh.common.toolsclass.PageFilter;
 import com.gh.common.toolsclass.ResultData;
 import com.gh.taskjob.modular.SysTaskJobHistory.entity.SysTaskJobHistory;
+import com.gh.taskjob.modular.SysTaskJobHistory.model.TaskHistorySortModel;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -20,4 +23,6 @@ public interface SysTaskJobHistoryService extends IService<SysTaskJobHistory> {
     boolean add(SysTaskJobHistory bo);
 
     ResultData<List<SysTaskJobHistory>> list(PageFilter<SysTaskJobHistory> filter);
+
+    List<TaskHistorySortModel> listSort(SysTaskJobHistory bo);
 }

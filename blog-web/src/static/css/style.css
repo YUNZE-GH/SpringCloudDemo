@@ -1,17 +1,32 @@
 body {
-  margin: 0px;
-  padding: 0px;
-  background-color: #F2F6FC;
+    margin: 0px;
+    padding: 0px;
+    background-color: #F2F6FC;
 }
 
 /*表单样式*/
 
 /*输入框宽度*/
 .el-input__inner {
-  width: 100%;
+    width: 100%;
 }
 
 /*下拉框宽度*/
 .el-select {
-  width: 100%;
+    width: 100%;
+}
+
+/*分页控件*/
+.el-pagination {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    float: right;
+}
+
+.el-drawer .el-container {
+    height: calc(100vh - 80px);
+}
+
+.el-drawer__header {
+    margin-bottom: 0px;
 }

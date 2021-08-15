@@ -4,6 +4,7 @@ package com.gh.taskjob.modular.SysTaskJobHistory.controller;
 import com.gh.common.toolsclass.PageFilter;
 import com.gh.common.toolsclass.ResultData;
 import com.gh.taskjob.modular.SysTaskJobHistory.entity.SysTaskJobHistory;
+import com.gh.taskjob.modular.SysTaskJobHistory.model.TaskHistorySortModel;
 import com.gh.taskjob.modular.SysTaskJobHistory.service.SysTaskJobHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +34,11 @@ public class SysTaskJobHistoryController {
         return historyService.list(filter);
     }
 
-//    @GetMapping(value = "/listSort")
-//    public ResultData<Map<String, List<SysTaskJobHistory>>> listSort(@RequestBody PageFilter<SysTaskJobHistory> filter) {
-//        return ;
-//    }
+    @PostMapping(value = "/listSort")
+    public ResultData<List<TaskHistorySortModel>> listSort(@RequestBody SysTaskJobHistory bo) {
+        List<TaskHistorySortModel> sortModels = historyService.listSort(bo);
+        return ResultData.success(sortModels);
+    }
 
     @GetMapping(value = "/detail")
     public ResultData<SysTaskJobHistory> detail() {
