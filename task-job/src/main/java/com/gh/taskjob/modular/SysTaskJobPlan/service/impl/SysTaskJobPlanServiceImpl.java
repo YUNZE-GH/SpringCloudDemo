@@ -7,11 +7,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gh.common.SDK;
 import com.gh.common.enums.CodeEnum;
 import com.gh.common.exception.BusinessException;
+import com.gh.common.toolsclass.BaseTask;
 import com.gh.common.toolsclass.PageFilter;
 import com.gh.common.toolsclass.ResultData;
-import com.gh.common.toolsclass.BaseTask;
-import com.gh.taskjob.modular.SysTaskJobHistory.entity.SysTaskJobHistory;
-import com.gh.taskjob.modular.SysTaskJobHistory.service.SysTaskJobHistoryService;
 import com.gh.taskjob.modular.SysTaskJobPlan.entity.SysTaskJobPlan;
 import com.gh.taskjob.modular.SysTaskJobPlan.mapper.SysTaskJobPlanMapper;
 import com.gh.taskjob.modular.SysTaskJobPlan.service.SysTaskJobPlanService;
@@ -43,9 +41,6 @@ import java.util.concurrent.ScheduledFuture;
  */
 @Service
 public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper, SysTaskJobPlan> implements SysTaskJobPlanService {
-
-    @Autowired
-    private SysTaskJobHistoryService sysTaskJobHistoryService;
 
     @Autowired
     private ThreadPoolTaskScheduler threadPoolTaskScheduler;

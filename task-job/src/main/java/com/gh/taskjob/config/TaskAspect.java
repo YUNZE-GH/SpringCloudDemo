@@ -7,7 +7,6 @@ import com.gh.taskjob.modular.SysTaskJobHistory.service.SysTaskJobHistoryService
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,10 +38,6 @@ public class TaskAspect {
 
     private SysTaskJobHistory bo = new SysTaskJobHistory();
 
-    private Integer status;
-
-    private String logMessage;
-
 
     /**
      * 切入点
@@ -70,8 +65,6 @@ public class TaskAspect {
     @Before("asAnnotation()")
     public void beforeRun(JoinPoint joinPoint) {
         bo = new SysTaskJobHistory();
-        status = null;
-        logMessage = "";
 
         System.err.println("注解之前执行------------------" + LocalDateTime.now());
         bo.setTaskStartTime(LocalDateTime.now());   // 任务开始时间
