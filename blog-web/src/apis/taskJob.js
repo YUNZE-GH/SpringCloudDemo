@@ -12,5 +12,5 @@ export const TASK_JOB_PLAN_STOP = baseUrl + "/taskJob/sysTaskJobPlan/stop/"
 
 export const TASK_JOB_HISTORY_LIST = baseUrl + "/taskJob/sysTaskJobHistory/list"
 export const TASK_JOB_HISTORY_LISTSORT = baseUrl + "/taskJob/sysTaskJobHistory/listSort"
-
+export const TASK_JOB_HISTORY_DETAIL = baseUrl + "/taskJob/sysTaskJobHistory/detail/"
 

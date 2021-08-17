@@ -30,3 +30,7 @@ body {
 .el-drawer__header {
     margin-bottom: 0px;
 }
+
+.el-dialog__footer {
+    text-align: center;
+}

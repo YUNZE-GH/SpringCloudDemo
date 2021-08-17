@@ -70,18 +70,26 @@
 
             </el-collapse-item>
         </el-collapse>
+
+        <el-dialog title="执行日志" :visible.sync="dialogVisible" width="40%" append-to-body>
+            <div style="white-space: pre-line;border: 1px solid #303133;min-height: 200px;padding: 10px;">{{ logMessage }}</div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">关闭</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
 <script>
 
-import {TASK_JOB_HISTORY_LIST, TASK_JOB_HISTORY_LISTSORT} from '@/apis/taskJob';
+import {TASK_JOB_HISTORY_LIST, TASK_JOB_HISTORY_LISTSORT, TASK_JOB_HISTORY_DETAIL} from '@/apis/taskJob';
 import axios from "axios";
 
 export default {
     name: "JobHistoryLog",
     data() {
         return {
+            dialogVisible: false,
             loading: false,
             tableLoading: false,
             activeName: null,
@@ -103,6 +111,7 @@ export default {
             total: 0,
             success: 0,
             error: 0,
+            logMessage: null,
         }
     },
     methods: {
@@ -147,7 +156,25 @@ export default {
                 });
         },
         handleDetail(index, row) {
-            console.log(row.id());
+            axios.get(TASK_JOB_HISTORY_DETAIL + `${row.id}`, {})
+                .then(response => {
+                    let data = response.data;
+                    if (data.code === 0) {
+                        this.logMessage = data.data.log;
+                        this.dialogVisible = true;
+                        /*this.$alert(data.data.log, '执行日志', {
+                            dangerouslyUseHTMLString: true
+                        });*/
+                    } else {
+                        this.$message({
+                            message: data.message,
+                            type: 'error'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
         handleChange() {
             this.openTableLoading();

@@ -40,9 +40,9 @@ public class SysTaskJobHistoryController {
         return ResultData.success(sortModels);
     }
 
-    @GetMapping(value = "/detail")
-    public ResultData<SysTaskJobHistory> detail() {
-        return ResultData.success();
+    @GetMapping(value = "/detail/{id}")
+    public ResultData<SysTaskJobHistory> detail(@PathVariable String id) {
+        return ResultData.success(historyService.getById(id));
     }
 }
 
