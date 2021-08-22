@@ -3,6 +3,7 @@ package com.gh.taskjob.job;
 import com.alibaba.fastjson.JSON;
 import com.gh.common.toolsclass.BaseTask;
 import com.gh.taskjob.annotation.HistoryLogAnnotation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.util.Map;
  * @date 2021/08/06 11:34
  */
 @Service
-
+@Slf4j
 public class MyRunnable extends BaseTask {
 
     @Override
@@ -26,7 +27,7 @@ public class MyRunnable extends BaseTask {
         try {
             Thread.sleep(10000);
             LocalDateTime end = LocalDateTime.now();
-            System.err.println("定时任务:" + start + " ~ " + end);
+            log.info("=====>    定时任务:" + start + " ~ " + end);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

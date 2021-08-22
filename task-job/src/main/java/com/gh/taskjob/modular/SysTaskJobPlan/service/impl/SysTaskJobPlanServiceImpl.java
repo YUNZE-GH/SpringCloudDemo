@@ -13,6 +13,7 @@ import com.gh.common.toolsclass.ResultData;
 import com.gh.taskjob.modular.SysTaskJobPlan.entity.SysTaskJobPlan;
 import com.gh.taskjob.modular.SysTaskJobPlan.mapper.SysTaskJobPlanMapper;
 import com.gh.taskjob.modular.SysTaskJobPlan.service.SysTaskJobPlanService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -40,6 +41,7 @@ import java.util.concurrent.ScheduledFuture;
  * @since 2021-07-31
  */
 @Service
+@Slf4j
 public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper, SysTaskJobPlan> implements SysTaskJobPlanService {
 
     @Autowired
@@ -202,7 +204,7 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
         }
 
         if (futureMap.containsKey(bo.getTaskId()) && futureMap.get(bo.getTaskId()) != null) {
-            System.err.println("停止定时器:" + bo.getTaskId());
+            log.info("=====>    停止定时器:" + bo.getTaskId());
             futureMap.get(bo.getTaskId()).cancel(true);
             futureMap.remove(bo.getTaskId());
 

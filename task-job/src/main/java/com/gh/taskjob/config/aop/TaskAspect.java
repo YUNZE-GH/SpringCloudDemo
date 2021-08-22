@@ -1,4 +1,4 @@
-package com.gh.taskjob.config;
+package com.gh.taskjob.config.aop;
 
 import com.gh.common.SDK;
 import com.gh.common.toolsclass.FinalProperties;
@@ -66,14 +66,14 @@ public class TaskAspect {
     public void beforeRun(JoinPoint joinPoint) {
         bo = new SysTaskJobHistory();
 
-        System.err.println("注解之前执行------------------" + LocalDateTime.now());
+        log.info("注解之前执行------------------" + LocalDateTime.now());
         bo.setTaskStartTime(LocalDateTime.now());   // 任务开始时间
     }
 
 
     @After("asAnnotation()")
     public void after(JoinPoint joinPoint) {
-        System.err.println("注解之后执行------------------" + LocalDateTime.now());
+        log.info("注解之后执行------------------" + LocalDateTime.now());
     }
 
 
