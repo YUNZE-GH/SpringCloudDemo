@@ -8,8 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-@MapperScan("com.gh.openInterface.modular.*.mapper")
+@SpringBootApplication
+@MapperScan("com.gh.*.modular.*.mapper")
 @ComponentScans(value = {
         @ComponentScan(value = "com.gh.redis.*")
 })

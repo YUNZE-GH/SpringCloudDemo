@@ -33,7 +33,7 @@
         </el-container>
         <el-footer height="20px">
             <div>
-                <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" style="text-decoration: none">鄂ICP备19029486号</a>
+                <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" style="text-decoration: none">鄂ICP备19029486号-2</a>
             </div>
         </el-footer>
     </div>

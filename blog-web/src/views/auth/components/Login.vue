@@ -37,7 +37,7 @@ export default {
 
                     // 跳转页面
                     this.$router.push({
-                        name: "HOME_INDEX",
+                        name: "INDEX",
                         params: {
                             user: response.data.data
                         },
