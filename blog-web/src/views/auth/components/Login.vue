@@ -1,5 +1,5 @@
 <template>
-    <div class="signBox">
+    <div class="signBox" v-loading="loading">
         <el-form ref="form" :model="form" height="100%">
             <h2>用户登录</h2>
             <el-input prefix-icon="el-icon-user" v-model="form.userAccount" placeholder="账号/手机号"
@@ -21,6 +21,7 @@ export default {
     name: "Login",
     data() {
         return {
+            loading: false,
             form: {
                 userAccount: null,
                 userPassword: null,
@@ -30,7 +31,9 @@ export default {
     },
     methods: {
         onSubmit() {
+            this.openLoading();
             this.$http.post(AUTH_LOGIN, this.form).then(response => {
+                this.closeLoading();
                 if (response.data.code === 0) {
                     // 将数据临时存放到本地
                     sessionStorage.setItem("user", JSON.stringify(response.data.data));
@@ -42,8 +45,22 @@ export default {
                             user: response.data.data
                         },
                     });
+                } else {
+                    this.$message.error(response.data.message);
                 }
             })
+        },
+        openLoading() {
+            this.loading = true;
+            setTimeout(() => {
+                this.$message.warning("请求超时，请稍后再试！")
+                this.loading = false;
+            }, 5000);
+        },
+        closeLoading() {
+            setTimeout(() => {
+                this.loading = false;
+            }, 300);
         }
     }
 }

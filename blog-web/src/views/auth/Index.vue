@@ -33,7 +33,7 @@ export default {
     },
     data() {
         return {
-            height: 'calc(100vh - 40px)',
+            height: 'calc(100vh - 20px)',
         }
     }
 }
@@ -48,16 +48,18 @@ export default {
 }
 
 .header {
-    line-height: 40px;
-    height: 40px;
-    background-color: #DCDFE6;
+    line-height: 20px;
+    height: 20px;
+    background-color: #409EFF;
     text-align: center;
     /*position: fixed;*/
-    top: calc(100vh - 40px);
+    top: calc(100vh - 20px);
+    font-size: 12px;
 }
 
 .header a {
     text-decoration: none;
+    color: white;
 }
 
 .logo {

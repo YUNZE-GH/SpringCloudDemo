@@ -1,6 +1,6 @@
 /*定时任务服务接口*/
 // let baseUrl = '/scheduled';
-let baseUrl = process.env.VUE_APP_SERVER_PATH_TASK_JOB + "/task-job";
+let baseUrl = process.env.VUE_APP_SERVER_PATH_TASK_JOB;
 
 export const TASK_JOB_PLAN_LIST = baseUrl + "/taskJob/sysTaskJobPlan/list"
 export const TASK_JOB_PLAN_DETAIL = baseUrl + "/taskJob/sysTaskJobPlan/detail/"
