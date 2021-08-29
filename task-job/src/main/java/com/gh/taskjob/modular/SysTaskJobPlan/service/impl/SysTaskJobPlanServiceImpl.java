@@ -152,13 +152,13 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
         bo.setUpdateUserId(null);
         this.updateById(bo);
 
-        String classPath = bo.getTaskPlanExecuteClassPath();
+        String className = bo.getTaskPlanExecuteClassPath();
 
 //        Class<?> clazz = Class.forName(classPath);
 //        Constructor<?>[] cons = clazz.getConstructors();
 //        Runnable instance = (Runnable) cons[0].newInstance(bo.getTaskId());
 
-        BaseTask instance = (BaseTask) applicationContext.getBean(classPath);
+        BaseTask instance = (BaseTask) applicationContext.getBean(className);
         instance.setParams(SDK.beanMapTool().beanToMap(bo));
 
         try {
@@ -205,7 +205,7 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
 
         if (futureMap.containsKey(bo.getTaskId()) && futureMap.get(bo.getTaskId()) != null) {
             log.info("=====>    停止定时器:" + bo.getTaskId());
-            futureMap.get(bo.getTaskId()).cancel(true);
+            futureMap.get(bo.getTaskId()).cancel(false);
             futureMap.remove(bo.getTaskId());
 
             bo.setUpdateTime(LocalDateTime.now());

@@ -1,10 +1,8 @@
 package com.gh.taskjob.job;
 
-import com.alibaba.fastjson.JSON;
 import com.gh.common.toolsclass.BaseTask;
 import com.gh.taskjob.annotation.HistoryLogAnnotation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,7 +18,6 @@ import java.util.Map;
 public class MyRunnable extends BaseTask {
 
     @Override
-    @Async
     @HistoryLogAnnotation
     public void start(Map<String, ?> params) {
         LocalDateTime start = LocalDateTime.now();
