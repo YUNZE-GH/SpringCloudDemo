@@ -1,6 +1,7 @@
 package com.gh.redis.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
@@ -13,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author gaohan
- * @date  2021-03-05 10:26
+ * @date 2021-03-05 10:26
  * redis缓存工具类
  **/
 @Repository
@@ -22,12 +23,16 @@ public class RedisUtil {
     @Autowired(required = false)
     RedisTemplate<String, Serializable> redisTemplate;   // key-value是对象的
 
-    public RedisUtil(){
+    //加锁失效时间，毫秒
+    private static final int LOCK_EXPIRE = 600; // ms
+
+    public RedisUtil() {
 
     }
 
     /**
      * 判断是否存在key
+     *
      * @param key 主键
      * @return true或false
      */
@@ -37,7 +42,8 @@ public class RedisUtil {
 
     /**
      * 新增、修改Redis键值
-     * @param key 主键
+     *
+     * @param key   主键
      * @param value 值
      */
     public void insertOrUpdate(String key, Serializable value) {
@@ -46,8 +52,9 @@ public class RedisUtil {
 
     /**
      * 新增、修改Redis键值,并设置有效时间（秒）
-     * @param key 主键
-     * @param value 值
+     *
+     * @param key     主键
+     * @param value   值
      * @param seconds 有效时间（秒）
      */
     public void insertOrUpdateBySeconds(String key, Serializable value, long seconds) {
@@ -56,8 +63,9 @@ public class RedisUtil {
 
     /**
      * 新增、修改Redis键值,并设置有效时间（分）
-     * @param key 主键
-     * @param value 值
+     *
+     * @param key     主键
+     * @param value   值
      * @param minutes 有效时间（分）
      */
     public void insertOrUpdateByMinutes(String key, Serializable value, long minutes) {
@@ -66,7 +74,8 @@ public class RedisUtil {
 
     /**
      * 新增、修改Redis键值,并设置有效时间（小时）
-     * @param key 主键
+     *
+     * @param key   主键
      * @param value 值
      * @param hours 有效时间（小时）
      */
@@ -76,9 +85,10 @@ public class RedisUtil {
 
     /**
      * 新增、修改Redis键值,并设置有效时间（天）
-     * @param key 主键
+     *
+     * @param key   主键
      * @param value 值
-     * @param days 有效时间（天）
+     * @param days  有效时间（天）
      */
     public void insertOrUpdateByDays(String key, Serializable value, long days) {
         this.redisTemplate.opsForValue().set(key, value, days, TimeUnit.DAYS);
@@ -86,6 +96,7 @@ public class RedisUtil {
 
     /**
      * 通过主键获取值
+     *
      * @param key 主键
      * @return
      */
@@ -95,6 +106,7 @@ public class RedisUtil {
 
     /**
      * 获取redis的所有key里包含pattern字符的key集
+     *
      * @param pattern 模糊查询字符
      * @return
      */
@@ -104,6 +116,7 @@ public class RedisUtil {
 
     /**
      * 删除指定redis缓存
+     *
      * @param key 主键
      * @return
      */
@@ -113,10 +126,11 @@ public class RedisUtil {
 
     /**
      * 删除指定的多个缓存
+     *
      * @param keys 主键1，主键2，...
      * @return 删除主键数
      */
-    public int removes(String... keys){
+    public int removes(String... keys) {
         int count = 0;
         List<String> deleteFails = new ArrayList<>();
 
@@ -136,9 +150,10 @@ public class RedisUtil {
 
     /**
      * 删除所有的键值对数据
+     *
      * @return 清除键值对数据量
      */
-    public int removeAll(){
+    public int removeAll() {
         Set<String> keys = redisTemplate.keys("*");
         Long delete = 0L;
 
@@ -147,6 +162,47 @@ public class RedisUtil {
         }
 
         return delete != null ? delete.intValue() : 0;
+    }
+
+    /**
+     * 加锁
+     *
+     * @param prefix 锁前缀
+     * @param lock   锁的key
+     * @return boolean
+     */
+    public boolean lock(String prefix, String lock) {
+        String finalLock = prefix + lock;
+        return (boolean) redisTemplate.execute((RedisCallback<?>) connection -> {
+            long expireAt = System.currentTimeMillis() + LOCK_EXPIRE + 1;
+            // 获取锁
+            Boolean acquire = connection.setNX(finalLock.getBytes(), String.valueOf(expireAt).getBytes());
+            if (acquire) {
+                return true;
+            } else {
+                byte[] bytes = connection.get(finalLock.getBytes());
+                if (bytes != null && bytes.length > 0) {
+                    long expireTime = Long.parseLong(new String(bytes));
+                    // 如果锁已经过期
+                    if (expireTime < System.currentTimeMillis()) {
+                        // 重新加锁,防止死锁
+                        byte[] set = connection.getSet(finalLock.getBytes(), String.valueOf(System.currentTimeMillis() + LOCK_EXPIRE + 1).getBytes());
+                        return Long.parseLong(new String(set)) < System.currentTimeMillis();
+                    }
+                }
+            }
+            return false;
+        });
+    }
+
+    /**
+     * 删除锁
+     * @param prefix 锁前缀
+     * @param lock   锁的key
+     * @return boolean
+     */
+    public boolean deleteLock(String prefix, String lock) {
+        return this.remove(prefix + lock);
     }
 
 }
