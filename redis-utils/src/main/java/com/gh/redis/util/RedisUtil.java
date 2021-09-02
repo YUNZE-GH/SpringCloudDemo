@@ -24,7 +24,7 @@ public class RedisUtil {
     RedisTemplate<String, Serializable> redisTemplate;   // key-value是对象的
 
     //加锁失效时间，毫秒
-    private static final int LOCK_EXPIRE = 600; // ms
+    private static final int LOCK_EXPIRE = 2000; // ms
 
     public RedisUtil() {
 
@@ -173,7 +173,7 @@ public class RedisUtil {
      */
     public boolean lock(String prefix, String lock) {
         String finalLock = prefix + lock;
-        return (boolean) redisTemplate.execute((RedisCallback<?>) connection -> {
+        return (boolean) redisTemplate.execute((RedisCallback) connection -> {
             long expireAt = System.currentTimeMillis() + LOCK_EXPIRE + 1;
             // 获取锁
             Boolean acquire = connection.setNX(finalLock.getBytes(), String.valueOf(expireAt).getBytes());
@@ -196,12 +196,12 @@ public class RedisUtil {
     }
 
     /**
-     * 删除锁
+     * 开锁
      * @param prefix 锁前缀
      * @param lock   锁的key
      * @return boolean
      */
-    public boolean deleteLock(String prefix, String lock) {
+    public boolean unlock(String prefix, String lock) {
         return this.remove(prefix + lock);
     }
 
