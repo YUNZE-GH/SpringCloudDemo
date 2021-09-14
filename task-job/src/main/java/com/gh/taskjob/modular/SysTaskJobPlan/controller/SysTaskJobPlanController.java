@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
+import java.util.function.Predicate;
 
 /**
  * <p>
@@ -35,21 +36,27 @@ public class SysTaskJobPlanController {
 
     @PostMapping(value = "/list")
     public ResultData<List<SysTaskJobPlan>> list(@RequestBody PageFilter<SysTaskJobPlan> filter) {
+        log.info("开始加锁==>" + Thread.currentThread().getId());
+        boolean b = redisUtil.lock("LOCK_TASK_JOB", filter.getPage().toString());
+
         try {
-            boolean b = redisUtil.lock("LOCK_TASK_JOB", filter.getPage().toString());
             if (b) {
-                log.info("开始执行业务逻辑");
+                log.info("开始执行业务==>" + Thread.currentThread().getId());
                 Thread.sleep(20000);
+                log.info("结束执行业务==>" + Thread.currentThread().getId());
+
+                // 删除锁；
+                log.info("开始解锁==>" + Thread.currentThread().getId());
                 redisUtil.unlock("LOCK_TASK_JOB", filter.getPage().toString());
             } else {
-                log.info("获取锁错误{}", false);
+                log.info("获取锁失败==>" + Thread.currentThread().getId());
                 return ResultData.error("获取锁失败");
             }
         } catch (Exception e) {
             log.info("获取锁异常{}", e);
-        } finally {
-            //删除锁；
-
+            // 删除锁；
+            log.info("开始解锁==>" + Thread.currentThread().getId());
+            redisUtil.unlock("LOCK_TASK_JOB", filter.getPage().toString());
         }
         return taskJobPlanService.list(filter);
     }
