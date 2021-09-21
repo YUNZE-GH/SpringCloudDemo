@@ -36,7 +36,7 @@ public class SysTaskJobPlanController {
 
     @PostMapping(value = "/list")
     public ResultData<List<SysTaskJobPlan>> list(@RequestBody PageFilter<SysTaskJobPlan> filter) {
-        log.info("开始加锁==>" + Thread.currentThread().getId());
+        /*log.info("开始加锁==>" + Thread.currentThread().getId());
         boolean b = redisUtil.lock("LOCK_TASK_JOB", filter.getPage().toString());
 
         try {
@@ -57,7 +57,7 @@ public class SysTaskJobPlanController {
             // 删除锁；
             log.info("开始解锁==>" + Thread.currentThread().getId());
             redisUtil.unlock("LOCK_TASK_JOB", filter.getPage().toString());
-        }
+        }*/
         return taskJobPlanService.list(filter);
     }
 

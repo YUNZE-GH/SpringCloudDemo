@@ -27,7 +27,7 @@ public interface SysTaskJobPlanService extends IService<SysTaskJobPlan> {
 
     ResultData stop(String id);
 
-    void executeTask(SysTaskJobPlan bo) throws Exception;
+    ResultData executeTask(SysTaskJobPlan bo) throws Exception;
 
     void startedTask() throws Exception;
 }
