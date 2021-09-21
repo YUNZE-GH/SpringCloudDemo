@@ -10,6 +10,7 @@ import com.gh.common.exception.BusinessException;
 import com.gh.common.toolsclass.BaseTask;
 import com.gh.common.toolsclass.PageFilter;
 import com.gh.common.toolsclass.ResultData;
+import com.gh.redis.util.RedisUtil;
 import com.gh.taskjob.modular.SysTaskJobPlan.entity.SysTaskJobPlan;
 import com.gh.taskjob.modular.SysTaskJobPlan.mapper.SysTaskJobPlanMapper;
 import com.gh.taskjob.modular.SysTaskJobPlan.service.SysTaskJobPlanService;
@@ -44,8 +45,13 @@ import java.util.concurrent.ScheduledFuture;
 @Slf4j
 public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper, SysTaskJobPlan> implements SysTaskJobPlanService {
 
+    private final String LOCK_LABEL = "LOCK_TASK_JOB";
+
     @Autowired
     private ThreadPoolTaskScheduler threadPoolTaskScheduler;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -119,7 +125,7 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResultData start(String id) throws Exception {
+    public ResultData start(String id) {
         SysTaskJobPlan bo = baseMapper.selectById(id);
         if (bo == null) {
             throw new BusinessException("不存在该任务！");
@@ -128,13 +134,12 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
             throw new BusinessException("当前任务已处于执行状态！");
         }
 
-        getSysTaskJobPlanServiceImpl().executeTask(bo);
-
-        return ResultData.success();
+        return getSysTaskJobPlanServiceImpl().executeTask(bo);
     }
 
     /**
      * 强制获取代理对象，必须开启exposeProxy配置，否则获取不到当前代理对象
+     *
      * @return SysTaskJobPlanServiceImpl
      */
     private SysTaskJobPlanServiceImpl getSysTaskJobPlanServiceImpl() {
@@ -142,15 +147,20 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
     }
 
 
+    /**
+     * 执行调度任务
+     *
+     * @param bo 任务详细信息
+     */
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public void executeTask(SysTaskJobPlan bo) throws Exception {
+    public ResultData executeTask(SysTaskJobPlan bo) {
         Integer taskPlanType = bo.getTaskPlanType();
 
         bo.setStatus(taskPlanType == 0 ? 0 : 1);    // 如果是执行一次，则不改变任务计划状态
         bo.setUpdateTime(LocalDateTime.now());
         bo.setUpdateUserId(null);
-        this.updateById(bo);
+
 
         String className = bo.getTaskPlanExecuteClassPath();
 
@@ -161,20 +171,50 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
         BaseTask instance = (BaseTask) applicationContext.getBean(className);
         instance.setParams(SDK.beanMapTool().beanToMap(bo));
 
+        boolean lockMark = false;   // 加锁成功标记
+
         try {
-            if (taskPlanType == 0) {
-                // 执行一次
-                instance.run();
+            log.info("开始加锁==> 任务ID：" + bo.getTaskId() + " 线程ID：" + Thread.currentThread().getId());
+
+            // 加锁
+            lockMark = redisUtil.lock(LOCK_LABEL, bo.getTaskId());
+
+            if (lockMark) {
+
+                log.info("加锁成功==> 任务ID：" + bo.getTaskId() + " 线程ID：" + Thread.currentThread().getId());
+
+                Thread.sleep(200000);
+
+                // 加锁成功，开始执行定时任务
+                if (taskPlanType == 0) {
+                    // 执行一次
+                    instance.run();
+                } else {
+                    // 循环执行
+                    this.executeScheduledFuture(instance, bo);
+                }
+
+                // 解锁
+                log.info("开始解锁==> 任务ID：" + bo.getTaskId() + " 线程ID：" + Thread.currentThread().getId());
+                redisUtil.unlock(LOCK_LABEL, bo.getTaskId());
             } else {
-                // 循环执行
-                this.executeScheduledFuture(instance, bo);
+                log.info("获取锁失败==> 任务ID：" + bo.getTaskId() + " 线程ID：" + Thread.currentThread().getId());
             }
         } catch (Exception e) {
-            // 停止该定时任务
-            futureMap.get(bo.getTaskId()).cancel(true);
-            futureMap.remove(bo.getTaskId());
+            if (lockMark) {
+                // 加锁成功，但是任务执行失败了，停止该定时任务
+                futureMap.get(bo.getTaskId()).cancel(true);
+                futureMap.remove(bo.getTaskId());
+            } else {
+                // 加锁失败，返回提示，无需停止该任务和该任务加的锁
+                throw new BusinessException("定时任务执行失败");
+            }
+        } finally {
+            getSysTaskJobPlanServiceImpl().updateById(bo);
         }
+        return ResultData.success();
     }
+
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void executeScheduledFuture(Runnable instance, SysTaskJobPlan bo) {
@@ -217,7 +257,7 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
     }
 
     @Override
-    public void startedTask() throws Exception {
+    public void startedTask() {
         LambdaQueryWrapper<SysTaskJobPlan> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(SysTaskJobPlan::getStatus, 1).ne(SysTaskJobPlan::getTaskPlanType, 0);
         List<SysTaskJobPlan> list = baseMapper.selectList(lambdaQueryWrapper);
