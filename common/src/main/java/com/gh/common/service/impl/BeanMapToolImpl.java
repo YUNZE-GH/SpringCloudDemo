@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class BeanMapToolImpl implements BeanMapTool {
 
-    public <T> Map<String, ?> beanToMap(T bean) {
+    public <T> Map<String, Object> beanToMap(T bean) {
         BeanMap beanMap = BeanMap.create(bean);
         Map<String, Object> map = new HashMap<>();
 

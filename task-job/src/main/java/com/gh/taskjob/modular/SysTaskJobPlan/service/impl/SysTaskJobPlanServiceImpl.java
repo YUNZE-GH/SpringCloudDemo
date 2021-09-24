@@ -161,8 +161,7 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
         bo.setUpdateTime(LocalDateTime.now());
         bo.setUpdateUserId(null);
 
-
-        String className = bo.getTaskPlanExecuteClassPath();
+        String className = bo.getTaskPlanExecuteClassName();
 
 //        Class<?> clazz = Class.forName(classPath);
 //        Constructor<?>[] cons = clazz.getConstructors();
@@ -202,9 +201,16 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
             }
         } catch (Exception e) {
             if (lockMark) {
-                // 加锁成功，但是任务执行失败了，停止该定时任务
-                futureMap.get(bo.getTaskId()).cancel(true);
-                futureMap.remove(bo.getTaskId());
+
+                // 加锁成功，但是任务执行失败了，停止该定时任务，并解锁
+                // 如果是执行一次，则不需要停止任务
+                if (taskPlanType == 0) {
+                    futureMap.get(bo.getTaskId()).cancel(true);
+                    futureMap.remove(bo.getTaskId());
+                }
+
+                // 解锁
+                redisUtil.unlock(LOCK_LABEL, bo.getTaskId());
             } else {
                 // 加锁失败，返回提示，无需停止该任务和该任务加的锁
                 throw new BusinessException("定时任务执行失败");

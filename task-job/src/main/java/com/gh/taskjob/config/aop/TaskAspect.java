@@ -9,6 +9,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -105,16 +106,29 @@ public class TaskAspect {
         bo.setTaskTimeConsuming(Duration.between(bo.getTaskStartTime(), bo.getTaskEndTime()).toMillis());   // 耗时
         bo.setTaskExecutionDate(SDK.getLocalDateTimeUtils().localDateTimeToString(bo.getTaskStartTime(), FinalProperties.FORMAT_DATE));
 
-        StringBuilder str = new StringBuilder();
-        str.append(e.getClass() + ":" + e.getMessage() + "\n");
+        StringBuilder str1 = new StringBuilder();
+
+        if (params.containsKey("response") && !StringUtils.isEmpty(params.get("response"))) {
+            str1.append(params.get("response").toString() + "\n");
+        }
+
+        StringBuilder str2 = new StringBuilder();
+        str2.append(e.getClass() + ":" + e.getMessage() + "\n");
         for (int i = 0; i < e.getStackTrace().length; i++) {
-            str.append(e.getStackTrace()[i].toString() + "\n");
+            String errorInfo = (i + 1) + ": " + e.getStackTrace()[i].toString() + "\n";
+            if ((str1.length() + str2.length() + errorInfo.length() > 3000)) {
+                break;
+            }
+
+            str2.append(errorInfo);
             if (i == 3) {
                 break;
             }
         }
 
-        bo.setLog(str.toString());
+        str1.append(str2);
+
+        bo.setLog(str1.toString());
         taskHistoryService.add(bo);
     }
 

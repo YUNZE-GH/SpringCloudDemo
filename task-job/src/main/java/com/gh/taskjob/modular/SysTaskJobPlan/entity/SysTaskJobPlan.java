@@ -43,9 +43,9 @@ public class SysTaskJobPlan implements Serializable {
     private String taskName;
 
     /**
-     * 任务执行类路径
+     * 任务执行类映射名
      */
-    private String taskPlanExecuteClassPath;
+    private String taskPlanExecuteClassName;
 
     /**
      * 上个任务未执行完再次被触发时，放弃并发执行：0-否；1-是
