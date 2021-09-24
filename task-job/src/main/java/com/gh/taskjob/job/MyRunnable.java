@@ -19,7 +19,7 @@ public class MyRunnable extends BaseTask {
 
     @Override
     @HistoryLogAnnotation
-    public void start(Map<String, ?> params) {
+    public void start(Map<String, Object> params) {
         LocalDateTime start = LocalDateTime.now();
         try {
 //            Thread.sleep(10000);

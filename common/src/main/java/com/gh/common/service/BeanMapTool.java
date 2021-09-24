@@ -17,7 +17,7 @@ public interface BeanMapTool {
      * @param <T>  实体类类型
      * @return Map<String, Object>
      */
-    <T> Map<String, ?> beanToMap(T bean);
+    <T> Map<String, Object> beanToMap(T bean);
 
     /**
      * Map转实体类
