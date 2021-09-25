@@ -29,7 +29,7 @@
 import JobInfo from "@/views/job/components/JobInfo";
 import JobHistoryLog from "@/views/job/components/JobHistoryLog";
 
-import {TASK_JOB_PLAN_DETAIL, TASK_JOB_PLAN_UPDATE} from "@/apis/taskJob"
+import {TASK_JOB_PLAN_DETAIL} from "@/apis/taskJob"
 
 export default {
     name: "JobEdit",
@@ -40,6 +40,7 @@ export default {
             title: "定时任务详情",
             loading: false,
             activeNameTabs: 'first',
+            id: null,
             form: {
                 id: null,
                 taskId: null,
@@ -49,7 +50,7 @@ export default {
                 taskSequentialExecution: '0',
                 taskPlanCron: null,
                 taskPlanFixedRate: null,
-                taskPlanExecuteClassPath: null,
+                taskPlanExecuteClassName: null,
                 taskCustomParameters: null,
                 remark: null
             }
@@ -59,7 +60,10 @@ export default {
         // 打开弹窗页面
         init(id) {
             this.dialogVisible = true;
-            this.queryInfo(id);
+            this.id = id;
+            this.$nextTick(() => {
+                this.handleClick()
+            })
         },
         // 查询任务计划详细信息
         queryInfo(id) {
@@ -81,28 +85,11 @@ export default {
                 this.closeLoading();
             })
         },
-        onUpdate() {
-            this.openLoading();
-            this.$http.post(TASK_JOB_PLAN_UPDATE, this.form).then(response => {
-                let data = response.data;
-                if (data.code === 0) {
-                    this.$emit("loadInfo");
-                    this.$message({
-                        message: data.message,
-                        type: 'success'
-                    });
-                } else {
-                    this.$message({
-                        message: data.message,
-                        type: 'error'
-                    });
-                }
-                this.closeLoading();
-            })
-        },
         handleClick() {
             if (this.activeNameTabs === 'second') {
                 this.$refs.job_history_log.loadInfo(this.form.taskId);
+            } else {
+                this.queryInfo(this.id)
             }
         },
         openLoading() {
@@ -125,7 +112,8 @@ export default {
 .el-container {
     height: calc(100vh - 80px);
 }
-.el-main{
+
+.el-main {
     /*height: calc(1vh - 800px);*/
 }
 </style>
