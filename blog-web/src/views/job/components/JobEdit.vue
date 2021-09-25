@@ -37,7 +37,7 @@ export default {
                 taskSequentialExecution: '0',
                 taskPlanCron: null,
                 taskPlanFixedRate: null,
-                taskPlanExecuteClassPath: null,
+                taskPlanExecuteClassName: null,
                 taskCustomParameters: null,
                 remark: null
             },
@@ -148,7 +148,7 @@ export default {
                 taskSequentialExecution: '0',
                 taskPlanCron: null,
                 taskPlanFixedRate: null,
-                taskPlanExecuteClassPath: null,
+                taskPlanExecuteClassName: null,
                 taskCustomParameters: null,
                 remark: null
             }

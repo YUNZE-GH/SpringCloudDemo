@@ -7,7 +7,18 @@
                     <el-input v-model="form.taskName" maxlength="30" show-word-limit></el-input>
                 </el-form-item>
             </el-col>
+
             <el-col :span="11" :offset="2">
+                <el-form-item label="任务执行类" prop="taskName">
+                    <el-input v-model="form.taskPlanExecuteClassName" maxlength="30" show-word-limit></el-input>
+                </el-form-item>
+            </el-col>
+        </el-row>
+
+
+
+        <el-row>
+            <el-col :span="11">
                 <el-form-item label="触发规则" prop="taskPlanType">
                     <el-select v-model="form.taskPlanType" placeholder="请选择">
                         <el-option label="执行一次" value="0"></el-option>
@@ -16,30 +27,31 @@
                     </el-select>
                 </el-form-item>
             </el-col>
-        </el-row>
 
-        <el-row v-if="form.taskPlanType !== '0'">
-            <el-col :span="11">
-                <div v-if="form.taskPlanType === '2'">
-                    <el-form-item label="Cron通配符" prop="taskPlanCron">
-                        <el-input v-model="form.taskPlanCron"></el-input>
+            <div v-if="form.taskPlanType !== '0'">
+                <el-col :span="11" :offset="2">
+                    <div v-if="form.taskPlanType === '2'">
+                        <el-form-item label="Cron通配符" prop="taskPlanCron">
+                            <el-input v-model="form.taskPlanCron"></el-input>
+                        </el-form-item>
+                    </div>
+                    <div v-else>
+                        <el-form-item label="执行间隔" prop="taskPlanFixedRate">
+                            <el-input v-model="form.taskPlanFixedRate">
+                                <template slot="suffix">ms</template>
+                            </el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+<!--                <el-col :span="11" :offset="2">
+                    <el-form-item label="执行方式" prop="taskSequentialExecution">
+                        <el-switch v-model="form.taskSequentialExecution" active-value="1" inactive-value="0"
+                                   active-text="上个任务未执行完再次被触发时，放弃并发执行">
+                        </el-switch>
                     </el-form-item>
-                </div>
-                <div v-else>
-                    <el-form-item label="执行间隔" prop="taskPlanFixedRate">
-                        <el-input v-model="form.taskPlanFixedRate">
-                            <template slot="suffix">ms</template>
-                        </el-input>
-                    </el-form-item>
-                </div>
-            </el-col>
-            <el-col :span="11" :offset="2">
-                <el-form-item label="执行方式" prop="taskSequentialExecution">
-                    <el-switch v-model="form.taskSequentialExecution" active-value="1" inactive-value="0"
-                               active-text="上个任务未执行完再次被触发时，放弃并发执行">
-                    </el-switch>
-                </el-form-item>
-            </el-col>
+                </el-col>-->
+            </div>
+
         </el-row>
 
         <el-row>

@@ -1,6 +1,6 @@
 <template>
     <div class="search-form-inline">
-        <el-form ref="filter" :inline="true" :model="filter" label-width="150px">
+        <el-form ref="filter" :inline="true" :model="filter" label-width="120px">
 
             <el-row>
                 <el-col :span="6">
