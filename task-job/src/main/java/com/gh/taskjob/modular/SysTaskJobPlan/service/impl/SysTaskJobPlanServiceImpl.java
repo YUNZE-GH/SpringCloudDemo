@@ -61,6 +61,9 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
         return new ThreadPoolTaskScheduler();
     }
 
+    /**
+     * 用于存放正在执行的定时任务
+     */
     private Map<String, ScheduledFuture> futureMap = new HashMap<>();
 
     @Override
@@ -130,8 +133,21 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
         if (bo == null) {
             throw new BusinessException("不存在该任务！");
         }
-        if (bo.getStatus() == 1) {
-            throw new BusinessException("当前任务已处于执行状态！");
+
+        // 如果该任务已经处于启动执行状态,则先关闭任务，然后再次重新启动任务
+        if (futureMap.containsKey(bo.getTaskId()) && futureMap.get(bo.getTaskId()) != null) {
+
+            if (1 == bo.getStatus()) {
+                throw new BusinessException("当前任务已处于执行状态！");
+            } else {
+                // 关闭
+                futureMap.get(bo.getTaskId()).cancel(false);
+                futureMap.remove(bo.getTaskId());
+
+                // 启动
+                return getSysTaskJobPlanServiceImpl().executeTask(bo);
+            }
+
         }
 
         return getSysTaskJobPlanServiceImpl().executeTask(bo);
@@ -242,17 +258,19 @@ public class SysTaskJobPlanServiceImpl extends ServiceImpl<SysTaskJobPlanMapper,
     @Transactional(rollbackFor = Exception.class)
     public ResultData stop(String id) {
         SysTaskJobPlan bo = baseMapper.selectById(id);
+
         if (bo == null) {
             throw new BusinessException("不存在该任务！");
         }
-        if (bo.getStatus() == 0) {
-            throw new BusinessException("当前任务已处于停止状态！");
-        }
 
         if (futureMap.containsKey(bo.getTaskId()) && futureMap.get(bo.getTaskId()) != null) {
-            log.info("=====>    停止定时器:" + bo.getTaskId());
+
             futureMap.get(bo.getTaskId()).cancel(false);
             futureMap.remove(bo.getTaskId());
+
+            if (bo.getStatus() == 0) {
+                throw new BusinessException("当前任务已处于停止状态！");
+            }
 
             bo.setUpdateTime(LocalDateTime.now());
             bo.setUpdateUserId(null);
