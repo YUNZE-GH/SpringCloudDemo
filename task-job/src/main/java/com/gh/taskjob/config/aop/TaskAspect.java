@@ -91,18 +91,43 @@ public class TaskAspect {
         bo.setTaskTimeConsuming(Duration.between(bo.getTaskStartTime(), bo.getTaskEndTime()).toMillis());   // 耗时
         bo.setTaskExecutionDate(SDK.getLocalDateTimeUtils().localDateTimeToString(bo.getTaskStartTime(), FinalProperties.FORMAT_DATE));
 
-        bo.setStatus(0);    // 执行状态：0-成功；1-失败
-        bo.setLog("执行成功！");
+        // special为特殊情况，自定义日志记录信息
+        if (params.containsKey("special")) {
+            bo.setStatus(9); // 执行状态: 9-其他
+            bo.setLog(params.get("special").toString());
+        } else {
+            bo.setStatus(0);    // 执行状态：0-成功；1-失败
+
+            // pushTotal为数据推送总数
+            if (params.containsKey("pushTotal")) {
+                bo.setLog("执行成功！\n成功推送" + params.get("pushTotal") + "条数据！");
+            } else{
+                bo.setLog("执行成功！");
+            }
+        }
+
         taskHistoryService.add(bo);
     }
 
 
     @AfterThrowing(throwing = "e", pointcut = "asAnnotation()")
     public void afterThrowing(JoinPoint joinPoint, Throwable e) {
+        // 获取入参
         HashMap<String, Object> params = (HashMap<String, Object>) joinPoint.getArgs()[0];
+
         bo.setTaskEndTime(LocalDateTime.now()); // 任务结束时间
         bo.setTaskId(params.get("taskId").toString());
-        bo.setStatus(1);    // 执行状态：0-成功；1-失败
+
+        // 判断是否有特殊情况
+        StringBuilder str = new StringBuilder();
+        if (params.containsKey("special")) {
+            bo.setStatus(9); // 执行状态: 9-其他
+            str.append(params.get("special").toString());
+        } else {
+            bo.setStatus(1);    // 执行状态：0-成功；1-失败
+        }
+
+        // 计算消耗时间
         bo.setTaskTimeConsuming(Duration.between(bo.getTaskStartTime(), bo.getTaskEndTime()).toMillis());   // 耗时
         bo.setTaskExecutionDate(SDK.getLocalDateTimeUtils().localDateTimeToString(bo.getTaskStartTime(), FinalProperties.FORMAT_DATE));
 

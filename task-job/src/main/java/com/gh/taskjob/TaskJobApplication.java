@@ -13,7 +13,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
         @ComponentScan(value = "com.gh.common.*")
         ,@ComponentScan(value = "com.gh.redis.*")
 })
-@EnableAspectJAutoProxy(exposeProxy = true, proxyTargetClass = true)
+@EnableAspectJAutoProxy(exposeProxy = true)
 public class TaskJobApplication {
 
     public static void main(String[] args) {

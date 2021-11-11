@@ -1,6 +1,6 @@
 package com.gh.taskjob.job;
 
-import com.gh.common.toolsclass.BaseTask;
+import com.gh.taskjob.base.BaseTask;
 import com.gh.taskjob.annotation.HistoryLogAnnotation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
